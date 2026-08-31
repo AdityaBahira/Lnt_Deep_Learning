@@ -114,7 +114,7 @@ The results can be added here after training:
 | Model        |   Accuracy | Training Time |
 | ------------ | ---------: | ------------: |
 | Baseline CNN | 0.53 |    14.74s |
-| ResNet50     | 0.54 |    22.38 |
+| ResNet50     | 0.54 |    22.38s |
 
 ## Observation
 
