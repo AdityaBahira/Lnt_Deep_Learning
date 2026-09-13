@@ -3,7 +3,7 @@
         "total_tests": 13,
         "passed_tests": 13,
         "failed_tests": 0,
-        "timestamp": "2026-09-13T04:18:17.366135+00:00"
+        "timestamp": "2026-09-13T04:44:58.899188+00:00"
     },
     "test_results": [
         {
@@ -29,7 +29,7 @@
                     "framework": "Flask 3.1 & PyTorch 2.12",
                     "service_name": "Health Risk Deep Learning REST API",
                     "status": "success",
-                    "timestamp": "2026-09-13T04:18:17.346952+00:00",
+                    "timestamp": "2026-09-13T04:44:58.885180+00:00",
                     "version": "1.0.0"
                 }
             },
@@ -59,7 +59,7 @@
                     "model_loaded": true,
                     "model_name": "DeepHealthRiskNet",
                     "status": "healthy",
-                    "timestamp": "2026-09-13T04:18:17.347475+00:00"
+                    "timestamp": "2026-09-13T04:44:58.886178+00:00"
                 }
             },
             "passed": true
@@ -90,7 +90,7 @@
                 "status_code": 200,
                 "expected_status": 200,
                 "body": {
-                    "latency_ms": 8.67,
+                    "latency_ms": 1.0,
                     "model_name": "DeepHealthRiskNet",
                     "predictions": [
                         {
@@ -118,7 +118,7 @@
                     ],
                     "predictions_count": 1,
                     "status": "success",
-                    "timestamp": "2026-09-13T04:18:17.356665+00:00"
+                    "timestamp": "2026-09-13T04:44:58.887177+00:00"
                 }
             },
             "passed": true
@@ -161,7 +161,7 @@
                 "status_code": 200,
                 "expected_status": 200,
                 "body": {
-                    "latency_ms": 1.0,
+                    "latency_ms": 1.01,
                     "model_name": "DeepHealthRiskNet",
                     "predictions": [
                         {
@@ -211,7 +211,7 @@
                     ],
                     "predictions_count": 2,
                     "status": "success",
-                    "timestamp": "2026-09-13T04:18:17.358665+00:00"
+                    "timestamp": "2026-09-13T04:44:58.888184+00:00"
                 }
             },
             "passed": true
@@ -270,7 +270,7 @@
                     ],
                     "predictions_count": 1,
                     "status": "success",
-                    "timestamp": "2026-09-13T04:18:17.359667+00:00"
+                    "timestamp": "2026-09-13T04:44:58.890193+00:00"
                 }
             },
             "passed": true
@@ -293,7 +293,7 @@
                     "error_code": "UNSUPPORTED_MEDIA_TYPE",
                     "message": "Content-Type must be 'application/json'.",
                     "status": "error",
-                    "timestamp": "2026-09-13T04:18:17.359667+00:00"
+                    "timestamp": "2026-09-13T04:44:58.891192+00:00"
                 }
             },
             "passed": true
@@ -316,7 +316,7 @@
                     "error_code": "MALFORMED_JSON",
                     "message": "Failed to parse JSON body: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.",
                     "status": "error",
-                    "timestamp": "2026-09-13T04:18:17.359667+00:00"
+                    "timestamp": "2026-09-13T04:44:58.891192+00:00"
                 }
             },
             "passed": true
@@ -345,7 +345,7 @@
                     "error_code": "MISSING_REQUIRED_KEY",
                     "message": "JSON payload must contain 'features', 'instances', or 'data' dictionary.",
                     "status": "error",
-                    "timestamp": "2026-09-13T04:18:17.360665+00:00"
+                    "timestamp": "2026-09-13T04:44:58.892189+00:00"
                 }
             },
             "passed": true
@@ -376,7 +376,7 @@
                     "error_code": "MODEL_VALIDATION_ERROR",
                     "message": "Expected 8 features per sample (age, bmi, blood_pressure, glucose_level, cholesterol, heart_rate, physical_activity_hours, sleep_hours), but got 5 features.",
                     "status": "error",
-                    "timestamp": "2026-09-13T04:18:17.360665+00:00"
+                    "timestamp": "2026-09-13T04:44:58.893189+00:00"
                 }
             },
             "passed": true
@@ -410,7 +410,7 @@
                     "error_code": "NON_NUMERIC_FEATURE",
                     "message": "Feature value 'high_bmi' is non-numeric. All inputs must be numbers.",
                     "status": "error",
-                    "timestamp": "2026-09-13T04:18:17.360665+00:00"
+                    "timestamp": "2026-09-13T04:44:58.893189+00:00"
                 }
             },
             "passed": true
@@ -431,7 +431,7 @@
                     "error_code": "METHOD_NOT_ALLOWED",
                     "message": "The method GET is not allowed for URL '/predict'.",
                     "status": "error",
-                    "timestamp": "2026-09-13T04:18:17.361664+00:00"
+                    "timestamp": "2026-09-13T04:44:58.894192+00:00"
                 }
             },
             "passed": true
@@ -452,7 +452,7 @@
                     "error_code": "NOT_FOUND",
                     "message": "The requested URL '/api/v2/unknown' was not found on this server.",
                     "status": "error",
-                    "timestamp": "2026-09-13T04:18:17.363029+00:00"
+                    "timestamp": "2026-09-13T04:44:58.896190+00:00"
                 }
             },
             "passed": true
