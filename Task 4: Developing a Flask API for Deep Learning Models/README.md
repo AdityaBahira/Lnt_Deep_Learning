@@ -12,10 +12,8 @@ e:/Rest_Api/
 ├── model_loader.py                    # Thread-safe PyTorch Inference Engine
 ├── train_and_save_model.py            # Deep Learning Model Training & Serialization Script
 ├── test_client.py                     # Automated HTTP Test Suite (13/13 Tests)
-├── generate_pdf.py                    # PDF Report Generator
 ├── task4_flask_dl_api.ipynb           # Executable Jupyter Notebook Deliverable
 ├── API_DOCUMENTATION.md               # OpenAPI / Markdown API Specification
-├── Task_4_Flask_API_DL_Submission.pdf # Submission PDF Report for LMS Platform
 ├── sample_outputs.json                # Verified Test Outputs & Response Logs
 ├── requirements.txt                   # Python Dependencies
 ├── README.md                          # Project Documentation
