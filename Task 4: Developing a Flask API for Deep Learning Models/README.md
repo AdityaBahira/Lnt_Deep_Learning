@@ -71,4 +71,3 @@ Open your web browser and navigate to:
 1. **Source Code**: Python modules (`app.py`, `model_loader.py`, `train_and_save_model.py`, `test_client.py`).
 2. **Jupyter Notebook**: `task4_flask_dl_api.ipynb` containing training, API execution, and plots.
 3. **API Documentation**: `API_DOCUMENTATION.md` and interactive web UI at `/docs`.
-4. **Submission PDF**: `Task_4_Flask_API_DL_Submission.pdf` containing full source code, test results, outputs, and observations ready to upload on the L&T Edutech LMS Platform.
