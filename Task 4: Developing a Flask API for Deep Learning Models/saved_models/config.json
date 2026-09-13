@@ -1,0 +1,43 @@
+{
+    "model_name": "DeepHealthRiskNet",
+    "input_dim": 8,
+    "num_classes": 4,
+    "feature_names": [
+        "age",
+        "bmi",
+        "blood_pressure",
+        "glucose_level",
+        "cholesterol",
+        "heart_rate",
+        "physical_activity_hours",
+        "sleep_hours"
+    ],
+    "class_labels": {
+        "0": "Low Risk",
+        "1": "Moderate Risk",
+        "2": "High Risk",
+        "3": "Critical Risk"
+    },
+    "mean": [
+        51.492844056132014,
+        28.852188782660626,
+        133.86528446806636,
+        155.43850203292465,
+        224.7423587420406,
+        82.72589682652523,
+        7.700460142076075,
+        7.064983694212785
+    ],
+    "std": [
+        19.537724634926427,
+        7.471770638227785,
+        25.69834237246734,
+        48.99463482939007,
+        55.175489230855284,
+        15.772892951983307,
+        4.32996418967543,
+        1.736021286886856
+    ],
+    "training_epochs": 40,
+    "framework": "PyTorch 2.12"
+}
