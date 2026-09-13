@@ -1,7 +1,7 @@
 # Task 4: Developing a Flask API for Deep Learning Models
 
 ## Objective
-To expose a trained Deep Learning PyTorch model as a production-grade REST API using the Flask framework, complete with JSON request-response handling, input schema validation, HTTP exception handling, automated testing, and LMS submission deliverables.
+To expose a trained Deep Learning PyTorch model as a production-grade REST API using the Flask framework, complete with JSON request-response handling, input schema validation, HTTP exception handling,and automated testing.
 
 ---
 
