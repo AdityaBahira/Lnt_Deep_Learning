@@ -1,0 +1,525 @@
+{
+    "test_summary": {
+        "total_tests": 13,
+        "passed_tests": 13,
+        "failed_tests": 0,
+        "timestamp": "2026-09-20T04:39:06.415721+00:00"
+    },
+    "test_results": [
+        {
+            "test_id": 1,
+            "description": "Root Info Endpoint Check",
+            "request": {
+                "method": "GET",
+                "path": "/",
+                "headers": {},
+                "body": null
+            },
+            "response": {
+                "status_code": 200,
+                "expected_status": 200,
+                "body": {
+                    "description": "REST API exposing a trained PyTorch Deep Neural Network for clinical risk prediction.",
+                    "endpoints": {
+                        "GET /": "API Landing and System Info",
+                        "GET /docs": "Interactive HTML Documentation",
+                        "GET /health": "Server and Model Health Status",
+                        "POST /predict": "Deep Learning Inference Endpoint"
+                    },
+                    "framework": "Flask 3.1 & PyTorch 2.12",
+                    "service_name": "Health Risk Deep Learning REST API",
+                    "status": "success",
+                    "timestamp": "2026-09-20T04:39:06.377186+00:00",
+                    "version": "1.0.0"
+                }
+            },
+            "passed": true
+        },
+        {
+            "test_id": 2,
+            "description": "Health Readiness & Model Check",
+            "request": {
+                "method": "GET",
+                "path": "/health",
+                "headers": {},
+                "body": null
+            },
+            "response": {
+                "status_code": 200,
+                "expected_status": 200,
+                "body": {
+                    "classes": {
+                        "0": "Low Risk",
+                        "1": "Moderate Risk",
+                        "2": "High Risk",
+                        "3": "Critical Risk"
+                    },
+                    "device": "cpu",
+                    "feature_count": 14,
+                    "model_loaded": true,
+                    "model_name": "DeepHealthRiskNet",
+                    "status": "healthy",
+                    "timestamp": "2026-09-20T04:39:06.378011+00:00"
+                }
+            },
+            "passed": true
+        },
+        {
+            "test_id": 3,
+            "description": "Valid Single Sample Prediction",
+            "request": {
+                "method": "POST",
+                "path": "/predict",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": {
+                    "features": [
+                        56.0,
+                        164.0,
+                        81.0,
+                        30.72,
+                        5134.0,
+                        1796.0,
+                        8.6,
+                        102.0,
+                        137.0,
+                        72.0,
+                        8.1,
+                        7.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            },
+            "response": {
+                "status_code": 200,
+                "expected_status": 200,
+                "body": {
+                    "latency_ms": 23.38,
+                    "model_name": "DeepHealthRiskNet",
+                    "predictions": [
+                        {
+                            "class_probabilities": {
+                                "Critical Risk": 0.9811,
+                                "High Risk": 0.0189,
+                                "Low Risk": 0.0,
+                                "Moderate Risk": 0.0
+                            },
+                            "confidence_score": 0.9811,
+                            "input_features": {
+                                "age": 56.0,
+                                "alcohol_consumption_per_week": 7.0,
+                                "bmi": 30.719999313354492,
+                                "calories_intake": 1796.0,
+                                "daily_steps": 5134.0,
+                                "diabetic": 0.0,
+                                "diastolic_bp": 72.0,
+                                "exercise_hours_per_week": 8.100000381469727,
+                                "heart_rate": 102.0,
+                                "height_cm": 164.0,
+                                "hours_of_sleep": 8.600000381469727,
+                                "smoker": 0.0,
+                                "systolic_bp": 137.0,
+                                "weight_kg": 81.0
+                            },
+                            "predicted_class_id": 3,
+                            "predicted_label": "Critical Risk",
+                            "sample_index": 0
+                        }
+                    ],
+                    "predictions_count": 1,
+                    "status": "success",
+                    "timestamp": "2026-09-20T04:39:06.402042+00:00"
+                }
+            },
+            "passed": true
+        },
+        {
+            "test_id": 4,
+            "description": "Valid Batch Predictions (Multiple Patients)",
+            "request": {
+                "method": "POST",
+                "path": "/predict",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": {
+                    "instances": [
+                        [
+                            25.0,
+                            199.0,
+                            85.0,
+                            31.14,
+                            5131.0,
+                            3256.0,
+                            6.5,
+                            104.0,
+                            106.0,
+                            79.0,
+                            3.6,
+                            7.0,
+                            0.0,
+                            0.0
+                        ],
+                        [
+                            78.0,
+                            172.0,
+                            72.0,
+                            32.46,
+                            19532.0,
+                            2216.0,
+                            9.6,
+                            95.0,
+                            96.0,
+                            86.0,
+                            8.3,
+                            2.0,
+                            1.0,
+                            1.0
+                        ]
+                    ]
+                }
+            },
+            "response": {
+                "status_code": 200,
+                "expected_status": 200,
+                "body": {
+                    "latency_ms": 4.85,
+                    "model_name": "DeepHealthRiskNet",
+                    "predictions": [
+                        {
+                            "class_probabilities": {
+                                "Critical Risk": 0.0208,
+                                "High Risk": 0.9558,
+                                "Low Risk": 0.0004,
+                                "Moderate Risk": 0.0229
+                            },
+                            "confidence_score": 0.9558,
+                            "input_features": {
+                                "age": 25.0,
+                                "alcohol_consumption_per_week": 7.0,
+                                "bmi": 31.139999389648438,
+                                "calories_intake": 3256.0,
+                                "daily_steps": 5131.0,
+                                "diabetic": 0.0,
+                                "diastolic_bp": 79.0,
+                                "exercise_hours_per_week": 3.5999999046325684,
+                                "heart_rate": 104.0,
+                                "height_cm": 199.0,
+                                "hours_of_sleep": 6.5,
+                                "smoker": 0.0,
+                                "systolic_bp": 106.0,
+                                "weight_kg": 85.0
+                            },
+                            "predicted_class_id": 2,
+                            "predicted_label": "High Risk",
+                            "sample_index": 0
+                        },
+                        {
+                            "class_probabilities": {
+                                "Critical Risk": 0.9812,
+                                "High Risk": 0.0188,
+                                "Low Risk": 0.0,
+                                "Moderate Risk": 0.0
+                            },
+                            "confidence_score": 0.9812,
+                            "input_features": {
+                                "age": 78.0,
+                                "alcohol_consumption_per_week": 2.0,
+                                "bmi": 32.459999084472656,
+                                "calories_intake": 2216.0,
+                                "daily_steps": 19532.0,
+                                "diabetic": 1.0,
+                                "diastolic_bp": 86.0,
+                                "exercise_hours_per_week": 8.300000190734863,
+                                "heart_rate": 95.0,
+                                "height_cm": 172.0,
+                                "hours_of_sleep": 9.600000381469727,
+                                "smoker": 1.0,
+                                "systolic_bp": 96.0,
+                                "weight_kg": 72.0
+                            },
+                            "predicted_class_id": 3,
+                            "predicted_label": "Critical Risk",
+                            "sample_index": 1
+                        }
+                    ],
+                    "predictions_count": 2,
+                    "status": "success",
+                    "timestamp": "2026-09-20T04:39:06.407334+00:00"
+                }
+            },
+            "passed": true
+        },
+        {
+            "test_id": 5,
+            "description": "Valid Dict Feature Mapping Payload",
+            "request": {
+                "method": "POST",
+                "path": "/predict",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": {
+                    "data": {
+                        "age": 60,
+                        "height_cm": 157,
+                        "weight_kg": 63,
+                        "bmi": 29.37,
+                        "daily_steps": 17351,
+                        "calories_intake": 2556,
+                        "hours_of_sleep": 5.1,
+                        "heart_rate": 111,
+                        "systolic_bp": 100,
+                        "diastolic_bp": 64,
+                        "exercise_hours_per_week": 8.5,
+                        "alcohol_consumption_per_week": 8,
+                        "smoker": 1,
+                        "diabetic": 0
+                    }
+                }
+            },
+            "response": {
+                "status_code": 200,
+                "expected_status": 200,
+                "body": {
+                    "latency_ms": 0.71,
+                    "model_name": "DeepHealthRiskNet",
+                    "predictions": [
+                        {
+                            "class_probabilities": {
+                                "Critical Risk": 0.0674,
+                                "High Risk": 0.9285,
+                                "Low Risk": 0.0,
+                                "Moderate Risk": 0.0041
+                            },
+                            "confidence_score": 0.9285,
+                            "input_features": {
+                                "age": 60.0,
+                                "alcohol_consumption_per_week": 8.0,
+                                "bmi": 29.3700008392334,
+                                "calories_intake": 2556.0,
+                                "daily_steps": 17351.0,
+                                "diabetic": 0.0,
+                                "diastolic_bp": 64.0,
+                                "exercise_hours_per_week": 8.5,
+                                "heart_rate": 111.0,
+                                "height_cm": 157.0,
+                                "hours_of_sleep": 5.099999904632568,
+                                "smoker": 1.0,
+                                "systolic_bp": 100.0,
+                                "weight_kg": 63.0
+                            },
+                            "predicted_class_id": 2,
+                            "predicted_label": "High Risk",
+                            "sample_index": 0
+                        }
+                    ],
+                    "predictions_count": 1,
+                    "status": "success",
+                    "timestamp": "2026-09-20T04:39:06.409034+00:00"
+                }
+            },
+            "passed": true
+        },
+        {
+            "test_id": 6,
+            "description": "Error Handling: Unsupported Media Type (HTTP 415)",
+            "request": {
+                "method": "POST",
+                "path": "/predict",
+                "headers": {
+                    "Content-Type": "text/plain"
+                },
+                "body": "age=45"
+            },
+            "response": {
+                "status_code": 415,
+                "expected_status": 415,
+                "body": {
+                    "error_code": "UNSUPPORTED_MEDIA_TYPE",
+                    "message": "Content-Type must be 'application/json'.",
+                    "status": "error",
+                    "timestamp": "2026-09-20T04:39:06.409769+00:00"
+                }
+            },
+            "passed": true
+        },
+        {
+            "test_id": 7,
+            "description": "Error Handling: Missing JSON Payload Body (HTTP 400)",
+            "request": {
+                "method": "POST",
+                "path": "/predict",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": ""
+            },
+            "response": {
+                "status_code": 400,
+                "expected_status": 400,
+                "body": {
+                    "error_code": "MALFORMED_JSON",
+                    "message": "Failed to parse JSON body: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.",
+                    "status": "error",
+                    "timestamp": "2026-09-20T04:39:06.410361+00:00"
+                }
+            },
+            "passed": true
+        },
+        {
+            "test_id": 8,
+            "description": "Error Handling: Missing Required Key (HTTP 400)",
+            "request": {
+                "method": "POST",
+                "path": "/predict",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": {
+                    "incorrect_key": [
+                        1,
+                        2,
+                        3
+                    ]
+                }
+            },
+            "response": {
+                "status_code": 400,
+                "expected_status": 400,
+                "body": {
+                    "error_code": "MISSING_REQUIRED_KEY",
+                    "message": "JSON payload must contain 'features', 'instances', or 'data' dictionary.",
+                    "status": "error",
+                    "timestamp": "2026-09-20T04:39:06.411314+00:00"
+                }
+            },
+            "passed": true
+        },
+        {
+            "test_id": 9,
+            "description": "Error Handling: Wrong Feature Array Dimension (HTTP 422)",
+            "request": {
+                "method": "POST",
+                "path": "/predict",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": {
+                    "features": [
+                        45.0,
+                        26.5,
+                        125.0,
+                        110.0,
+                        210.0
+                    ]
+                }
+            },
+            "response": {
+                "status_code": 422,
+                "expected_status": 422,
+                "body": {
+                    "error_code": "MODEL_VALIDATION_ERROR",
+                    "message": "Expected 14 features per sample (age, height_cm, weight_kg, bmi, daily_steps, calories_intake, hours_of_sleep, heart_rate, systolic_bp, diastolic_bp, exercise_hours_per_week, alcohol_consumption_per_week, smoker, diabetic), but got 5 features.",
+                    "status": "error",
+                    "timestamp": "2026-09-20T04:39:06.412056+00:00"
+                }
+            },
+            "passed": true
+        },
+        {
+            "test_id": 10,
+            "description": "Error Handling: Non-numeric Feature Values (HTTP 422)",
+            "request": {
+                "method": "POST",
+                "path": "/predict",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": {
+                    "features": [
+                        45.0,
+                        "high_bmi",
+                        125.0,
+                        110.0,
+                        210.0,
+                        75.0,
+                        5.0,
+                        7.0
+                    ]
+                }
+            },
+            "response": {
+                "status_code": 422,
+                "expected_status": 422,
+                "body": {
+                    "error_code": "NON_NUMERIC_FEATURE",
+                    "message": "Feature value 'high_bmi' is non-numeric. All inputs must be numbers.",
+                    "status": "error",
+                    "timestamp": "2026-09-20T04:39:06.412427+00:00"
+                }
+            },
+            "passed": true
+        },
+        {
+            "test_id": 11,
+            "description": "Error Handling: Method Not Allowed GET on /predict (HTTP 405)",
+            "request": {
+                "method": "GET",
+                "path": "/predict",
+                "headers": {},
+                "body": null
+            },
+            "response": {
+                "status_code": 405,
+                "expected_status": 405,
+                "body": {
+                    "error_code": "METHOD_NOT_ALLOWED",
+                    "message": "The method GET is not allowed for URL '/predict'.",
+                    "status": "error",
+                    "timestamp": "2026-09-20T04:39:06.412844+00:00"
+                }
+            },
+            "passed": true
+        },
+        {
+            "test_id": 12,
+            "description": "Error Handling: Non-existent URL Path (HTTP 404)",
+            "request": {
+                "method": "GET",
+                "path": "/api/v2/unknown",
+                "headers": {},
+                "body": null
+            },
+            "response": {
+                "status_code": 404,
+                "expected_status": 404,
+                "body": {
+                    "error_code": "NOT_FOUND",
+                    "message": "The requested URL '/api/v2/unknown' was not found on this server.",
+                    "status": "error",
+                    "timestamp": "2026-09-20T04:39:06.413230+00:00"
+                }
+            },
+            "passed": true
+        },
+        {
+            "test_id": 13,
+            "description": "Interactive HTML Documentation Page",
+            "request": {
+                "method": "GET",
+                "path": "/docs",
+                "headers": {},
+                "body": null
+            },
+            "response": {
+                "status_code": 200,
+                "expected_status": 200,
+                "body": null
+            },
+            "passed": true
+        }
+    ]
+}
