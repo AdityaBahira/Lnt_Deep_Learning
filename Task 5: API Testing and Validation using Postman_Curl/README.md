@@ -172,8 +172,8 @@ Task_5_API_Testing/
 
 ## 👤 Author Information
 
-- **Name**: Aryan Pravin Shetty / [Your Student Name]
-- **Student ID**: 5626748 / [Your Student ID]
-- **Roll No**: 34 / [Your Roll No]
+- **Name**: Aditya Laxman Bahira
+- **Student ID**: 5621480
+- **Roll No**: 03
 - **Subject**: Deep Learning from Production to Deployment
 - **Platform**: L&T Edutech LMS Platform
