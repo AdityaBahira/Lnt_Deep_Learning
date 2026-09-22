@@ -34,7 +34,7 @@ Task_7-Advanced_MultiPage_Streamlit_Application/
 ├── requirements.txt                           # Dependency Specifications
 ├── build_task7_doc.py                         # Academic Word Report Generator Script
 ├── Task_7_MultiPage_Streamlit_App.ipynb       # LMS Submission Jupyter Notebook
-├── Task_7_MultiPage_Streamlit_UI_Report.docx  # Technical Documentation (Academic Slate Navy Theme)
+├── Task_7_MultiPage_Streamlit_UI_Report.pdf  # Technical Documentation (Academic Slate Navy Theme)
 ├── saved_models/                              # PyTorch Model Weights (dl_model.pt) & config.json
 └── views/
     ├── 1_Overview.py                          # 🏠 Page 1: Executive Overview & Layer Inspector
