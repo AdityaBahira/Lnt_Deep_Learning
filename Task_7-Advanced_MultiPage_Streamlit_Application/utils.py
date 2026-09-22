@@ -122,11 +122,18 @@ class ModelConnector:
         return pred
 
 def load_dataset():
-    """Loads Backend/health_activity_data.csv without modifying or renaming it."""
-    if not os.path.exists(DATASET_PATH):
-        raise FileNotFoundError(f"Dataset file not found at {DATASET_PATH}")
-    df = pd.read_csv(DATASET_PATH)
-    return df
+    """Robustly loads health_activity_data.csv without modifying or renaming it."""
+    possible_paths = [
+        os.path.join(CURR_DIR, "health_activity_data.csv"),
+        os.path.join(BACKEND_DIR, "health_activity_data.csv"),
+        os.path.abspath("health_activity_data.csv"),
+        os.path.abspath("../Backend/health_activity_data.csv"),
+        os.path.abspath("Backend/health_activity_data.csv")
+    ]
+    for p in possible_paths:
+        if os.path.exists(p):
+            return pd.read_csv(p)
+    raise FileNotFoundError(f"Dataset file 'health_activity_data.csv' not found. Checked: {possible_paths}")
 
 def calculate_bmi(weight_kg, height_cm):
     if height_cm <= 0:
