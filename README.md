@@ -57,7 +57,7 @@ Lnt_Deep_Learning/
     ├── Task_7_MultiPage_Streamlit_App.ipynb                      # LMS Submission Notebook
     ├── Task_7_MultiPage_Streamlit_UI_Report.docx                 # Academic Documentation Report (91.40% Acc)
     ├── saved_models/                                             # PyTorch Model Artifacts
-    └── pages/
+    └── views/
         ├── 1_Overview.py                                         # 🏠 Page 1: Overview & Layer Inspector
         ├── 2_Prediction.py                                       # 🔮 Page 2: Single Patient Predictor & Radar Chart
         ├── 3_Batch_Processing.py                                 # 📁 Page 3: Cohort CSV Ingestion & Report
@@ -77,50 +77,7 @@ Lnt_Deep_Learning/
 | **Task 4** | **Developing a Flask API for DL Models** | Flask 3.1 REST API, PyTorch Model Serving, Gunicorn | `app.py`, `model_loader.py`, `config.json` |
 | **Task 5** | **API Testing & Validation using Postman/cURL** | Postman Runner, HTTP Status Verification, Edge-Case Auditing | `.postman_collection.json`, Test Report |
 | **Task 6** | **Creating a Streamlit User Interface** | Streamlit 1.64, Dual Engine (Direct/API), Live BMI, Emojis | `app.py`, `utils.py`, `Task_6_Report.docx` |
-| **Task 7** | **Advanced Multi-Page Streamlit Application** | `st.navigation`, Confusion Matrix, ROC-AUC, 91.40% Accuracy | `pages/`, `utils.py`, `Task_7_Report.docx` |
-
----
-
-### 🧠 Core Model Architecture (`DeepHealthRiskNet`)
-
-For Tasks 4, 5, 6, and 7, the underlying neural network is a **3-Layer Artificial Neural Network** trained in PyTorch:
-
-```
-Input Vector (14 Features) ──► Linear(14 → 64) ──► BatchNorm1d(64) ──► ReLU() ──► Dropout(0.2)
-                           ──► Linear(64 → 32) ──► BatchNorm1d(32) ──► ReLU() ──► Dropout(0.2)
-                           ──► Linear(32 → 4)  ──► Softmax Activation
-                           ──► Output: [Low, Moderate, High, Critical Risk]
-```
-
-#### 📊 Performance Highlights (Task 7 Analytics):
-- **Overall Model Accuracy**: **`91.40%`**
-- **Macro F1-Score**: **`91.15%`**
-- **Inference Latency**: **`< 2.0 ms`** per forward pass.
-
----
-
-### ⚙️ Quick Start Commands
-
-#### Run Task 7 (Multi-Page App):
-```bash
-cd Task_7-Advanced_MultiPage_Streamlit_Application
-pip install -r requirements.txt
-python -m streamlit run app.py
-```
-
-#### Run Task 6 (Single-Page App):
-```bash
-cd Task_6-Creating_a_Streamlit_User_Interface
-pip install -r requirements.txt
-python -m streamlit run app.py
-```
-
-#### Run Task 4 (Flask REST API Server):
-```bash
-cd Task_4_Developing_a_Flask_API_for_Deep_Learning_Models
-pip install -r requirements.txt
-python app.py
-```
+| **Task 7** | **Advanced Multi-Page Streamlit Application** | `st.navigation`, Confusion Matrix, ROC-AUC, 91.40% Accuracy | `views/`, `utils.py`, `Task_7_Report.docx` |
 
 ---
 

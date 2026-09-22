@@ -35,7 +35,7 @@ Task_7-Advanced_MultiPage_Streamlit_Application/
 ├── Task_7_MultiPage_Streamlit_App.ipynb       # LMS Submission Jupyter Notebook
 ├── Task_7_MultiPage_Streamlit_UI_Report.docx  # Technical Documentation (Academic Slate Navy Theme)
 ├── saved_models/                              # PyTorch Model Weights (dl_model.pt) & config.json
-└── pages/
+└── views/
     ├── 1_Overview.py                          # 🏠 Page 1: Executive Overview & Layer Inspector
     ├── 2_Prediction.py                        # 🔮 Page 2: Single Patient Predictor & Radar Chart
     ├── 3_Batch_Processing.py                  # 📁 Page 3: Cohort CSV Ingestion & Report Exporter
@@ -45,33 +45,33 @@ Task_7-Advanced_MultiPage_Streamlit_Application/
 
 ---
 
-### 📑 Modular Page System Specifications
+### 📑 Modular Views Specifications
 
-#### 🏠 Page 1: Executive Overview & Layer Inspector (`pages/1_Overview.py`)
+#### 🏠 Page 1: Executive Overview & Layer Inspector (`views/1_Overview.py`)
 - Project background and dataset specs for `health_activity_data.csv`.
 - Interactive **PyTorch Layer Specification Inspector** detailing input dimensions, linear layers, BatchNorm1d, ReLU, Dropout (0.2), and Softmax.
 
-#### 🔮 Page 2: Single Patient Clinical Risk Predictor (`pages/2_Prediction.py`)
+#### 🔮 Page 2: Single Patient Clinical Risk Predictor (`views/2_Prediction.py`)
 - Categorized form widgets with visual icons (Demographics 🎂, Vitals 💓, Activity 👟, Lifestyle 🚬).
 - Auto-calculating **BMI meter**.
 - Diagnostic assessment badge (🟢/🟡/🟠/🔴), Softmax probability bar chart, and **Patient Risk Profile Spider/Radar Chart**.
 
-#### 📁 Page 3: Cohort CSV Ingestion & Report Exporter (`pages/3_Batch_Processing.py`)
+#### 📁 Page 3: Cohort CSV Ingestion & Report Exporter (`views/3_Batch_Processing.py`)
 - Drag-and-drop CSV file uploader for cohort evaluation.
 - Batch PyTorch forward pass execution in under 150 ms.
 - Summary risk distribution pie chart and **downloadable predictions CSV report export**.
 
-#### 📊 Page 4: Model Performance Dashboard (`pages/4_Analytics.py`)
+#### 📊 Page 4: Model Performance Dashboard (`views/4_Analytics.py`)
 - Comprehensive dataset evaluation metrics computed on `health_activity_data.csv`:
   - **Overall Classification Accuracy**: **`91.40%`**
   - **Macro F1-Score**: **`91.15%`**
 - Interactive **Plotly Confusion Matrix Heatmap** and **Multi-Class ROC-AUC Curves**.
 - Feature distribution histograms and risk sensitivity boxplots.
 
-#### ⚙️ Page 5: System Health & API Inspector (`pages/5_System_Status.py`)
+#### ⚙️ Page 5: System Health & API Inspector (`views/5_System_Status.py`)
 - Real-time Flask REST API health probe (`http://127.0.0.1:5000/health`).
 - **Inference Latency Benchmarker** measuring sub-2 ms execution times.
-- Step-by-step Flask deployment guide for cloud platforms.
+- Step-by-step REST API documentation table.
 
 ---
 
