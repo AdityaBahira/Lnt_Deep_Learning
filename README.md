@@ -1,5 +1,5 @@
-# L&T Edutech Deep Learning Model Deployment & Integration
-## End-to-End PyTorch Deep Health Risk Neural Network Platform
+# L&T Edutech Deep Learning Project Portfolio
+## End-to-End Deep Learning, Computer Vision, REST APIs & Streamlit Platform
 
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.14.0-EE4C2C?logo=pytorch)](https://pytorch.org/)
 [![Flask](https://img.shields.io/badge/Flask-3.1.0-000000?logo=flask)](https://flask.palletsprojects.com/)
@@ -11,121 +11,111 @@
 
 ### 📖 Repository Overview
 
-This repository contains the complete implementation for the **Deep Learning Model Deployment & Integration** module. The project builds, trains, serves, and deploys a clinical decision-support platform powered by a pre-trained **PyTorch 3-Layer Deep Neural Network (`DeepHealthRiskNet`)**.
-
-The system ingests 14 physiological and lifestyle metrics from `health_activity_data.csv` (1,002 patient records) to predict 4 clinical health risk categories (*Low Risk, Moderate Risk, High Risk, Critical Risk*).
+This repository contains the complete 7-task portfolio for the **L&T Edutech Deep Learning** curriculum. The project spans custom Convolutional Neural Networks (CNNs), transfer learning with ResNet, dataset preprocessing, production Flask REST API development, Postman API validation, single-page Streamlit interfaces, and advanced multi-page clinical decision platforms.
 
 ---
 
-### 📂 Repository Structure
+### 📂 Repository Structure & Tasks Overview
 
 ```
 Lnt_Deep_Learning/
-├── README.md                                                  # Main Root Repository Documentation
-├── Task_4_Developing_a_Flask_API_for_Deep_Learning_Models/  # Task 4: Production Flask REST API Service
-│   ├── app.py                                                 # Flask Service Application & Endpoints
-│   ├── model_loader.py                                        # PyTorch Model Loading Engine
-│   ├── train_and_save_model.py                                # Neural Network Training Script
-│   ├── health_activity_data.csv                               # 1,000-row Patient Dataset
-│   ├── API_DOCUMENTATION.md                                   # REST API Specifications
-│   └── saved_models/                                          # Trained Model Weights (dl_model.pt) & config.json
+├── README.md                                                     # Master Repository Documentation & Task Index
 │
-├── Task_6-Creating_a_Streamlit_User_Interface/               # Task 6: Single-Page Streamlit App
-│   ├── app.py                                                 # Streamlit UI with Visual Icons & Emojis
-│   ├── utils.py                                               # Dual-Mode Model Connector & Recommendations
-│   ├── model_loader.py                                        # Local PyTorch Inference Engine
-│   ├── requirements.txt                                       # Streamlit Dependencies
-│   ├── Task_6_Streamlit_UI.ipynb                              # LMS Deliverable Notebook
-│   ├── Task_6_Streamlit_UI_Report.docx                        # Technical Report (Academic Theme)
-│   └── saved_models/                                          # Artifact Weights (dl_model.pt) & config.json
+├── Task 1: Building an Image Classification Model using CNN/     # Task 1: Custom CNN Architecture
 │
-└── Task_7-Advanced_MultiPage_Streamlit_Application/           # Task 7: Multi-Page Enterprise App
-    ├── app.py                                                 # Main Entry Point & st.navigation System
-    ├── utils.py                                               # Multi-mode Connector & Dataset Analytics Engine
-    ├── health_activity_data.csv                               # Patient Dataset (Un-modified)
-    ├── model_loader.py                                        # PyTorch Model Engine
-    ├── requirements.txt                                       # Dependencies Specs
-    ├── build_task7_doc.py                                     # Academic Word Report Generator Script
-    ├── Task_7_MultiPage_Streamlit_App.ipynb                   # LMS Submission Notebook
-    ├── Task_7_MultiPage_Streamlit_UI_Report.docx              # Academic Technical Documentation
-    ├── saved_models/                                          # Model Weights & Config
+├── Task 2: Transfer Learning using ResNet/                       # Task 2: Pre-trained ResNet Transfer Learning
+│
+├── Task 3: Dataset Preparation and Preprocessing for Deep Learning/ # Task 3: Data Ingestion & Scaling Pipelines
+│
+├── Task_4_Developing_a_Flask_API_for_Deep_Learning_Models/     # Task 4: PyTorch Flask REST API Service
+│   ├── app.py                                                    # Production Flask API Server
+│   ├── model_loader.py                                           # Model Inference Engine
+│   ├── train_and_save_model.py                                   # DeepHealthRiskNet Training Pipeline
+│   ├── health_activity_data.csv                                  # Patient Clinical Dataset (1,002 rows)
+│   ├── API_DOCUMENTATION.md                                      # REST API Endpoint Specifications
+│   └── saved_models/                                             # PyTorch Weights (dl_model.pt) & config.json
+│
+├── Task 5: API Testing and Validation using Postman_Curl/        # Task 5: Automated REST API Validation
+│   ├── Task_5_Health_Risk_DL_API.postman_collection.json         # Postman Test Suite
+│   ├── test_client.py                                            # Python Automated Test Runner
+│   ├── Task_5_API_Testing_and_Validation_Report.pdf             # Validation Test Report
+│   └── screenshots/                                              # Postman Execution Proof Screenshots
+│
+├── Task_6-Creating_a_Streamlit_User_Interface/                  # Task 6: Streamlit Interactive UI
+│   ├── app.py                                                    # Icon-Rich Streamlit App with Live BMI
+│   ├── utils.py                                                  # Dual-Mode Model Connector & Recommendations
+│   ├── model_loader.py                                           # In-Memory PyTorch Engine
+│   ├── Task_6_Streamlit_UI.ipynb                                 # LMS Deliverable Notebook
+│   ├── Task_6_Streamlit_UI_Report.docx                           # Technical Documentation Report
+│   └── saved_models/                                             # PyTorch Model Weights & Config
+│
+└── Task_7-Advanced_MultiPage_Streamlit_Application/              # Task 7: Multi-Page Enterprise App
+    ├── app.py                                                    # st.navigation Entry Point & Global Config
+    ├── utils.py                                                  # Multi-mode Connector & Analytics Engine
+    ├── health_activity_data.csv                                  # Patient Dataset (Un-modified)
+    ├── model_loader.py                                           # PyTorch Model Engine
+    ├── Task_7_MultiPage_Streamlit_App.ipynb                      # LMS Submission Notebook
+    ├── Task_7_MultiPage_Streamlit_UI_Report.docx                 # Academic Documentation Report (91.40% Acc)
+    ├── saved_models/                                             # PyTorch Model Artifacts
     └── pages/
-        ├── 1_Overview.py                                      # 🏠 Executive Overview & Layer Inspector
-        ├── 2_Prediction.py                                    # 🔮 Single Patient Predictor & Radar Chart
-        ├── 3_Batch_Processing.py                              # 📁 Bulk Cohort Ingestion & Report Exporter
-        ├── 4_Analytics.py                                     # 📊 Model Performance Dashboard (91.40% Acc)
-        └── 5_System_Status.py                                 # ⚙️ REST API Health Probe & Benchmarker
+        ├── 1_Overview.py                                         # 🏠 Page 1: Overview & Layer Inspector
+        ├── 2_Prediction.py                                       # 🔮 Page 2: Single Patient Predictor & Radar Chart
+        ├── 3_Batch_Processing.py                                 # 📁 Page 3: Cohort CSV Ingestion & Report
+        ├── 4_Analytics.py                                        # 📊 Page 4: Model Performance Dashboard
+        └── 5_System_Status.py                                    # ⚙️ Page 5: REST API Health Probe & Benchmarker
 ```
 
 ---
 
-### 🧠 Deep Learning Model Architecture (`DeepHealthRiskNet`)
+### 📋 Complete Curriculum Tasks Table
 
-The core neural network is a **3-Layer Artificial Neural Network** implemented in PyTorch:
-
-```
-Input Layer (14 Features) 
-   │
-   ▼
-Linear(14 → 64) ──► BatchNorm1d(64) ──► ReLU() ──► Dropout(p=0.2)
-   │
-   ▼
-Linear(64 → 32) ──► BatchNorm1d(32) ──► ReLU() ──► Dropout(p=0.2)
-   │
-   ▼
-Linear(32 → 4)  ──► Softmax Activation
-   │
-   ▼
-Output: 4 Class Probabilities [Low, Moderate, High, Critical Risk]
-```
-
-#### 📊 Input Features Schema (14 Numerical Features):
-1. **Age**: Patient age in years.
-2. **Height (cm)**: Patient height in centimeters.
-3. **Weight (kg)**: Patient weight in kilograms.
-4. **BMI**: Auto-calculated Body Mass Index ($kg/m^2$).
-5. **Daily Steps**: Total step count per day.
-6. **Calories Intake**: Caloric consumption ($kcal/day$).
-7. **Hours of Sleep**: Sleep duration ($hours/night$).
-8. **Heart Rate**: Resting heart rate ($bpm$).
-9. **Systolic BP**: Systolic blood pressure ($mmHg$).
-10. **Diastolic BP**: Diastolic blood pressure ($mmHg$).
-11. **Exercise Hours**: Weekly exercise duration ($hours/week$).
-12. **Alcohol Consumption**: Weekly alcohol intake ($units/week$).
-13. **Smoker**: Binary indicator ($0 = No, 1 = Yes$).
-14. **Diabetic**: Binary indicator ($0 = No, 1 = Yes$).
+| Task ID | Task Title | Key Focus & Technologies | Primary Artifacts |
+| :--- | :--- | :--- | :--- |
+| **Task 1** | **Building an Image Classification Model using CNN** | Custom Convolutional Neural Network, Feature Maps, Softmax | Jupyter Notebook & Training Code |
+| **Task 2** | **Transfer Learning using ResNet** | Pre-trained ResNet Backbones, Feature Extraction, Fine-tuning | Transfer Learning Notebook & Evaluation |
+| **Task 3** | **Dataset Preparation & Preprocessing** | Data Cleaning, Standard Scaling, Normalization Pipelines | Preprocessing Scripts & Processed Data |
+| **Task 4** | **Developing a Flask API for DL Models** | Flask 3.1 REST API, PyTorch Model Serving, Gunicorn | `app.py`, `model_loader.py`, `config.json` |
+| **Task 5** | **API Testing & Validation using Postman/cURL** | Postman Runner, HTTP Status Verification, Edge-Case Auditing | `.postman_collection.json`, Test Report |
+| **Task 6** | **Creating a Streamlit User Interface** | Streamlit 1.64, Dual Engine (Direct/API), Live BMI, Emojis | `app.py`, `utils.py`, `Task_6_Report.docx` |
+| **Task 7** | **Advanced Multi-Page Streamlit Application** | `st.navigation`, Confusion Matrix, ROC-AUC, 91.40% Accuracy | `pages/`, `utils.py`, `Task_7_Report.docx` |
 
 ---
 
-### 📊 Model Performance Summary
+### 🧠 Core Model Architecture (`DeepHealthRiskNet`)
 
-| Metric | Score | Details |
-| :--- | :--- | :--- |
-| **Overall Model Accuracy** | **91.40%** | Evaluated across 1,002 patient records in `health_activity_data.csv`. |
-| **Macro Precision** | **91.80%** | High precision across all 4 risk classes. |
-| **Macro Recall** | **91.20%** | Excellent sensitivity in detecting high-risk profiles. |
-| **Macro F1-Score** | **91.15%** | Balanced harmonic mean performance. |
-| **Inference Speed** | **< 2.0 ms** | Real-time PyTorch forward pass latency. |
+For Tasks 4, 5, 6, and 7, the underlying neural network is a **3-Layer Artificial Neural Network** trained in PyTorch:
+
+```
+Input Vector (14 Features) ──► Linear(14 → 64) ──► BatchNorm1d(64) ──► ReLU() ──► Dropout(0.2)
+                           ──► Linear(64 → 32) ──► BatchNorm1d(32) ──► ReLU() ──► Dropout(0.2)
+                           ──► Linear(32 → 4)  ──► Softmax Activation
+                           ──► Output: [Low, Moderate, High, Critical Risk]
+```
+
+#### 📊 Performance Highlights (Task 7 Analytics):
+- **Overall Model Accuracy**: **`91.40%`**
+- **Macro F1-Score**: **`91.15%`**
+- **Inference Latency**: **`< 2.0 ms`** per forward pass.
 
 ---
 
-### ⚙️ Quick Start & Running Instructions
+### ⚙️ Quick Start Commands
 
-#### 1. Running Task 6 (Single-Page App)
-```bash
-cd Task_6-Creating_a_Streamlit_User_Interface
-pip install -r requirements.txt
-python -m streamlit run app.py
-```
-
-#### 2. Running Task 7 (Multi-Page App)
+#### Run Task 7 (Multi-Page App):
 ```bash
 cd Task_7-Advanced_MultiPage_Streamlit_Application
 pip install -r requirements.txt
 python -m streamlit run app.py
 ```
 
-#### 3. Running Flask REST API Server (Task 4)
+#### Run Task 6 (Single-Page App):
+```bash
+cd Task_6-Creating_a_Streamlit_User_Interface
+pip install -r requirements.txt
+python -m streamlit run app.py
+```
+
+#### Run Task 4 (Flask REST API Server):
 ```bash
 cd Task_4_Developing_a_Flask_API_for_Deep_Learning_Models
 pip install -r requirements.txt
@@ -134,7 +124,6 @@ python app.py
 
 ---
 
-### 🌐 Live Deployment Details
-
-- **Streamlit Community Cloud Main Path**: `Task_7-Advanced_MultiPage_Streamlit_Application/app.py`
+### 🌐 Cloud Deployment Configuration
+- **Streamlit Community Cloud Main File**: `Task_7-Advanced_MultiPage_Streamlit_Application/app.py`
 - **GitHub Repository**: [https://github.com/AdityaBahira/Lnt_Deep_Learning](https://github.com/AdityaBahira/Lnt_Deep_Learning)
