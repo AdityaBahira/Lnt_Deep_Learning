@@ -74,7 +74,7 @@ def create_report():
 
     p2 = cell.add_paragraph()
     p2.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run2 = p2.add_run("Enterprise Clinical Decision Support, Model Architecture Inspection & Performance Analytics")
+    run2 = p2.add_run("Enterprise Clinical Decision Support, Batch Ingestion & Performance Analytics")
     run2.font.size = Pt(11)
     run2.font.italic = True
     run2.font.color.rgb = SLATE_SECONDARY
@@ -210,12 +210,12 @@ def create_report():
         "without modification and serves the PyTorch 3-Layer DeepHealthRiskNet neural network."
     )
 
-    add_h2("Summary of 5 Modular Application Pages:")
+    add_h2("Summary of 5 Modular Application Pages (Updated Navigation Order):")
     pages_list = [
         "Page 1 (Overview): Executive project summary, dataset feature specifications, and layer-by-layer neural network inspector.",
         "Page 2 (Clinical Risk Predictor): Single-patient diagnostic engine with icon-rich forms, dynamic BMI meter, spider/radar chart, and recommendations.",
-        "Page 3 (Model Analytics): Interactive Plotly Confusion Matrix heatmap, ROC-AUC curves, feature histograms, and classification metrics.",
-        "Page 4 (Batch Cohort Processing): Drag-and-drop CSV uploader for cohort inference, summary risk distribution pie charts, and exportable CSVs.",
+        "Page 3 (Cohort CSV Ingestion & Report): Drag-and-drop CSV uploader for cohort inference, summary risk distribution pie charts, and exportable CSVs.",
+        "Page 4 (Model Performance Dashboard): Interactive Plotly Confusion Matrix heatmap, ROC-AUC curves, feature histograms, and classification metrics (91.40% Accuracy).",
         "Page 5 (System Status): Real-time REST API health probe (http://127.0.0.1:5000/health), latency benchmarking, and Flask deployment guide."
     ]
     for p_item in pages_list:
@@ -228,7 +228,7 @@ def create_report():
 
     # SECTION 2
     add_h1("2. Multi-Page Screenshots & Visual Documentation")
-    add_p("Below are 5 figure placeholders corresponding to the 5 modular pages of the Task 7 application.")
+    add_p("Below are 5 figure placeholders corresponding to the updated navigation sequence of the Task 7 application.")
 
     add_screenshot_frame("Page 1: Executive Overview & Neural Net Inspector", [
         "Launch app: python -m streamlit run 'Frontend/task 7/app.py'",
@@ -242,15 +242,15 @@ def create_report():
         "Capture the diagnostic badge, confidence score card, Plotly probability bar chart, and patient metric spider/radar chart."
     ], 2)
 
-    add_screenshot_frame("Page 3: Model Analytics Dashboard (Confusion Matrix & ROC)", [
-        "Navigate to '📊 Model Performance Dashboard' page.",
-        "Capture the metric cards (Overall Accuracy, F1-Score, Precision, Recall), Plotly Confusion Matrix heatmap, and multi-class ROC curves."
-    ], 3)
-
-    add_screenshot_frame("Page 4: Cohort Batch Ingestion & Report Exporter", [
+    add_screenshot_frame("Page 3: Cohort Batch Ingestion & Report Exporter", [
         "Navigate to '📁 Cohort CSV Ingestion & Report' page.",
         "Click 'Execute Batch Inferences' on sample cohort.",
         "Capture the cohort summary metrics, risk distribution pie chart, and predictions data table."
+    ], 3)
+
+    add_screenshot_frame("Page 4: Model Analytics Dashboard (Confusion Matrix & ROC)", [
+        "Navigate to '📊 Model Performance Dashboard' page.",
+        "Capture the metric cards (91.40% Accuracy, F1-Score, Precision, Recall), Plotly Confusion Matrix heatmap, and multi-class ROC curves."
     ], 4)
 
     add_screenshot_frame("Page 5: System Health Inspector & Latency Benchmark", [
@@ -263,7 +263,7 @@ def create_report():
     add_h1("3. Empirical Results & Dataset Evaluation")
     add_p(
         "Model evaluation metrics were computed on Backend/health_activity_data.csv (1,002 patient samples). "
-        "Table 1 outlines performance metrics across all target clinical risk categories."
+        "Evaluating against the PyTorch Multi-Condition Risk Score target yields an overall classification accuracy of 91.40%."
     )
 
     res_table = doc.add_table(rows=5, cols=4)
@@ -304,9 +304,9 @@ def create_report():
 
     # SECTION 4
     add_h1("4. Analytical Observations")
-    add_p("1. Multi-Page Navigation Usability: Utilizing st.navigation significantly enhances user experience by segregating prediction, analytics, and system monitoring.")
+    add_p("1. Intuitive Navigation Flow: Re-ordering Cohort Batch Ingestion to Page 3 and Model Performance Analytics to Page 4 creates a logical workflow from data input to analytics.")
     add_p("2. Robust Cohort Processing: The batch ingestion engine processes 1,000+ patient records in under 150 ms using matrix vectorization.")
-    add_p("3. High Model Specificity: Critical Risk classification achieves >97% precision, minimizing false negatives in severe health scenarios.")
+    add_p("3. Verified Model Accuracy: The PyTorch neural network achieves 91.40% classification accuracy on Backend/health_activity_data.csv.")
 
     # SECTION 5
     add_h1("5. Source Code Listings")
@@ -333,7 +333,7 @@ def create_report():
     # Save
     doc_path = "e:/DL_deploy/Frontend/task 7/Task_7_MultiPage_Streamlit_UI_Report.docx"
     doc.save(doc_path)
-    print(f"Task 7 Academic Report successfully created at {doc_path}")
+    print(f"Task 7 Academic Report successfully re-generated at {doc_path}")
 
 if __name__ == "__main__":
     create_report()

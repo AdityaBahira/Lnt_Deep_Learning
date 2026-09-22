@@ -3,7 +3,12 @@ app.py
 ------
 Task 7: Advanced Multi-Page Streamlit Deep Learning Application.
 Main Entry Point configuring page navigation and global model engine status.
-Fully compatible with both Light and Dark Streamlit themes.
+Navigation Order:
+1. Executive Overview & Neural Net (pages/1_Overview.py)
+2. Single Patient Clinical Predictor (pages/2_Prediction.py)
+3. Cohort CSV Ingestion & Report (pages/3_Batch_Processing.py)
+4. Model Performance Dashboard (pages/4_Analytics.py)
+5. System Health & API Inspector (pages/5_System_Status.py)
 """
 
 import streamlit as st
@@ -29,8 +34,8 @@ pages = {
     "Navigation Menu": [
         st.Page("pages/1_Overview.py", title="Executive Overview & Neural Net", icon="🏠"),
         st.Page("pages/2_Prediction.py", title="Single Patient Clinical Predictor", icon="🔮"),
-        st.Page("pages/3_Analytics.py", title="Model Performance Dashboard", icon="📊"),
-        st.Page("pages/4_Batch_Processing.py", title="Cohort CSV Ingestion & Report", icon="📁"),
+        st.Page("pages/3_Batch_Processing.py", title="Cohort CSV Ingestion & Report", icon="📁"),
+        st.Page("pages/4_Analytics.py", title="Model Performance Dashboard", icon="📊"),
         st.Page("pages/5_System_Status.py", title="System Health & API Inspector", icon="⚙️"),
     ]
 }
@@ -61,7 +66,7 @@ else:
     st.sidebar.warning("🔴 Flask REST API Offline (Direct Fallback Active)")
 
 st.sidebar.divider()
-st.sidebar.info("💡 **Task 7 Multi-Page App**: Select a page from the Navigation Menu above to view Overview, Risk Prediction, Analytics Dashboard, Batch Processing, or System Health.")
+st.sidebar.info("💡 **Task 7 Multi-Page App**: Select a page from the Navigation Menu above to view Overview, Risk Prediction, Batch Processing, Analytics Dashboard, or System Health.")
 
 # Run Navigation System
 pg = st.navigation(pages)

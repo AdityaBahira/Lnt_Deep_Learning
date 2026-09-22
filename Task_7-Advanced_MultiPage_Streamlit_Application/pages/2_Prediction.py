@@ -20,10 +20,10 @@ from utils import (
     generate_recommendations
 )
 
-st.markdown("## 🔮 Single Patient Clinical Risk Predictor")
-st.markdown("Input patient physiological parameters to run real-time forward pass inference on `DeepHealthRiskNet`.")
+st.title("🔮 Single Patient Clinical Risk Predictor")
+st.write("Input patient physiological parameters to run real-time forward pass inference on `DeepHealthRiskNet`.")
 
-st.markdown("---")
+st.divider()
 
 # Retrieve Model Connector
 @st.cache_resource
@@ -33,7 +33,7 @@ def get_connector():
 connector = get_connector()
 conn_mode = st.session_state.get("conn_mode", "🧠 Direct PyTorch Engine")
 
-# Preset Loaders in Sidebar / Top
+# Preset Loaders in Top Bar
 preset = st.selectbox(
     "📋 Quick Clinical Presets:",
     ["Custom / Manual Input", "🟢 Healthy / Low Risk Patient", "🟡 Moderate Risk Patient", "🔴 Critical Risk Patient"]
@@ -53,7 +53,7 @@ with st.form("single_pred_form"):
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("#### 👤 Demographics & Body Measurements")
+        st.subheader("👤 Demographics & Body Metrics")
         age = st.number_input("🎂 Age (years)", min_value=1, max_value=120, value=int(init["age"]))
         height_cm = st.number_input("📏 Height (cm)", min_value=50.0, max_value=250.0, value=float(init["h"]), step=0.5)
         weight_kg = st.number_input("⚖️ Weight (kg)", min_value=10.0, max_value=300.0, value=float(init["w"]), step=0.5)
@@ -63,26 +63,26 @@ with st.form("single_pred_form"):
                   delta="Normal" if 18.5 <= current_bmi <= 24.9 else ("Overweight" if current_bmi >= 25 else "Underweight"),
                   delta_color="normal" if 18.5 <= current_bmi <= 24.9 else "inverse")
 
-        st.markdown("#### 🏃 Daily Activity & Nutrition")
+        st.subheader("🏃 Daily Activity & Nutrition")
         daily_steps = st.number_input("👟 Daily Steps", min_value=0, max_value=50000, value=int(init["steps"]), step=500)
         calories = st.number_input("🍎 Calories Intake (kcal)", min_value=500, max_value=10000, value=int(init["cal"]), step=50)
         sleep_hrs = st.slider("💤 Hours of Sleep", min_value=0.0, max_value=16.0, value=float(init["sleep"]), step=0.1)
 
     with col2:
-        st.markdown("#### 🫀 Vital Signs")
+        st.subheader("🫀 Vital Signs")
         heart_rate = st.number_input("💓 Heart Rate (bpm)", min_value=30, max_value=220, value=int(init["hr"]))
         sys_bp = st.number_input("🩸 Systolic BP (mmHg)", min_value=60, max_value=240, value=int(init["sys"]))
         dia_bp = st.number_input("🩺 Diastolic BP (mmHg)", min_value=30, max_value=160, value=int(init["dia"]))
 
-        st.markdown("#### 🚬 Lifestyle & Pre-conditions")
+        st.subheader("🚬 Lifestyle & Medical Pre-conditions")
         exercise_hrs = st.slider("🏋️ Exercise (hours/week)", min_value=0.0, max_value=40.0, value=float(init["ex"]), step=0.5)
         alcohol_units = st.number_input("🍷 Alcohol (units/week)", min_value=0, max_value=100, value=int(init["alc"]))
         
         smoker = st.checkbox("🚬 Active Smoker", value=bool(init["smk"]))
         diabetic = st.checkbox("🩹 Diagnosed Diabetic", value=bool(init["diab"]))
 
-    st.markdown("---")
-    btn = st.form_submit_button("⚡ Run Neural Network Inference")
+    st.divider()
+    btn = st.form_submit_button("⚡ Run Neural Network Inference", use_container_width=True, type="primary")
 
 if btn:
     feature_dict = {
@@ -94,7 +94,7 @@ if btn:
     }
     feature_vector = [feature_dict[k] for k in FEATURE_NAMES]
 
-    st.markdown("---")
+    st.divider()
     with st.spinner("🧠 Executing PyTorch Forward Pass..."):
         try:
             if "Direct" in conn_mode:
@@ -118,7 +118,7 @@ if btn:
             # Diagnostic Output Banner
             c1, c2, c3 = st.columns([2, 1, 1])
             with c1:
-                st.markdown(f"### Assessment: {meta['badge']}")
+                st.header(f"Assessment: {meta['badge']}")
                 st.write(meta["desc"])
             with c2:
                 st.metric("🎯 Confidence", f"{confidence*100:.1f}%")
@@ -129,7 +129,7 @@ if btn:
             v1, v2 = st.columns(2)
 
             with v1:
-                st.markdown("#### 📊 Softmax Class Probabilities")
+                st.subheader("📊 Softmax Class Probabilities")
                 df_prob = pd.DataFrame({
                     "Risk Category": list(probabilities.keys()),
                     "Probability (%)": [v * 100 for v in probabilities.values()]
@@ -141,8 +141,7 @@ if btn:
                 st.plotly_chart(fig_bar, use_container_width=True)
 
             with v2:
-                st.markdown("#### 🕸️ Patient Risk Profile Spider Chart")
-                # Normalized metrics for spider plot
+                st.subheader("🕸️ Patient Risk Profile Spider Chart")
                 radar_categories = ["BMI", "Systolic BP", "Heart Rate", "Calories", "Steps (Inv)", "Sleep (Inv)"]
                 radar_vals = [
                     min(current_bmi / 40.0 * 100, 100),
@@ -152,12 +151,12 @@ if btn:
                     max((10000 - daily_steps) / 10000.0 * 100, 0),
                     max((8.0 - sleep_hrs) / 8.0 * 100, 0)
                 ]
-                fig_radar = go.Figure(data=go.Scatterpolar(r=radar_vals, theta=radar_categories, fill='toself', line_color='#1E3A8A'))
+                fig_radar = go.Figure(data=go.Scatterpolar(r=radar_vals, theta=radar_categories, fill='toself', line_color='#2563EB'))
                 fig_radar.update_layout(polar=dict(radialaxis=dict(visible=True, range=[0, 100])), height=320, showlegend=False)
                 st.plotly_chart(fig_radar, use_container_width=True)
 
             # Clinical Recommendations
-            st.markdown("#### 💡 Clinical Recommendations")
+            st.subheader("💡 Clinical Recommendations")
             recs = generate_recommendations(feature_dict, pred_label)
             for r in recs:
                 st.write(f"- {r}")

@@ -6,14 +6,15 @@ Page 5: System Health Inspector, Flask REST API Probe, Latency Benchmarker, and 
 
 import time
 import streamlit as st
+import pandas as pd
 import requests
 
 from utils import ModelConnector
 
-st.markdown("## ⚙️ System Health & API Inspector")
-st.markdown("Monitor backend service status, ping endpoints, benchmark forward-pass latency, and inspect API documentation.")
+st.title("⚙️ System Health & API Inspector")
+st.write("Monitor backend service status, ping endpoints, benchmark forward-pass latency, and inspect API documentation.")
 
-st.markdown("---")
+st.divider()
 
 @st.cache_resource
 def get_connector():
@@ -24,10 +25,10 @@ connector = get_connector()
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader("🖥️ Local Flask REST API Probe")
+    st.header("🖥️ Local Flask REST API Probe")
     st.write("Target Endpoint: `http://127.0.0.1:5000/health`")
     
-    if st.button("🔄 Ping Flask REST API Server"):
+    if st.button("🔄 Ping Flask REST API Server", use_container_width=True):
         is_healthy, info = connector.check_api_health()
         if is_healthy:
             st.success("🟢 **Flask REST API is ONLINE and Healthy!**")
@@ -36,9 +37,9 @@ with col1:
             st.warning("🔴 **Flask REST API is OFFLINE** (Direct PyTorch Engine is active).")
             st.json(info)
 
-    st.markdown("---")
-    st.subheader("⏱️ Real-Time Inference Latency Benchmarker")
-    if st.button("⚡ Run Latency Benchmark (10 Inferences)"):
+    st.divider()
+    st.header("⏱️ Real-Time Inference Latency Benchmarker")
+    if st.button("⚡ Run Latency Benchmark (10 Inferences)", use_container_width=True, type="primary"):
         test_vec = [45.0, 170.0, 75.0, 25.95, 6500.0, 2400.0, 6.8, 78.0, 128.0, 82.0, 2.5, 4.0, 0.0, 0.0]
         latencies = []
         for _ in range(10):
@@ -51,7 +52,7 @@ with col1:
         st.caption(f"Min: {min(latencies):.2f} ms | Max: {max(latencies):.2f} ms")
 
 with col2:
-    st.subheader("☁️ Flask Cloud Deployment Guide")
+    st.header("☁️ Flask Cloud Deployment Guide")
     st.info("""
     **To host your Flask API on a free cloud platform (e.g. Render, Railway, or PythonAnywhere):**
     
@@ -65,12 +66,12 @@ with col2:
        - Update `api_url` in `utils.py` to point to your deployed URL (e.g. `https://your-flask-api.onrender.com`).
     """)
 
-st.markdown("---")
-st.subheader("📖 REST API Endpoints Specification")
-endpoints_df = [
+st.divider()
+st.header("📖 REST API Endpoints Specification")
+endpoints_df = pd.DataFrame([
     {"Method": "GET", "Endpoint": "/", "Description": "Returns service status, version, and API landing details."},
     {"Method": "GET", "Endpoint": "/health", "Description": "Server readiness probe checking if PyTorch model is loaded."},
     {"Method": "POST", "Endpoint": "/predict", "Description": "Inference endpoint accepting 14-feature vector JSON payloads."},
     {"Method": "GET", "Endpoint": "/docs", "Description": "Interactive HTML Swagger documentation page."}
-]
-st.table(endpoints_df)
+])
+st.dataframe(endpoints_df, use_container_width=True)
