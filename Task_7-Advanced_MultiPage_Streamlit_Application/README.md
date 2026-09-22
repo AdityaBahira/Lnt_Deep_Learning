@@ -28,7 +28,8 @@ Task_7-Advanced_MultiPage_Streamlit_Application/
 ├── README.md                                  # Task 7 Comprehensive Documentation
 ├── app.py                                     # Main Entry Point & st.navigation Multi-Page Config
 ├── utils.py                                   # Multi-mode Model Connector & Dataset Analytics Engine
-├── health_activity_data.csv                   # Patient Dataset (1,002 records - Un-modified)
+├── health_activity_data.csv                   # Master Patient Dataset (1,002 records - Un-modified)
+├── sample_cohort_data.csv                     # Sample 50-Patient Cohort CSV for Batch Upload Testing
 ├── model_loader.py                            # PyTorch Inference Engine Singleton
 ├── requirements.txt                           # Dependency Specifications
 ├── build_task7_doc.py                         # Academic Word Report Generator Script
@@ -57,7 +58,7 @@ Task_7-Advanced_MultiPage_Streamlit_Application/
 - Diagnostic assessment badge (🟢/🟡/🟠/🔴), Softmax probability bar chart, and **Patient Risk Profile Spider/Radar Chart**.
 
 #### 📁 Page 3: Cohort CSV Ingestion & Report Exporter (`views/3_Batch_Processing.py`)
-- Drag-and-drop CSV file uploader for cohort evaluation.
+- Drag-and-drop CSV uploader for bulk patient evaluation (testable using `sample_cohort_data.csv`).
 - Batch PyTorch forward pass execution in under 150 ms.
 - Summary risk distribution pie chart and **downloadable predictions CSV report export**.
 

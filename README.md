@@ -52,7 +52,8 @@ Lnt_Deep_Learning/
 └── Task_7-Advanced_MultiPage_Streamlit_Application/              # Task 7: Multi-Page Enterprise App
     ├── app.py                                                    # st.navigation Entry Point & Global Config
     ├── utils.py                                                  # Multi-mode Connector & Analytics Engine
-    ├── health_activity_data.csv                                  # Patient Dataset (Un-modified)
+    ├── health_activity_data.csv                                  # Patient Master Dataset (Un-modified)
+    ├── sample_cohort_data.csv                                    # Sample 50-Patient CSV for Batch Testing
     ├── model_loader.py                                           # PyTorch Model Engine
     ├── Task_7_MultiPage_Streamlit_App.ipynb                      # LMS Submission Notebook
     ├── Task_7_MultiPage_Streamlit_UI_Report.docx                 # Academic Documentation Report (91.40% Acc)
@@ -77,7 +78,7 @@ Lnt_Deep_Learning/
 | **Task 4** | **Developing a Flask API for DL Models** | Flask 3.1 REST API, PyTorch Model Serving, Gunicorn | `app.py`, `model_loader.py`, `config.json` |
 | **Task 5** | **API Testing & Validation using Postman/cURL** | Postman Runner, HTTP Status Verification, Edge-Case Auditing | `.postman_collection.json`, Test Report |
 | **Task 6** | **Creating a Streamlit User Interface** | Streamlit 1.64, Dual Engine (Direct/API), Live BMI, Emojis | `app.py`, `utils.py`, `Task_6_Report.docx` |
-| **Task 7** | **Advanced Multi-Page Streamlit Application** | `st.navigation`, Confusion Matrix, ROC-AUC, 91.40% Accuracy | `views/`, `utils.py`, `Task_7_Report.docx` |
+| **Task 7** | **Advanced Multi-Page Streamlit Application** | `st.navigation`, Confusion Matrix, ROC-AUC, 91.40% Accuracy | `views/`, `sample_cohort_data.csv`, `Task_7_Report.docx` |
 
 ---
 
