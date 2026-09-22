@@ -46,7 +46,7 @@ Lnt_Deep_Learning/
 │   ├── utils.py                                                  # Dual-Mode Model Connector & Recommendations
 │   ├── model_loader.py                                           # In-Memory PyTorch Engine
 │   ├── Task_6_Streamlit_UI.ipynb                                 # LMS Deliverable Notebook
-│   ├── Task_6_Streamlit_UI_Report.docx                           # Technical Documentation Report
+│   ├── Task_6_Streamlit_UI_Report.pdf                           # Technical Documentation Report
 │   └── saved_models/                                             # PyTorch Model Weights & Config
 │
 └── Task_7-Advanced_MultiPage_Streamlit_Application/              # Task 7: Multi-Page Enterprise App
