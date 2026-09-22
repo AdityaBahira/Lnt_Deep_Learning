@@ -2,7 +2,8 @@
 app.py
 ------
 Task 7: Advanced Multi-Page Streamlit Deep Learning Application.
-Main Entry Point configuring page navigation with explicit unique url_path attributes.
+Main Entry Point configuring page navigation using views/ directory.
+Prevents _mpa_v1 auto-discovery URL collisions on Streamlit Cloud.
 """
 
 import streamlit as st
@@ -23,14 +24,14 @@ def get_connector():
 
 connector = get_connector()
 
-# 3. Configure Multi-Page Navigation System with Explicit Unique URL Pathnames
+# 3. Configure Multi-Page Navigation System using views/ subfolder
 pages = {
     "Navigation Menu": [
-        st.Page("pages/1_Overview.py", title="Executive Overview & Neural Net", icon="🏠", url_path="overview"),
-        st.Page("pages/2_Prediction.py", title="Single Patient Clinical Predictor", icon="🔮", url_path="prediction"),
-        st.Page("pages/3_Batch_Processing.py", title="Cohort CSV Ingestion & Report", icon="📁", url_path="batch-cohort"),
-        st.Page("pages/4_Analytics.py", title="Model Performance Dashboard", icon="📊", url_path="analytics"),
-        st.Page("pages/5_System_Status.py", title="System Health & API Inspector", icon="⚙️", url_path="system-status"),
+        st.Page("views/1_Overview.py", title="Executive Overview & Neural Net", icon="🏠", url_path="overview"),
+        st.Page("views/2_Prediction.py", title="Single Patient Clinical Predictor", icon="🔮", url_path="prediction"),
+        st.Page("views/3_Batch_Processing.py", title="Cohort CSV Ingestion & Report", icon="📁", url_path="batch-cohort"),
+        st.Page("views/4_Analytics.py", title="Model Performance Dashboard", icon="📊", url_path="analytics-dashboard"),
+        st.Page("views/5_System_Status.py", title="System Health & API Inspector", icon="⚙️", url_path="system-status"),
     ]
 }
 
