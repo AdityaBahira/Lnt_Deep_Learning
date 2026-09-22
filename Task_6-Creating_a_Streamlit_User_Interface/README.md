@@ -24,7 +24,7 @@ Task_6-Creating_a_Streamlit_User_Interface/
 ├── model_loader.py                            # PyTorch Inference Engine Singleton
 ├── requirements.txt                           # Dependency Specifications
 ├── Task_6_Streamlit_UI.ipynb                  # LMS Deliverable Notebook
-├── Task_6_Streamlit_UI_Report.docx            # Technical Documentation Report (Academic Theme)
+├── Task_6_Streamlit_UI_Report.pdf            # Technical Documentation Report (Academic Theme)
 └── saved_models/
     ├── dl_model.pt                            # PyTorch State Dict Model Weights
     └── config.json                            # Model Metadata, Labels & Normalization Stats
