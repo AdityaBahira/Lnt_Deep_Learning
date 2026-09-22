@@ -32,7 +32,6 @@ Task_7-Advanced_MultiPage_Streamlit_Application/
 ├── sample_cohort_data.csv                     # Sample 50-Patient Cohort CSV for Batch Upload Testing
 ├── model_loader.py                            # PyTorch Inference Engine Singleton
 ├── requirements.txt                           # Dependency Specifications
-├── build_task7_doc.py                         # Academic Word Report Generator Script
 ├── Task_7_MultiPage_Streamlit_App.ipynb       # LMS Submission Jupyter Notebook
 ├── Task_7_MultiPage_Streamlit_UI_Report.pdf  # Technical Documentation (Academic Slate Navy Theme)
 ├── saved_models/                              # PyTorch Model Weights (dl_model.pt) & config.json
