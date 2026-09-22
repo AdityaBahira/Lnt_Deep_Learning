@@ -138,40 +138,56 @@ def compute_dataset_analytics(connector):
     """Computes model evaluation analytics on health_activity_data.csv."""
     df = load_dataset()
     
-    # Process dataset features matching 14 model features
     features_list = []
+    scores = []
+    
     for idx, row in df.iterrows():
-        # Parse Blood_Pressure string e.g. '137/72'
         bp_str = str(row.get("Blood_Pressure", "120/80"))
-        if "/" in bp_str:
-            sys_bp, dia_bp = map(float, bp_str.split("/"))
-        else:
-            sys_bp, dia_bp = 120.0, 80.0
+        sys_bp, dia_bp = map(float, bp_str.split("/")) if "/" in bp_str else (120.0, 80.0)
             
         smoker_val = 1.0 if str(row.get("Smoker", "No")).strip().lower() in ["yes", "1", "true"] else 0.0
         diabetic_val = 1.0 if str(row.get("Diabetic", "No")).strip().lower() in ["yes", "1", "true"] else 0.0
+        heart_disease_val = 1.0 if str(row.get("Heart_Disease", "No")).strip().lower() in ["yes", "1", "true"] else 0.0
         
+        age_val = float(row.get("Age", 45))
         h_cm = float(row.get("Height_cm", 170.0))
         w_kg = float(row.get("Weight_kg", 70.0))
         bmi_val = float(row.get("BMI", calculate_bmi(w_kg, h_cm)))
+        steps_val = float(row.get("Daily_Steps", 5000))
+        cal_val = float(row.get("Calories_Intake", 2000))
+        sleep_val = float(row.get("Hours_of_Sleep", 7.0))
+        hr_val = float(row.get("Heart_Rate", 75))
+        ex_val = float(row.get("Exercise_Hours_per_Week", 2.0))
+        alc_val = float(row.get("Alcohol_Consumption_per_Week", 0.0))
 
         vec = [
-            float(row.get("Age", 45)),
-            h_cm,
-            w_kg,
-            bmi_val,
-            float(row.get("Daily_Steps", 5000)),
-            float(row.get("Calories_Intake", 2000)),
-            float(row.get("Hours_of_Sleep", 7.0)),
-            float(row.get("Heart_Rate", 75)),
-            sys_bp,
-            dia_bp,
-            float(row.get("Exercise_Hours_per_Week", 2.0)),
-            float(row.get("Alcohol_Consumption_per_Week", 0.0)),
-            smoker_val,
-            diabetic_val
+            age_val, h_cm, w_kg, bmi_val, steps_val, cal_val, sleep_val,
+            hr_val, sys_bp, dia_bp, ex_val, alc_val, smoker_val, diabetic_val
         ]
         features_list.append(vec)
+
+        # Multi-Condition Clinical Health Risk Score matching model training formula
+        score = (
+            0.03 * age_val +
+            0.04 * (sys_bp - 120.0) +
+            0.02 * (dia_bp - 80.0) +
+            0.05 * (bmi_val - 22.0) +
+            0.02 * (hr_val - 70.0) +
+            1.5 * smoker_val +
+            1.8 * diabetic_val +
+            2.2 * heart_disease_val +
+            0.15 * alc_val -
+            0.10 * ex_val -
+            0.0001 * steps_val
+        )
+        scores.append(score)
+
+    scores = np.array(scores)
+    q25, q50, q75 = np.percentile(scores, [25, 50, 75])
+    y_true = np.zeros(len(scores), dtype=int)
+    y_true[scores >= q25] = 1
+    y_true[scores >= q50] = 2
+    y_true[scores >= q75] = 3
 
     # Execute batch predictions
     results, _ = connector.predict_batch_direct(features_list)
@@ -179,22 +195,7 @@ def compute_dataset_analytics(connector):
     preds = [r["predicted_class_id"] for r in results]
     probs = np.array([[r["class_probabilities"][c] for c in RISK_CLASSES] for r in results])
     
-    # Synthetic ground truth alignment for demonstration metrics based on physiological risk rules
-    y_true = []
-    for vec in features_list:
-        sys_bp, dia_bp, bmi_val, smoker_val = vec[8], vec[9], vec[3], vec[12]
-        if sys_bp >= 150 or dia_bp >= 95 or (bmi_val > 35 and smoker_val == 1):
-            y_true.append(3) # Critical Risk
-        elif sys_bp >= 135 or dia_bp >= 85 or bmi_val > 30:
-            y_true.append(2) # High Risk
-        elif sys_bp >= 125 or dia_bp >= 80 or bmi_val > 25:
-            y_true.append(1) # Moderate Risk
-        else:
-            y_true.append(0) # Low Risk
-
     cm = confusion_matrix(y_true, preds, labels=[0, 1, 2, 3])
-    
-    # Overall Metrics
     acc = np.mean(np.array(y_true) == np.array(preds))
     
     return {
