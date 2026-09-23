@@ -12,7 +12,7 @@ e:/DL_deploy/Backend/
 ├── model_loader.py                    # Thread-safe PyTorch Inference Engine & Model Import Wrapper
 ├── test_client.py                     # Automated HTTP Test Suite
 ├── API_DOCUMENTATION.md               # Complete API Specification for Frontend Integration
-├── Task_4_Flask_API_DL_Submission.docx # Assignment Submission Report Backup
+├── Task_4_Flask_API_DL_Submission.pdf # Assignment Submission Report
 ├── requirements.txt                   # Python Dependencies
 ├── README.md                          # Project Documentation
 ├── sample_outputs.json                # API Output Test Results Log

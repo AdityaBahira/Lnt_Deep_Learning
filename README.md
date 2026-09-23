@@ -46,7 +46,7 @@ Lnt_Deep_Learning/
 │   ├── utils.py                                                  # Dual-Mode Model Connector & Recommendations
 │   ├── model_loader.py                                           # In-Memory PyTorch Engine
 │   ├── Task_6_Streamlit_UI.ipynb                                 # LMS Deliverable Notebook
-│   ├── Task_6_Streamlit_UI_Report.docx                           # Technical Documentation Report
+│   ├── Task_6_Streamlit_UI_Report.pdf                           # Technical Documentation Report
 │   └── saved_models/                                             # PyTorch Model Weights & Config
 │
 └── Task_7-Advanced_MultiPage_Streamlit_Application/              # Task 7: Multi-Page Enterprise App
@@ -56,7 +56,7 @@ Lnt_Deep_Learning/
     ├── sample_cohort_data.csv                                    # Sample 50-Patient CSV for Batch Testing
     ├── model_loader.py                                           # PyTorch Model Engine
     ├── Task_7_MultiPage_Streamlit_App.ipynb                      # LMS Submission Notebook
-    ├── Task_7_MultiPage_Streamlit_UI_Report.docx                 # Academic Documentation Report (91.40% Acc)
+    ├── Task_7_MultiPage_Streamlit_UI_Report.pdf                 # Academic Documentation Report (91.40% Acc)
     ├── saved_models/                                             # PyTorch Model Artifacts
     └── views/
         ├── 1_Overview.py                                         # 🏠 Page 1: Overview & Layer Inspector
