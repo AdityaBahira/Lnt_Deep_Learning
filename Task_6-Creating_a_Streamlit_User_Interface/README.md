@@ -59,7 +59,7 @@ Task_6-Creating_a_Streamlit_User_Interface/
    ```
    python -m streamlit run app.py
    ```
-3.Access Application: Open browser at
+3. **Access Application: Open browser at***
    ```
    http://localhost:8501
    ```
