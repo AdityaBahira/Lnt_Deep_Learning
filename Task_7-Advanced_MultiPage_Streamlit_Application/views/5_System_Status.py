@@ -1,7 +1,7 @@
 """
 5_System_Status.py
 ------------------
-Page 5: System Health Inspector, Model Diagnostics, Latency Benchmarker, and REST API Specifications.
+Page 5: System Health Inspector, Model Diagnostics, and Latency Benchmarker.
 """
 
 import time
@@ -10,31 +10,35 @@ import pandas as pd
 
 from utils import ModelConnector
 
-st.title("⚙️ System Health & API Inspector")
-st.write("Monitor backend service status, ping REST endpoints, benchmark forward-pass latency, and inspect API specifications.")
+st.title("⚙️ System Health & Neural Net Diagnostics")
+st.write("Monitor in-memory PyTorch model status, verify model readiness, benchmark forward-pass latency, and inspect architectural specifications.")
 
 st.divider()
 
 @st.cache_resource
 def get_connector():
-    return ModelConnector(api_url="http://127.0.0.1:5000")
+    return ModelConnector()
 
 connector = get_connector()
 
 col1, col2 = st.columns(2)
 
 with col1:
-    st.header("🖥️ REST API Server Health Probe")
-    st.write("Target Endpoint: `http://127.0.0.1:5000/health`")
+    st.header("🧠 Direct PyTorch Model Engine Health")
+    st.write("Engine Status: `DeepHealthRiskNet` (PyTorch 2.x Neural Network)")
     
-    if st.button("🔄 Ping Flask REST API Server", use_container_width=True):
-        is_healthy, info = connector.check_api_health()
-        if is_healthy:
-            st.success("🟢 **Flask REST API is ONLINE and Healthy!**")
-            st.json(info)
+    if st.button("🔄 Check Model Engine Health", use_container_width=True):
+        if connector.direct_engine and connector.direct_engine._initialized:
+            st.success("🟢 **PyTorch Model Engine is ONLINE and Healthy!**")
+            st.json({
+                "model_name": connector.direct_engine.config["model_name"],
+                "initialized": connector.direct_engine._initialized,
+                "input_dimension": connector.direct_engine.input_dim,
+                "output_classes": connector.direct_engine.class_labels,
+                "device": str(connector.direct_engine.device)
+            })
         else:
-            st.warning("🔴 **Flask REST API is OFFLINE** (Direct PyTorch Engine is active).")
-            st.json(info)
+            st.error("🔴 **PyTorch Model Engine is Offline or Not Initialized.**")
 
 with col2:
     st.header("⏱️ Real-Time Inference Latency Benchmarker")
@@ -52,11 +56,12 @@ with col2:
         st.caption(f"Min: {min(latencies):.2f} ms | Max: {max(latencies):.2f} ms")
 
 st.divider()
-st.header("📖 REST API Endpoints Specification")
-endpoints_df = pd.DataFrame([
-    {"Method": "GET", "Endpoint": "/", "Description": "Returns service status, version, and API landing details."},
-    {"Method": "GET", "Endpoint": "/health", "Description": "Server readiness probe checking if PyTorch model is loaded."},
-    {"Method": "POST", "Endpoint": "/predict", "Description": "Inference endpoint accepting 14-feature vector JSON payloads."},
-    {"Method": "GET", "Endpoint": "/docs", "Description": "Interactive HTML Swagger documentation page."}
+st.header("📖 PyTorch Model Architecture Specifications")
+specs_df = pd.DataFrame([
+    {"Component": "Neural Net Model", "Specification": "3-Layer DeepHealthRiskNet (Linear -> BatchNorm -> ReLU -> Dropout)"},
+    {"Component": "Input Dimension", "Specification": "14 Numerical Features (StandardScaler normalized)"},
+    {"Component": "Hidden Layers", "Specification": "Layer 1: 14 -> 64 | Layer 2: 64 -> 32 (Dropout p=0.2)"},
+    {"Component": "Output Layer", "Specification": "32 -> 4 (Softmax Probability Distribution over 4 Risk Tiers)"},
+    {"Component": "Execution Engine", "Specification": "Direct In-Memory PyTorch Forward Pass (Sub-millisecond Latency)"}
 ])
-st.dataframe(endpoints_df, use_container_width=True)
+st.dataframe(specs_df, use_container_width=True)

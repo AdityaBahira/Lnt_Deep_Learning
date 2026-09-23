@@ -20,7 +20,7 @@ st.set_page_config(
 # 2. Shared Connector Resource
 @st.cache_resource
 def get_connector():
-    return ModelConnector(api_url="http://127.0.0.1:5000")
+    return ModelConnector()
 
 connector = get_connector()
 
@@ -31,7 +31,7 @@ pages = {
         st.Page("views/2_Prediction.py", title="Single Patient Clinical Predictor", icon="🔮", url_path="prediction"),
         st.Page("views/3_Batch_Processing.py", title="Cohort CSV Ingestion & Report", icon="📁", url_path="batch-cohort"),
         st.Page("views/4_Analytics.py", title="Model Performance Dashboard", icon="📊", url_path="analytics-dashboard"),
-        st.Page("views/5_System_Status.py", title="System Health & API Inspector", icon="⚙️", url_path="system-status"),
+        st.Page("views/5_System_Status.py", title="System Health & Diagnostics", icon="⚙️", url_path="system-status"),
     ]
 }
 
@@ -40,25 +40,9 @@ st.sidebar.title("🩺 Clinical DL System")
 st.sidebar.caption("PyTorch DeepHealthRiskNet Platform")
 st.sidebar.divider()
 
-# Execution Mode Selector (Shared state)
-if "conn_mode" not in st.session_state:
-    st.session_state["conn_mode"] = "🧠 Direct PyTorch Engine"
-
 st.sidebar.subheader("🔌 Connection Engine")
-selected_mode = st.sidebar.radio(
-    "Inference Engine Mode:",
-    ["🧠 Direct PyTorch Engine", "🌐 Flask REST API Endpoint"],
-    index=0 if "Direct" in st.session_state["conn_mode"] else 1
-)
-st.session_state["conn_mode"] = selected_mode
-
-st.sidebar.divider()
-# Quick API Health Indicator in Sidebar
-api_healthy, health_info = connector.check_api_health()
-if api_healthy:
-    st.sidebar.success("🟢 Flask REST API Online")
-else:
-    st.sidebar.warning("🔴 Flask REST API Offline (Direct Fallback Active)")
+st.sidebar.success("🟢 PyTorch DL Engine Active")
+st.sidebar.caption("Direct in-memory neural network inference mode.")
 
 st.sidebar.divider()
 st.sidebar.info("💡 **Task 7 Multi-Page App**: Select a page from the Navigation Menu above to view Overview, Risk Prediction, Batch Cohort Ingestion, Analytics Dashboard, or System Health.")

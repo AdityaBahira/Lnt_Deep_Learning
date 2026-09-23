@@ -23,7 +23,7 @@ st.divider()
 
 @st.cache_resource
 def get_connector():
-    return ModelConnector(api_url="http://127.0.0.1:5000")
+    return ModelConnector()
 
 connector = get_connector()
 

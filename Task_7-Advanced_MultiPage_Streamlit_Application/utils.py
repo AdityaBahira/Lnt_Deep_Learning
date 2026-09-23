@@ -12,7 +12,6 @@ import os
 import sys
 import json
 import time
-import requests
 import numpy as np
 import pandas as pd
 from sklearn.metrics import confusion_matrix, classification_report, roc_curve, auc
@@ -60,10 +59,9 @@ RISK_METADATA = {
 }
 
 class ModelConnector:
-    """Handles inference via Direct PyTorch Model engine or Flask REST API."""
+    """Handles inference via direct PyTorch Model engine."""
 
-    def __init__(self, api_url="http://127.0.0.1:5000"):
-        self.api_url = api_url.rstrip("/")
+    def __init__(self):
         self.direct_engine = None
         self._init_direct_engine()
 
@@ -73,15 +71,6 @@ class ModelConnector:
             self.direct_engine = get_model_engine()
         except Exception as e:
             self.direct_engine = None
-
-    def check_api_health(self):
-        try:
-            res = requests.get(f"{self.api_url}/health", timeout=2)
-            if res.status_code == 200:
-                return True, res.json()
-            return False, {"error": f"HTTP {res.status_code}"}
-        except Exception as e:
-            return False, {"error": str(e)}
 
     def predict_direct(self, feature_vector):
         if not self.direct_engine:
@@ -107,19 +96,6 @@ class ModelConnector:
         results = self.direct_engine.predict(feature_matrix)
         latency_ms = round((time.time() - start_time) * 1000, 2)
         return results, latency_ms
-
-    def predict_api(self, feature_vector):
-        start_time = time.time()
-        payload = {"features": feature_vector}
-        res = requests.post(f"{self.api_url}/predict", json=payload, timeout=5)
-        if res.status_code != 200:
-            raise RuntimeError(f"API Error {res.status_code}: {res.text}")
-        
-        data = res.json()
-        pred = data["predictions"][0]
-        pred["latency_ms"] = data.get("latency_ms", round((time.time() - start_time) * 1000, 2))
-        pred["mode"] = "Flask REST API 🌐"
-        return pred
 
 def load_dataset():
     """Robustly loads health_activity_data.csv without modifying or renaming it."""

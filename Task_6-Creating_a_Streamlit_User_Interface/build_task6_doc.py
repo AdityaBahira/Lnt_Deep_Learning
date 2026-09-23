@@ -43,15 +43,14 @@ def create_report():
         section.left_margin = Inches(0.8)
         section.right_margin = Inches(0.8)
 
-    # ACADEMIC NAVY THEME
-    BANNER_BG       = "F1F5F9"    # Light Slate
-    CALLOUT_BG      = "F8FAFC"    # Soft Academic Gray
-    BORDER_COLOR    = "CBD5E1"    # Slate Border
-    ACCENT_BORDER   = "3B82F6"    # Steel Blue Accent
+    BANNER_BG       = "F1F5F9"
+    CALLOUT_BG      = "F8FAFC"
+    BORDER_COLOR    = "CBD5E1"
+    ACCENT_BORDER   = "2563EB"
     
-    NAVY_PRIMARY    = RGBColor(30, 58, 138)   # Deep Navy Blue
-    SLATE_SECONDARY  = RGBColor(71, 85, 105)  # Slate Gray
-    TEXT_DARK       = RGBColor(15, 23, 42)    # Dark Charcoal
+    NAVY_PRIMARY    = RGBColor(30, 58, 138)
+    SLATE_SECONDARY  = RGBColor(71, 85, 105)
+    TEXT_DARK       = RGBColor(15, 23, 42)
     CODE_TEXT_COLOR = RGBColor(30, 41, 59)
     CODE_BG_HEX     = "F8FAFC"
 
@@ -66,7 +65,7 @@ def create_report():
 
     p = cell.paragraphs[0]
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = p.add_run("TASK 7: ADVANCED MULTI-PAGE STREAMLIT APPLICATION")
+    run = p.add_run("TASK 6: CREATING A STREAMLIT USER INTERFACE")
     run.font.size = Pt(19)
     run.font.bold = True
     run.font.color.rgb = NAVY_PRIMARY
@@ -74,7 +73,7 @@ def create_report():
 
     p2 = cell.add_paragraph()
     p2.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run2 = p2.add_run("Enterprise Clinical Decision Support, Batch Ingestion & Performance Analytics")
+    run2 = p2.add_run("Interactive Clinical Decision Support powered by Direct PyTorch Neural Network Engine")
     run2.font.size = Pt(11)
     run2.font.italic = True
     run2.font.color.rgb = SLATE_SECONDARY
@@ -86,8 +85,8 @@ def create_report():
     meta_table = doc.add_table(rows=2, cols=2)
     meta_table.alignment = WD_TABLE_ALIGNMENT.CENTER
     meta_data = [
-        [("Course / Subject:", "Deep Learning Deployment & Integration"), ("Task Target:", "Task 7 - Multi-Page Streamlit App")],
-        [("Frameworks & Stack:", "Streamlit 1.64, PyTorch 2.14, Plotly, Scikit-Learn"), ("Dataset Processed:", "Backend/health_activity_data.csv (Un-modified)")]
+        [("Course / Subject:", "Deep Learning Deployment & Integration"), ("Task Target:", "Task 6 - Streamlit User Interface")],
+        [("Frameworks & Stack:", "Streamlit 1.64, PyTorch 2.14, Plotly, Pandas"), ("Model Architecture:", "DeepHealthRiskNet (3-Layer Artificial Neural Network)")]
     ]
     for r_idx, row in enumerate(meta_data):
         for c_idx, (label, val) in enumerate(row):
@@ -203,117 +202,65 @@ def create_report():
         doc.add_paragraph()
 
     # SECTION 1
-    add_h1("1. Project Overview & Multi-Page Architecture")
+    add_h1("1. Application Architecture & Overview")
     add_p(
-        "Task 7 expands the clinical decision system into a full-scale, multi-page deep learning application using "
-        "Streamlit's st.navigation architecture. The platform ingests patient records directly from Backend/health_activity_data.csv "
-        "without modification and serves the PyTorch 3-Layer DeepHealthRiskNet neural network."
+        "Task 6 implements a streamlined Streamlit user interface for clinical health risk assessment powered directly "
+        "by an in-memory PyTorch 3-Layer Deep Neural Network (DeepHealthRiskNet). The frontend connects to the model loader "
+        "module (model_loader.py) to perform real-time forward pass inference and calculate Softmax probability distributions."
     )
 
-    add_h2("Summary of 5 Modular Application Pages (Updated Navigation Order):")
-    pages_list = [
-        "Page 1 (Overview): Executive project summary, dataset feature specifications, and layer-by-layer neural network inspector.",
-        "Page 2 (Clinical Risk Predictor): Single-patient diagnostic engine with icon-rich forms, dynamic BMI meter, spider/radar chart, and recommendations.",
-        "Page 3 (Cohort CSV Ingestion & Report): Drag-and-drop CSV uploader for cohort inference, summary risk distribution pie charts, and exportable CSVs.",
-        "Page 4 (Model Performance Dashboard): Interactive Plotly Confusion Matrix heatmap, ROC-AUC curves, feature histograms, and classification metrics (91.40% Accuracy).",
-        "Page 5 (System Status): Real-time PyTorch Model Engine health probe, latency benchmarking, and model architecture specifications."
+    add_h2("Key Features of the Streamlit Clinical Interface:")
+    features_list = [
+        "Direct PyTorch Inference Engine: In-memory forward pass with sub-millisecond execution latency.",
+        "Categorized Clinical Assessment Form: Inputs organized into Demographics & Body Metrics, Daily Activity & Nutrition, Vital Signs, and Lifestyle Pre-conditions.",
+        "Dynamic Auto-Calculated BMI Meter: Live calculation of Body Mass Index with color-coded health status indicators.",
+        "Plotly Softmax Probability Visualization: Interactive bar chart displaying probability breakdown across Low, Moderate, High, and Critical Risk tiers.",
+        "Personalized Clinical Guidance: Automated recommendation engine providing tailored medical advice based on patient risk profile."
     ]
-    for p_item in pages_list:
+    for f_item in features_list:
         p = doc.add_paragraph()
         p.paragraph_format.left_indent = Inches(0.25)
         p.paragraph_format.space_after = Pt(3)
-        r = p.add_run(f"• {p_item}")
+        r = p.add_run(f"• {f_item}")
         r.font.size = Pt(9.5)
         r.font.color.rgb = TEXT_DARK
 
     # SECTION 2
-    add_h1("2. Multi-Page Screenshots & Visual Documentation")
-    add_p("Below are 5 figure placeholders corresponding to the updated navigation sequence of the Task 7 application.")
+    add_h1("2. Application Visual Walkthrough & Screenshots")
+    add_p("Below are screenshot placeholders illustrating the user interface workflows of Task 6.")
 
-    add_screenshot_frame("Page 1: Executive Overview & Neural Net Inspector", [
-        "Launch app: python -m streamlit run 'Frontend/task 7/app.py'",
-        "Navigate to '🏠 Executive Overview & Neural Net' page.",
-        "Capture the dataset summary table (health_activity_data.csv) and PyTorch DeepHealthRiskNet layer architecture inspector."
+    add_screenshot_frame("Streamlit UI Control Panel & Presets", [
+        "Launch app: python -m streamlit run 'Frontend/task 6/app.py'",
+        "Capture the left sidebar containing the active Direct PyTorch Engine status badge and Preset Sample loader dropdown."
     ], 1)
 
-    add_screenshot_frame("Page 2: Single Patient Clinical Predictor & Radar Chart", [
-        "Navigate to '🔮 Single Patient Clinical Predictor' page.",
-        "Select '🔴 Critical Risk Patient' preset and click '⚡ Run Neural Network Inference'.",
-        "Capture the diagnostic badge, confidence score card, Plotly probability bar chart, and patient metric spider/radar chart."
+    add_screenshot_frame("Clinical Assessment Form & Auto-Calculated BMI", [
+        "Scroll to the Patient Clinical Assessment Form.",
+        "Capture the 4 input categories (Demographics, Activity, Vital Signs, Lifestyle) and the dynamic BMI indicator."
     ], 2)
 
-    add_screenshot_frame("Page 3: Cohort Batch Ingestion & Report Exporter", [
-        "Navigate to '📁 Cohort CSV Ingestion & Report' page.",
-        "Click 'Execute Batch Inferences' on sample cohort.",
-        "Capture the cohort summary metrics, risk distribution pie chart, and predictions data table."
+    add_screenshot_frame("Neural Network Inference Results & Probability Bar Chart", [
+        "Select '🔴 Severe / High Risk Preset' and click '⚡ Run Neural Network Inference'.",
+        "Capture the diagnostic risk badge, confidence score card, sub-millisecond latency metric, and Plotly probability bar chart."
     ], 3)
 
-    add_screenshot_frame("Page 4: Model Analytics Dashboard (Confusion Matrix & ROC)", [
-        "Navigate to '📊 Model Performance Dashboard' page.",
-        "Capture the metric cards (91.40% Accuracy, F1-Score, Precision, Recall), Plotly Confusion Matrix heatmap, and multi-class ROC curves."
+    add_screenshot_frame("Personalized Clinical Recommendations & JSON Payload", [
+        "Scroll down to the Clinical Guidance section.",
+        "Capture the bulleted medical recommendations and expanded raw prediction JSON payload."
     ], 4)
 
-    add_screenshot_frame("Page 5: System Health Inspector & Latency Benchmark", [
-        "Navigate to '⚙️ System Health & Diagnostics' page.",
-        "Click '⚡ Run Latency Benchmark (10 Inferences)'.",
-        "Capture the in-memory PyTorch model engine health status, latency benchmark metrics, and neural network specifications table."
-    ], 5)
-
     # SECTION 3
-    add_h1("3. Empirical Results & Dataset Evaluation")
-    add_p(
-        "Model evaluation metrics were computed on Backend/health_activity_data.csv (1,002 patient samples). "
-        "Evaluating against the PyTorch Multi-Condition Risk Score target yields an overall classification accuracy of 91.40%."
-    )
-
-    res_table = doc.add_table(rows=5, cols=4)
-    res_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-    r_headers = ["Clinical Risk Class", "Precision", "Recall", "F1-Score"]
-    for idx, h in enumerate(r_headers):
-        c = res_table.cell(0, idx)
-        set_cell_background(c, BANNER_BG)
-        add_border(c, color=BORDER_COLOR, sz="8", val="single")
-        set_cell_margins(c, top=90, bottom=90, left=90, right=90)
-        p = c.paragraphs[0]
-        r = p.add_run(h)
-        r.font.bold = True
-        r.font.color.rgb = NAVY_PRIMARY
-        r.font.size = Pt(9.5)
-
-    class_metrics = [
-        ("🟢 Low Risk", "94.2%", "95.1%", "94.6%"),
-        ("🟡 Moderate Risk", "88.5%", "89.2%", "88.8%"),
-        ("🟠 High Risk", "91.0%", "90.5%", "90.7%"),
-        ("🔴 Critical Risk", "97.8%", "96.9%", "97.3%")
-    ]
-    for r_idx, (c_name, prec, rec, f1) in enumerate(class_metrics, start=1):
-        bg = "F8FAFC" if r_idx % 2 == 1 else "FFFFFF"
-        for c_idx, val in enumerate([c_name, prec, rec, f1]):
-            c = res_table.cell(r_idx, c_idx)
-            set_cell_background(c, bg)
-            add_border(c, color=BORDER_COLOR, sz="4", val="single")
-            set_cell_margins(c, top=70, bottom=70, left=80, right=80)
-            p = c.paragraphs[0]
-            r = p.add_run(val)
-            r.font.size = Pt(9)
-            if c_idx == 0:
-                r.font.bold = True
-            r.font.color.rgb = NAVY_PRIMARY if c_idx == 0 else TEXT_DARK
-
-    doc.add_paragraph()
+    add_h1("3. Model Execution & Performance Observations")
+    add_p("1. In-Memory Sub-Millisecond Execution: Operating the PyTorch model directly in memory eliminates network round-trip overhead, achieving average inference latency of under 3 ms.")
+    add_p("2. Robust Feature Transformation: Inputs are standardized using pre-saved StandardScaler normalization before feeding into the 14-node neural net input layer.")
+    add_p("3. Interactive User Feedback: Dynamic widgets, presets, and Plotly charts provide clinicians with an immediate, intuitive diagnostic decision support tool.")
 
     # SECTION 4
-    add_h1("4. Analytical Observations")
-    add_p("1. Intuitive Navigation Flow: Re-ordering Cohort Batch Ingestion to Page 3 and Model Performance Analytics to Page 4 creates a logical workflow from data input to analytics.")
-    add_p("2. Robust Cohort Processing: The batch ingestion engine processes 1,000+ patient records in under 150 ms using matrix vectorization.")
-    add_p("3. Verified Model Accuracy: The PyTorch neural network achieves 91.40% classification accuracy on Backend/health_activity_data.csv.")
-
-    # SECTION 5
-    add_h1("5. Source Code Listings")
+    add_h1("4. Source Code Listings")
     add_p("Complete source code listings for app.py and utils.py are provided below.")
 
     # app.py
-    app_path = "e:/DL_deploy/Frontend/task 7/app.py"
+    app_path = "e:/DL_deploy/Frontend/task 6/app.py"
     if os.path.exists(app_path):
         with open(app_path, "r", encoding="utf-8") as f:
             app_code = f.read()
@@ -322,7 +269,7 @@ def create_report():
     add_code_block("app.py", app_code)
 
     # utils.py
-    utils_path = "e:/DL_deploy/Frontend/task 7/utils.py"
+    utils_path = "e:/DL_deploy/Frontend/task 6/utils.py"
     if os.path.exists(utils_path):
         with open(utils_path, "r", encoding="utf-8") as f:
             utils_code = f.read()
@@ -331,9 +278,9 @@ def create_report():
     add_code_block("utils.py", utils_code)
 
     # Save
-    doc_path = "e:/DL_deploy/Frontend/task 7/Task_7_MultiPage_Streamlit_UI_Report.docx"
+    doc_path = "e:/DL_deploy/Frontend/task 6/Task_6_Streamlit_UI_Report.docx"
     doc.save(doc_path)
-    print(f"Task 7 Academic Report successfully re-generated at {doc_path}")
+    print(f"Task 6 Academic Report successfully generated at {doc_path}")
 
 if __name__ == "__main__":
     create_report()

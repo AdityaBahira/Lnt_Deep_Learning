@@ -75,39 +75,25 @@ st.markdown("""
 # ----------------------------------------------------
 # 2. Initialize Model Connector
 # ----------------------------------------------------
+# ----------------------------------------------------
+# 2. Initialize Model Connector
+# ----------------------------------------------------
 @st.cache_resource
 def get_connector():
-    return ModelConnector(api_url="http://127.0.0.1:5000")
+    return ModelConnector()
 
 connector = get_connector()
 
 # ----------------------------------------------------
-# 3. Sidebar Controls & Backend Status
+# 3. Sidebar Controls & Model Status
 # ----------------------------------------------------
 st.sidebar.image("https://img.icons8.com/color/96/000000/medical-heart.png", width=70)
 st.sidebar.title("🩺 Control Panel")
 st.sidebar.markdown("---")
 
-# Execution Mode Selector
-st.sidebar.subheader("🔌 Connection Mode")
-conn_mode = st.sidebar.radio(
-    "Select Model Execution Engine:",
-    ["🧠 Direct PyTorch Engine", "🌐 Flask REST API Endpoint"],
-    index=0
-)
-
-st.sidebar.markdown("---")
-st.sidebar.subheader("🖥️ Backend Server Status")
-api_healthy, health_info = connector.check_api_health()
-
-if api_healthy:
-    st.sidebar.success("🟢 Flask REST API Online (`http://127.0.0.1:5000`)")
-    with st.sidebar.expander("🔍 View Server Metadata"):
-        st.json(health_info)
-else:
-    st.sidebar.warning("🔴 Flask REST API Offline (Fallback to Direct PyTorch)")
-    with st.sidebar.expander("ℹ️ Connection Details"):
-        st.caption(f"Status: {health_info.get('error', 'Disconnected')}")
+st.sidebar.subheader("🔌 Model Engine")
+st.sidebar.success("🟢 Direct PyTorch Engine Active")
+st.sidebar.caption("In-memory `DeepHealthRiskNet` model loader initialized.")
 
 st.sidebar.markdown("---")
 st.sidebar.subheader("📋 Preset Sample Inputs")
@@ -221,20 +207,12 @@ if submit_btn:
 
     with st.spinner("🧠 Executing PyTorch forward pass & computing softmax probabilities..."):
         try:
-            if "Direct" in conn_mode:
-                result = connector.predict_direct(feature_vector)
-            else:
-                if not api_healthy:
-                    st.warning("⚠️ Flask REST API is offline. Automatically switching to Direct PyTorch Engine...")
-                    result = connector.predict_direct(feature_vector)
-                else:
-                    result = connector.predict_api(feature_vector)
-
+            result = connector.predict(feature_vector)
             pred_label = result.get("predicted_label", "Low Risk")
             confidence = result.get("confidence_score", 0.0)
             probabilities = result.get("class_probabilities", {})
             latency = result.get("latency_ms", 0.0)
-            mode_used = result.get("mode", conn_mode)
+            mode_used = result.get("mode", "Direct PyTorch Engine 🧠")
 
             meta = RISK_METADATA.get(pred_label, RISK_METADATA["Low Risk"])
 

@@ -9,18 +9,12 @@ Helper functions for Streamlit UI:
 
 import os
 import sys
-import json
 import time
-import requests
 import numpy as np
 
-# Dynamically add current directory & Backend to sys.path
-CURR_DIR = os.path.abspath(os.path.dirname(__file__))
-if CURR_DIR not in sys.path:
-    sys.path.insert(0, CURR_DIR)
-
-BACKEND_DIR = os.path.abspath(os.path.join(CURR_DIR, "../../Backend"))
-if os.path.exists(BACKEND_DIR) and BACKEND_DIR not in sys.path:
+# Dynamically add Backend to sys.path to enable importing model_loader
+BACKEND_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../Backend"))
+if BACKEND_DIR not in sys.path:
     sys.path.insert(0, BACKEND_DIR)
 
 FEATURE_NAMES = [
@@ -80,10 +74,9 @@ RISK_METADATA = {
 }
 
 class ModelConnector:
-    """Handles inference via direct PyTorch model loading or REST API endpoints."""
+    """Handles direct PyTorch Deep Neural Network model loading and inference."""
 
-    def __init__(self, api_url="http://127.0.0.1:5000"):
-        self.api_url = api_url.rstrip("/")
+    def __init__(self):
         self.direct_engine = None
         self._init_direct_engine()
 
@@ -95,18 +88,8 @@ class ModelConnector:
         except Exception as e:
             self.direct_engine = None
 
-    def check_api_health(self):
-        """Pings Flask REST API health endpoint."""
-        try:
-            res = requests.get(f"{self.api_url}/health", timeout=2)
-            if res.status_code == 200:
-                return True, res.json()
-            return False, {"error": f"HTTP {res.status_code}"}
-        except Exception as e:
-            return False, {"error": str(e)}
-
-    def predict_direct(self, feature_vector):
-        """Runs inference directly using PyTorch model engine."""
+    def predict(self, feature_vector):
+        """Runs inference directly using in-memory PyTorch model engine."""
         if not self.direct_engine:
             self._init_direct_engine()
         if not self.direct_engine:
@@ -119,20 +102,6 @@ class ModelConnector:
         res_data["latency_ms"] = latency_ms
         res_data["mode"] = "Direct PyTorch Engine 🧠"
         return res_data
-
-    def predict_api(self, feature_vector):
-        """Runs inference via Flask REST API endpoint."""
-        start_time = time.time()
-        payload = {"features": feature_vector}
-        res = requests.post(f"{self.api_url}/predict", json=payload, timeout=5)
-        if res.status_code != 200:
-            raise RuntimeError(f"API Error {res.status_code}: {res.text}")
-        
-        data = res.json()
-        pred = data["predictions"][0]
-        pred["latency_ms"] = data.get("latency_ms", round((time.time() - start_time) * 1000, 2))
-        pred["mode"] = "Flask REST API 🌐"
-        return pred
 
 def calculate_bmi(weight_kg, height_cm):
     """Calculates Body Mass Index (BMI)."""

@@ -28,10 +28,9 @@ st.divider()
 # Retrieve Model Connector
 @st.cache_resource
 def get_connector():
-    return ModelConnector(api_url="http://127.0.0.1:5000")
+    return ModelConnector()
 
 connector = get_connector()
-conn_mode = st.session_state.get("conn_mode", "🧠 Direct PyTorch Engine")
 
 # Preset Loaders in Top Bar
 preset = st.selectbox(
@@ -97,21 +96,12 @@ if btn:
     st.divider()
     with st.spinner("🧠 Executing PyTorch Forward Pass..."):
         try:
-            if "Direct" in conn_mode:
-                res = connector.predict_direct(feature_vector)
-            else:
-                healthy, _ = connector.check_api_health()
-                if not healthy:
-                    st.warning("⚠️ Flask API offline. Using Direct PyTorch Engine fallback.")
-                    res = connector.predict_direct(feature_vector)
-                else:
-                    res = connector.predict_api(feature_vector)
-
+            res = connector.predict_direct(feature_vector)
             pred_label = res.get("predicted_label", "Low Risk")
             confidence = res.get("confidence_score", 0.0)
             probabilities = res.get("class_probabilities", {})
             latency = res.get("latency_ms", 0.0)
-            mode_used = res.get("mode", conn_mode)
+            mode_used = res.get("mode", "Direct PyTorch Engine 🧠")
 
             meta = RISK_METADATA.get(pred_label, RISK_METADATA["Low Risk"])
 
