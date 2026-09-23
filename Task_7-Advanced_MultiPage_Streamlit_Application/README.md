@@ -20,3 +20,43 @@ The platform ingests un-modified patient records directly from `health_activity_
 ### 📂 Multi-Page Application Architecture
 
 The application is structured into 5 modular pages configured via `views/`:
+```
+Task_7-Advanced_MultiPage_Streamlit_Application/
+  ├── app.py # Main Navigation Entry Point & Sidebar Config
+  ├── utils.py # Direct Model Connector & Analytics Engine
+  ├── sample_cohort_data.csv # Sample CSV dataset for batch upload testing
+  ├── requirements.txt # Dependency specifications ├── build_task7_doc.py # Academic Word/PDF Report Generator
+  ├── Task_7_MultiPage_Streamlit_App.ipynb # Jupyter Notebook Implementation
+  ├── Task_7_MultiPage_Streamlit_UI_Report.docx # Academic Documentation Report
+  ├── Task_7_MultiPage_Streamlit_UI_Report.pdf # Submitted PDF Report
+  └── views/
+        ├── 1_Overview.py # 🏠 Page 1: Executive Overview & Layer Inspector
+        ├── 2_Prediction.py # 🔮 Page 2: Single Patient Predictor & Radar Chart
+        ├── 3_Batch_Processing.py # 📁 Page 3: Cohort CSV Ingestion & Report Exporter
+        ├── 4_Analytics.py # 📊 Page 4: Model Performance Dashboard (91.40% Acc)
+        └── 5_System_Status.py # ⚙️ Page 5: PyTorch Model Health & Diagnostics
+```
+
+---
+
+### 📄 Summary of Pages
+
+1. **Page 1 (Executive Overview & Neural Net)**: Overview of dataset feature specifications (14 features) and layer-by-layer specification of `DeepHealthRiskNet`.
+2. **Page 2 (Single Patient Clinical Predictor)**: Interactive form widgets with dynamic BMI calculation, Plotly softmax probability bar chart, metric spider chart, and personalized clinical recommendations.
+3. **Page 3 (Cohort CSV Ingestion & Report)**: Drag-and-drop CSV uploader for batch cohort inference, high-risk patient flags, summary risk distribution pie charts, and downloadable CSV reports.
+4. **Page 4 (Model Performance Dashboard)**: Comprehensive evaluation dashboard displaying confusion matrix heatmap, multi-class ROC-AUC curves, feature histograms, and overall 91.40% classification accuracy.
+5. **Page 5 (System Health & Diagnostics)**: In-memory PyTorch model health probe, latency benchmarker across 10 sample iterations, and neural network specification tables.
+
+---
+
+### ⚙️ Installation & Running Instructions
+
+1. **Install Dependencies**:
+   ```
+   pip install -r requirements.txt
+   ```
+2. **Launch Multi-Page Streamlit Application**:
+   ```
+   python -m streamlit run app.py
+   ```
+3. Access Application: Open browser at `http://localhost:8501` and navigate using the sidebar menu
