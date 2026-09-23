@@ -27,7 +27,6 @@ Task_7-Advanced_MultiPage_Streamlit_Application/
   ├── sample_cohort_data.csv # Sample CSV dataset for batch upload testing
   ├── requirements.txt # Dependency specifications ├── build_task7_doc.py # Academic Word/PDF Report Generator
   ├── Task_7_MultiPage_Streamlit_App.ipynb # Jupyter Notebook Implementation
-  ├── Task_7_MultiPage_Streamlit_UI_Report.docx # Academic Documentation Report
   ├── Task_7_MultiPage_Streamlit_UI_Report.pdf # Submitted PDF Report
   └── views/
         ├── 1_Overview.py # 🏠 Page 1: Executive Overview & Layer Inspector
