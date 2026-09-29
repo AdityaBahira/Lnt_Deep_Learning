@@ -44,8 +44,6 @@ Task 8/
 ├── app.py
 ├── test_integration.py
 ├── Task_8_Streamlit_Flask_Integration.ipynb
-├── build_task8_doc.py
-├── Task_8_Streamlit_Flask_Integration_Report.docx
 ├── Task_8_Streamlit_Flask_Integration_Report.pdf
 ├── requirements.txt
 └── README.md
