@@ -1,0 +1,381 @@
+
+--- 1. Check Docker Version ---
+Command: docker --version
+Exit Code: 0
+Output:
+Docker version 29.8.0, build 88096ef
+
+
+--- 2. View Docker Engine Info ---
+Command: docker info
+Exit Code: 0
+Output:
+Client:
+ Version:    29.8.0
+ Context:    desktop-linux
+ Debug Mode: false
+ Plugins:
+  agent: Docker AI Agent Runner (Docker Inc.)
+    Version:  v1.140.0
+    Path:     C:\Users\USER\.docker\cli-plugins\docker-agent.exe
+  ai: Docker AI Agent - Ask Gordon (Docker Inc.)
+    Version:  v1.31.0
+    Path:     C:\Users\USER\.docker\cli-plugins\docker-ai.exe
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.37.1
+    Path:     C:\Users\USER\.docker\cli-plugins\docker-buildx.exe
+  compose: Docker Compose (Docker Inc.)
+    Version:  v5.5.1
+    Path:     C:\Users\USER\.docker\cli-plugins\docker-compose.exe
+  debug: Get a shell into any image or container (Docker Inc.)
+    Version:  0.0.47
+    Path:     C:\Users\USER\.docker\cli-plugins\docker-debug.exe
+  desktop: Docker Desktop commands (Docker Inc.)
+    Version:  v0.4.4
+    Path:     C:\Users\USER\.docker\cli-plugins\docker-desktop.exe
+  dhi: CLI for managing Docker Hardened Images (Docker Inc.)
+    Version:  v0.0.7
+    Path:     C:\Users\USER\.docker\cli-plugins\docker-dhi.exe
+  extension: Manages Docker extensions (Docker Inc.)
+    Version:  v0.2.31
+    Path:     C:\Users\USER\.docker\cli-plugins\docker-extension.exe
+  init: Creates Docker-related starter files for your project (Docker Inc.)
+    Version:  v1.4.0
+    Path:     C:\Users\USER\.docker\cli-plugins\docker-init.exe
+  mcp: Docker MCP Plugin (Docker Inc.)
+    Version:  v0.43.3
+    Path:     C:\Users\USER\.docker\cli-plugins\docker-mcp.exe
+  model: Docker Model Runner (Docker Inc.)
+    Version:  v1.2.6
+    Path:     C:\Users\USER\.docker\cli-plugins\docker-model.exe
+  offload: Docker Offload (Docker Inc.)
+    Version:  v0.6.27
+    Path:     C:\Users\USER\.docker\cli-plugins\docker-offload.exe
+  pass: Docker Pass Secrets Manager Plugin (beta) (Docker Inc.)
+    Version:  v0.2.2
+    Path:     C:\Users\USER\.docker\cli-plugins\docker-pass.exe
+  sandbox: "docker sandbox" is deprecated, use Docker Sandboxes instead (Docker Inc.)
+    Version:  v0.13.0
+    Path:     C:\Users\USER\.docker\cli-plugins\docker-sandbox.exe
+  scout: Docker Scout (Docker Inc.)
+    Version:  v1.24.0
+    Path:     C:\Users\USER\.docker\cli-plugins\docker-scout.exe
+
+Server:
+ Containers: 0
+  Running: 0
+  Paused: 0
+  Stopped: 0
+ Images: 0
+ Server Version: 29.8.0
+ Storage Driver: overlayfs
+  driver-type: io.containerd.snapshotter.v1
+ Logging Driver: json-file
+ Cgroup Driver: cgroupfs
+ Cgroup Version: 2
+ Plugins:
+  Volume: local
+  Network: bridge host ipvlan macvlan null overlay
+  Log: awslogs fluentd gcplogs gelf journald json-file local splunk syslog
+ CDI spec directories:
+  /etc/cdi
+  /var/run/cdi
+ Discovered Devices:
+  cdi: docker.com/gpu=webgpu
+ Swarm: inactive
+ Runtimes: io.containerd.runc.v2 nvidia runc
+ Default Runtime: runc
+ Init Binary: docker-init
+ containerd version: 1294c24a7da8e5a793ed378161673abe94118892
+ runc version: v1.5.1-0-g8f2685a4
+ init version: de40ad0
+ Security Options:
+  seccomp
+   Profile: builtin
+  cgroupns
+ Kernel Version: 6.18.33.2-microsoft-standard-WSL2
+ Operating System: Docker Desktop
+ OSType: linux
+ Architecture: x86_64
+ CPUs: 12
+ Total Memory: 7.674GiB
+ Name: docker-desktop
+ ID: b905e42a-1a02-4c00-9571-aeae46f6ec74
+ Docker Root Dir: /var/lib/docker
+ Debug Mode: false
+ HTTP Proxy: http.docker.internal:3128
+ HTTPS Proxy: http.docker.internal:3128
+ No Proxy: hubproxy.docker.internal
+ Labels:
+  com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+ Experimental: false
+ Insecure Registries:
+  hubproxy.docker.internal:5555
+  ::1/128
+  127.0.0.0/8
+ Live Restore Enabled: false
+ Firewall Backend: iptables
+
+
+
+--- 3. Pull Lightweight Image from Docker Hub (python:3.10-slim) ---
+Command: docker pull python:3.10-slim
+Exit Code: 0
+Output:
+3.10-slim: Pulling from library/python
+f2ae87370842: Pulling fs layer
+a510a9ea6d60: Pulling fs layer
+6b37362b3da7: Pulling fs layer
+ca45f89d6aed: Pulling fs layer
+f2ae87370842: Download complete
+a510a9ea6d60: Download complete
+373acf9334de: Download complete
+1bf9334e1299: Download complete
+ca45f89d6aed: Download complete
+6b37362b3da7: Download complete
+6b37362b3da7: Pull complete
+a510a9ea6d60: Pull complete
+ca45f89d6aed: Pull complete
+f2ae87370842: Pull complete
+Digest: sha256:000d806b9dee7f9b12ed29ac3705ec5027bc696fdc8f3b2f60c64b3a1f09175a
+Status: Downloaded newer image for python:3.10-slim
+docker.io/library/python:3.10-slim
+
+
+--- 4. List Local Docker Images ---
+Command: docker images
+Exit Code: 0
+Output:
+IMAGE              ID             DISK USAGE   CONTENT SIZE   EXTRA
+python:3.10-slim   000d806b9dee        197MB         50.2MB        
+
+
+--- 5. Inspect Image Layers & Metadata (python:3.10-slim) ---
+Command: docker inspect python:3.10-slim
+Exit Code: 0
+Output:
+[
+    {
+        "Id": "sha256:000d806b9dee7f9b12ed29ac3705ec5027bc696fdc8f3b2f60c64b3a1f09175a",
+        "RepoTags": [
+            "python:3.10-slim"
+        ],
+        "RepoDigests": [
+            "python@sha256:000d806b9dee7f9b12ed29ac3705ec5027bc696fdc8f3b2f60c64b3a1f09175a"
+        ],
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2026-10-01T21:56:04.154669369Z",
+        "Config": {
+            "Env": [
+                "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684696D",
+                "PYTHON_VERSION=3.10.22",
+                "PYTHON_SHA256=c61fe9b1a1a7ec2a0b0388e664187c378a5325a89e3606d220abf5bdfccb2543"
+            ],
+            "Cmd": [
+                "python3"
+            ]
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 194900075,
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:a6dc765193a52cbaede3c93a9ff48b9540948dd0774bbe7031fcb5847606f9ac",
+                "sha256:ec5ef3f1cbefdce6c6ac6574e6609310d57e2baab89df410bf30228f5f567273",
+                "sha256:33a69d53de1fb10d31c92f51da009801fbc06fd6e392344ddb12663e6fc3a7c8",
+                "sha256:6e627539f3cd5c1e41a72aec30da7435b2c23285b95d4a57a702eb6c871b3924"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "2026-10-02T04:53:52.368613594Z"
+        },
+        "Descriptor": {
+            "mediaType": "application/vnd.oci.image.index.v1+json",
+            "digest": "sha256:000d806b9dee7f9b12ed29ac3705ec5027bc696fdc8f3b2f60c64b3a1f09175a",
+            "size": 10373
+        },
+        "Identity": {
+            "Pull": [
+                {
+                    "Repository": "docker.io/library/python"
+                }
+            ]
+        }
+    }
+]
+
+
+--- 6. Tag Image for Local Use (my_dl_runtime:v1) ---
+Command: docker tag python:3.10-slim my_dl_runtime:v1
+Exit Code: 0
+Output:
+
+
+--- 7. Verify Tagged Image Listing ---
+Command: docker images
+Exit Code: 0
+Output:
+IMAGE              ID             DISK USAGE   CONTENT SIZE   EXTRA
+my_dl_runtime:v1   000d806b9dee        197MB         50.2MB        
+python:3.10-slim   000d806b9dee        197MB         50.2MB        
+
+
+--- 8. Create Named Volume for Persistent Storage ---
+Command: docker volume create dl_storage_vol
+Exit Code: 0
+Output:
+dl_storage_vol
+
+
+--- 9. List Docker Volumes ---
+Command: docker volume ls
+Exit Code: 0
+Output:
+DRIVER    VOLUME NAME
+local     dl_storage_vol
+
+
+--- 10. Create Custom Docker Bridge Network ---
+Command: docker network create dl_bridge_net
+Exit Code: 0
+Output:
+ad1878eb6b306b9be6525b41215ac04eefc3d7c7133d386ebe3325b46bb0a49e
+
+
+--- 11. List Docker Networks ---
+Command: docker network ls
+Exit Code: 0
+Output:
+NETWORK ID     NAME            DRIVER    SCOPE
+020f6e220b91   bridge          bridge    local
+ad1878eb6b30   dl_bridge_net   bridge    local
+63b1770acbc4   host            host      local
+d8225d6bfe35   none            null      local
+
+
+--- 12. Run Container in Detached Mode using Lightweight Image ---
+Command: docker run -d --name dl_runtime_container -v dl_storage_vol:/workspace --network dl_bridge_net python:3.10-slim python -c "import time, sys; print('Lightweight Deep Learning Runtime Initialized!'); sys.stdout.flush(); time.sleep(3600)"
+Exit Code: 0
+Output:
+53d85e83532b6079a6f44f0ee7178d737ce00cf099865f900be36408f60dcd45
+
+
+--- 13. List Active Running Containers ---
+Command: docker ps
+Exit Code: 0
+Output:
+CONTAINER ID   IMAGE              COMMAND                  CREATED         STATUS         PORTS     NAMES
+53d85e83532b   python:3.10-slim   "python -c 'import tâ€¦"   2 seconds ago   Up 2 seconds             dl_runtime_container
+
+
+--- 14. Execute In-Container System Check (exec) ---
+Command: docker exec dl_runtime_container python -c "import sys, platform; print('Python Version:', sys.version.split()[0]); print('Platform:', platform.platform())"
+Exit Code: 0
+Output:
+Python Version: 3.10.22
+Platform: Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.41
+
+
+--- 15. View Container Logs ---
+Command: docker logs dl_runtime_container
+Exit Code: 0
+Output:
+Lightweight Deep Learning Runtime Initialized!
+
+
+--- 16. Pause Container Processes ---
+Command: docker pause dl_runtime_container
+Exit Code: 0
+Output:
+dl_runtime_container
+
+
+--- 17. Verify Container Paused Status ---
+Command: docker ps
+Exit Code: 0
+Output:
+CONTAINER ID   IMAGE              COMMAND                  CREATED         STATUS                  PORTS     NAMES
+53d85e83532b   python:3.10-slim   "python -c 'import tâ€¦"   3 seconds ago   Up 2 seconds (Paused)             dl_runtime_container
+
+
+--- 18. Unpause Container Processes ---
+Command: docker unpause dl_runtime_container
+Exit Code: 0
+Output:
+dl_runtime_container
+
+
+--- 19. Monitor Container Resource Stats ---
+Command: docker stats dl_runtime_container --no-stream
+Exit Code: 0
+Output:
+CONTAINER ID   NAME                   CPU %     MEM USAGE / LIMIT    MEM %     NET I/O        BLOCK I/O   PIDS
+53d85e83532b   dl_runtime_container   0.00%     6.25MiB / 7.674GiB   0.08%     1.7kB / 126B   0B / 0B     1
+
+
+--- 20. Stop Container Gracefully ---
+Command: docker stop dl_runtime_container
+Exit Code: 0
+Output:
+dl_runtime_container
+
+
+--- 21. List Stopped Containers ---
+Command: docker ps -a
+Exit Code: 0
+Output:
+CONTAINER ID   IMAGE              COMMAND                  CREATED         STATUS                                PORTS     NAMES
+53d85e83532b   python:3.10-slim   "python -c 'import tâ€¦"   7 seconds ago   Exited (137) Less than a second ago             dl_runtime_container
+
+
+--- 22. Start Stopped Container ---
+Command: docker start dl_runtime_container
+Exit Code: 0
+Output:
+dl_runtime_container
+
+
+--- 23. Restart Container ---
+Command: docker restart dl_runtime_container
+Exit Code: 0
+Output:
+dl_runtime_container
+
+
+--- 24. Stop Container before Cleanup ---
+Command: docker stop dl_runtime_container
+Exit Code: 0
+Output:
+dl_runtime_container
+
+
+--- 25. Remove Container ---
+Command: docker rm dl_runtime_container
+Exit Code: 0
+Output:
+dl_runtime_container
+
+
+--- 26. Remove Volume ---
+Command: docker volume rm dl_storage_vol
+Exit Code: 0
+Output:
+dl_storage_vol
+
+
+--- 27. Remove Custom Network ---
+Command: docker network rm dl_bridge_net
+Exit Code: 0
+Output:
+dl_bridge_net
+
+
+--- 28. Remove Local Image Tag ---
+Command: docker rmi my_dl_runtime:v1
+Exit Code: 0
+Output:
+Untagged: my_dl_runtime:v1
+
