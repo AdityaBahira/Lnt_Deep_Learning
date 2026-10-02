@@ -76,11 +76,3 @@ docker volume rm dl_storage_vol
 docker network rm dl_bridge_net
 docker rmi my_dl_runtime:v1
 ```
-
----
-
-## 📂 Updated Workspace Files
-- [Task_9_Docker_Fundamentals_Report.docx](file:///e:/DL_deploy/Lnt_Deep_Learning/Task_9-Docker_Fundamentals_and_Container_Lifecycle_Management/Task_9_Docker_Fundamentals_Report.docx): Word document with screenshot callout boxes updated for `python:3.10-slim` (~125MB).
-- [Task_9_Docker_Fundamentals.ipynb](file:///e:/DL_deploy/Lnt_Deep_Learning/Task_9-Docker_Fundamentals_and_Container_Lifecycle_Management/Task_9_Docker_Fundamentals.ipynb): Interactive Jupyter Notebook updated for `python:3.10-slim`.
-- [docker_lifecycle_demo.py](file:///e:/DL_deploy/Lnt_Deep_Learning/Task_9-Docker_Fundamentals_and_Container_Lifecycle_Management/docker_lifecycle_demo.py): Python script executing and logging all steps using `python:3.10-slim`.
-- [build_task9_doc.py](file:///e:/DL_deploy/Lnt_Deep_Learning/Task_9-Docker_Fundamentals_and_Container_Lifecycle_Management/build_task9_doc.py): Report generator script.
