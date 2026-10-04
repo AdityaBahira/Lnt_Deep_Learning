@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dl-frontend-deployment
+  namespace: dl-clinical-app
+  labels:
+    app: dl-frontend
+    tier: ui
+    app.kubernetes.io/name: dl-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dl-frontend
+      tier: ui
+  template:
+    metadata:
+      labels:
+        app: dl-frontend
+        tier: ui
+    spec:
+      containers:
+      - name: dl-frontend-ui
+        image: adityabahira/dl-clinical-frontend:v1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8501
+          name: http-ui
+        env:
+        - name: BACKEND_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: dl-app-config
+              key: BACKEND_API_URL
+        - name: STREAMLIT_SERVER_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: dl-app-config
+              key: STREAMLIT_SERVER_PORT
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+          limits:
+            cpu: "800m"
+            memory: "1024Mi"
+        livenessProbe:
+          httpGet:
+            path: /_stcore/health
+            port: 8501
+          initialDelaySeconds: 20
+          periodSeconds: 25
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /_stcore/health
+            port: 8501
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 3

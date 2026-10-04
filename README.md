@@ -79,6 +79,8 @@ Lnt_Deep_Learning/
 | **Task 5** | **API Testing & Validation using Postman/cURL** | Postman Runner, HTTP Status Verification, Edge-Case Auditing | `.postman_collection.json`, Test Report |
 | **Task 6** | **Creating a Streamlit User Interface** | Streamlit 1.64, Dual Engine (Direct/API), Live BMI, Emojis | `app.py`, `utils.py`, `Task_6_Report.docx` |
 | **Task 7** | **Advanced Multi-Page Streamlit Application** | `st.navigation`, Confusion Matrix, ROC-AUC, 91.40% Accuracy | `views/`, `sample_cohort_data.csv`, `Task_7_Report.docx` |
+| **Task 11** | **Full Application Containerization** | Multi-Container Docker Compose, PyTorch Flask API, Streamlit UI, Docker Hub | `Dockerfile`, `docker-compose.yml`, `Task_11_Report.pdf` |
+| **Task 12** | **Kubernetes Cluster Setup and Deployment** | Minikube, Kubernetes v1.37, Declarative YAML, CoreDNS Discovery, Self-Healing, Dynamic Scaling | `k8s/`, `Task_12_Kubernetes_Cluster_Setup_Report.pdf`, `test_k8s_deployment.py` |
 
 ---
 

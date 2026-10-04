@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dl-backend-deployment
+  namespace: dl-clinical-app
+  labels:
+    app: dl-backend
+    tier: api
+    app.kubernetes.io/name: dl-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dl-backend
+      tier: api
+  template:
+    metadata:
+      labels:
+        app: dl-backend
+        tier: api
+    spec:
+      containers:
+      - name: dl-backend-api
+        image: adityabahira/dl-clinical-backend:v1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+          name: http-api
+        env:
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: dl-app-config
+              key: PORT
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: dl-app-config
+              key: ENVIRONMENT
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+          limits:
+            cpu: "1000m"
+            memory: "1536Mi"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 3

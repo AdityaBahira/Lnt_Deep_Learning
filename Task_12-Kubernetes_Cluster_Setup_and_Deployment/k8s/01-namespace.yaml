@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dl-clinical-app
+  labels:
+    app.kubernetes.io/name: dl-clinical-system
+    app.kubernetes.io/part-of: deep-learning-deployment

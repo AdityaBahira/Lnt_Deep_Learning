@@ -1,0 +1,135 @@
+{
+  "task": "Task 12: Kubernetes Cluster Setup and Deployment",
+  "cluster_type": "Minikube (Docker Driver)",
+  "namespace": "dl-clinical-app",
+  "timestamp": "2026-10-04T07:04:51Z",
+  "tests": [
+    {
+      "name": "Cluster Node Status",
+      "node_name": "minikube",
+      "status": "PASSED",
+      "details": "Node 'minikube' is Ready"
+    },
+    {
+      "name": "Manifest Application",
+      "status": "PASSED",
+      "details": "namespace/dl-clinical-app unchanged\nconfigmap/dl-app-config unchanged\ndeployment.apps/dl-backend-deployment configured\nservice/backend-svc unchanged\ndeployment.apps/dl-frontend-deployment configured\nservice/frontend-svc unchanged\nnamespace/dl-clinical-app unchanged\nconfigmap/dl-app-config unchanged\ndeployment.apps/dl-backend-deployment configured\nservice/backend-svc unchanged\ndeployment.apps/dl-frontend-deployment configured\nservice/frontend-svc unchanged"
+    },
+    {
+      "name": "Backend Deployment Rollout",
+      "status": "PASSED",
+      "details": "deployment \"dl-backend-deployment\" successfully rolled out"
+    },
+    {
+      "name": "Frontend Deployment Rollout",
+      "status": "PASSED",
+      "details": "deployment \"dl-frontend-deployment\" successfully rolled out"
+    },
+    {
+      "name": "Pod Health & Multi-Replica Status",
+      "status": "PASSED",
+      "details": "Total pods: 5, All healthy & running: True"
+    },
+    {
+      "name": "Live DL PyTorch Inference inside Cluster",
+      "status": "PASSED",
+      "sample_prediction": {
+        "latency_ms": 3.49,
+        "model_name": "DeepHealthRiskNet",
+        "predictions": [
+          {
+            "class_probabilities": {
+              "Critical Risk": 1.0,
+              "High Risk": 0.0,
+              "Low Risk": 0.0,
+              "Moderate Risk": 0.0
+            },
+            "confidence_score": 1.0,
+            "input_features": {
+              "age": 58.0,
+              "alcohol_consumption_per_week": 1.0,
+              "bmi": 140.0,
+              "calories_intake": 0.0,
+              "daily_steps": 260.0,
+              "diabetic": 0.0,
+              "diastolic_bp": 2.200000047683716,
+              "exercise_hours_per_week": 1.0,
+              "heart_rate": 145.0,
+              "height_cm": 1.0,
+              "hours_of_sleep": 1.0,
+              "smoker": 2.0,
+              "systolic_bp": 1.0,
+              "weight_kg": 2.0
+            },
+            "predicted_class_id": 3,
+            "predicted_label": "Critical Risk",
+            "sample_index": 0
+          }
+        ],
+        "predictions_count": 1,
+        "status": "success",
+        "timestamp": "2026-10-04T07:04:55.759216+00:00"
+      }
+    },
+    {
+      "name": "Self-Healing Auto-Recovery",
+      "status": "PASSED",
+      "details": "Terminated dl-backend-deployment-8498c6f75d-9qhpz; ReplicaSet automatically spawned replacement pod. Active replicas: 2"
+    },
+    {
+      "name": "Horizontal Deployment Scaling",
+      "status": "PASSED",
+      "details": "Deployment scaled to 3 replicas successfully"
+    }
+  ],
+  "pods": [
+    {
+      "name": "dl-backend-deployment-8498c6f75d-9qhpz",
+      "phase": "Running",
+      "ready": true,
+      "ip": "10.244.0.7"
+    },
+    {
+      "name": "dl-backend-deployment-8498c6f75d-lzk2t",
+      "phase": "Running",
+      "ready": true,
+      "ip": "10.244.0.4"
+    },
+    {
+      "name": "dl-backend-deployment-8498c6f75d-v7knf",
+      "phase": "Running",
+      "ready": true,
+      "ip": "10.244.0.8"
+    },
+    {
+      "name": "dl-frontend-deployment-74f4ddf8fc-f6xbz",
+      "phase": "Running",
+      "ready": true,
+      "ip": "10.244.0.5"
+    },
+    {
+      "name": "dl-frontend-deployment-74f4ddf8fc-kkhk4",
+      "phase": "Running",
+      "ready": true,
+      "ip": "10.244.0.6"
+    }
+  ],
+  "services": [
+    {
+      "name": "backend-svc",
+      "type": "ClusterIP",
+      "cluster_ip": "10.104.12.138",
+      "ports": [
+        "5000:5000/TCP"
+      ]
+    },
+    {
+      "name": "frontend-svc",
+      "type": "NodePort",
+      "cluster_ip": "10.105.221.241",
+      "ports": [
+        "8501:30001/TCP"
+      ]
+    }
+  ]
+}

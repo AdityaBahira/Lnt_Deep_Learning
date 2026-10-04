@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-svc
+  namespace: dl-clinical-app
+  labels:
+    app: dl-backend
+    tier: api
+spec:
+  type: ClusterIP
+  selector:
+    app: dl-backend
+    tier: api
+  ports:
+  - port: 5000
+    targetPort: 5000
+    protocol: TCP
+    name: http-api
