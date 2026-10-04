@@ -1,0 +1,11 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.git
+.gitignore
+.vscode
+*.docx
+*.xlsx
+build_task10_doc.py
+Task_10_Containerizing_Flask_API_Report.docx
