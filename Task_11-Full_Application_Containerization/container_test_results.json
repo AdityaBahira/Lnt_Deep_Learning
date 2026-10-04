@@ -1,0 +1,82 @@
+[
+    {
+        "test_id": 1,
+        "name": "Flask API Health Probe (GET /health)",
+        "status": "PASS",
+        "status_code": 200,
+        "rtt_ms": 4.66,
+        "details": "Model: DeepHealthRiskNet, Device: cpu"
+    },
+    {
+        "test_id": 2,
+        "name": "Streamlit UI Health Probe (GET /_stcore/health)",
+        "status": "PASS",
+        "status_code": 200,
+        "rtt_ms": 2.4,
+        "details": "Streamlit server responded with body: 'ok'"
+    },
+    {
+        "test_id": 3,
+        "name": "Model Configuration & Architecture Verification",
+        "status": "PASS",
+        "status_code": 200,
+        "rtt_ms": 0.5,
+        "details": "Model weights (20105 bytes) & config verified with 14 features."
+    },
+    {
+        "test_id": 4,
+        "name": "Single Patient Prediction (POST /predict) - Low Risk Profile",
+        "status": "PASS",
+        "status_code": 200,
+        "rtt_ms": 1631.16,
+        "details": "Predicted: Low Risk (Confidence: 0.9431) in 1610.35 ms backend time"
+    },
+    {
+        "test_id": 5,
+        "name": "Single Patient Prediction (POST /predict) - Critical Risk Profile",
+        "status": "PASS",
+        "status_code": 200,
+        "rtt_ms": 4.07,
+        "details": "Predicted: Critical Risk (Confidence: 1.0) in 0.52 ms backend time"
+    },
+    {
+        "test_id": 6,
+        "name": "Batch Cohort Prediction (POST /predict) - 5 Patients",
+        "status": "PASS",
+        "status_code": 200,
+        "rtt_ms": 97.54,
+        "details": "Evaluated 5 patients in 86.78 ms backend execution time"
+    },
+    {
+        "test_id": 7,
+        "name": "Error Handling Validation - Missing Features Payload (HTTP 422/400)",
+        "status": "PASS",
+        "status_code": 422,
+        "rtt_ms": 11.34,
+        "details": "Correctly rejected incomplete payload with HTTP 422"
+    },
+    {
+        "test_id": 8,
+        "name": "Error Handling Validation - Non-Numeric String Feature Value",
+        "status": "PASS",
+        "status_code": 422,
+        "rtt_ms": 5.44,
+        "details": "Properly caught type casting error and returned HTTP 422"
+    },
+    {
+        "test_id": 9,
+        "name": "Round-Trip Latency Benchmark (10 Continuous Predictions)",
+        "status": "PASS",
+        "status_code": 200,
+        "rtt_ms": 3.6,
+        "details": "Mean Latency: 3.6 ms | Min: 2.93 ms | Max: 4.77 ms | 95th%: 4.45 ms"
+    },
+    {
+        "test_id": 10,
+        "name": "Docker Packaging & Multi-Container Config Verification",
+        "status": "PASS",
+        "status_code": 200,
+        "rtt_ms": 1.0,
+        "details": "All 5 containerization manifests validated."
+    }
+]

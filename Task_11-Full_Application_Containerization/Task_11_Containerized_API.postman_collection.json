@@ -1,0 +1,550 @@
+{
+	"info": {
+		"_postman_id": "b1a2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+		"name": "Task 11 - Containerized Deep Learning API Tests",
+		"description": "Comprehensive Postman test collection for containerized Flask REST API and Streamlit UI. Includes an overall executive test summary and visual dashboard renderer.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "backendUrl",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "frontendUrl",
+			"value": "http://localhost:8501",
+			"type": "string"
+		},
+		{
+			"key": "test_records",
+			"value": "[]",
+			"type": "string"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Initialize accumulator if empty",
+					"if (!pm.collectionVariables.get('test_records') || pm.info.iteration === 0 && pm.info.requestName.startsWith('TC-01')) {",
+					"    pm.collectionVariables.set('test_records', JSON.stringify([]));",
+					"}"
+				]
+			}
+		}
+	],
+	"item": [
+		{
+			"name": "1. Container Health Probes",
+			"item": [
+				{
+					"name": "TC-01: Flask Backend Health Probe",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let isPass = true;",
+									"pm.test(\"Status code is 200 OK\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Container Backend is healthy & Model Loaded\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(\"healthy\");",
+									"    pm.expect(jsonData.model_loaded).to.be.true;",
+									"});",
+									"",
+									"// Append to cumulative records",
+									"let recs = [];",
+									"try { recs = JSON.parse(pm.collectionVariables.get('test_records') || '[]'); } catch(e) { recs = []; }",
+									"recs.push({",
+									"    test: 'TC-01: Flask Backend Health Probe',",
+									"    endpoint: 'GET /health',",
+									"    status: pm.response.code === 200 ? 'PASS' : 'FAIL',",
+									"    status_code: pm.response.code,",
+									"    rtt: pm.response.responseTime + ' ms',",
+									"    details: 'Model: DeepHealthRiskNet, Device: CPU'",
+									"});",
+									"pm.collectionVariables.set('test_records', JSON.stringify(recs));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendUrl}}/health",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC-02: Streamlit Frontend Health Probe",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 OK\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Streamlit core status is ok\", function () {",
+									"    pm.expect(pm.response.text().trim()).to.eql(\"ok\");",
+									"});",
+									"",
+									"let recs = JSON.parse(pm.collectionVariables.get('test_records') || '[]');",
+									"recs.push({",
+									"    test: 'TC-02: Streamlit Frontend Health Probe',",
+									"    endpoint: 'GET /_stcore/health',",
+									"    status: pm.response.code === 200 ? 'PASS' : 'FAIL',",
+									"    status_code: pm.response.code,",
+									"    rtt: pm.response.responseTime + ' ms',",
+									"    details: 'Streamlit UI web server responsive'",
+									"});",
+									"pm.collectionVariables.set('test_records', JSON.stringify(recs));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{frontendUrl}}/_stcore/health",
+							"host": [
+								"{{frontendUrl}}"
+							],
+							"path": [
+								"_stcore",
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Inference & Model Predictions",
+			"item": [
+				{
+					"name": "TC-03: Single Prediction - Low Risk Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 OK\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Classification label is 'Low Risk'\", function () {",
+									"    var pred = pm.response.json().predictions[0];",
+									"    pm.expect(pred.predicted_label).to.eql(\"Low Risk\");",
+									"});",
+									"",
+									"let recs = JSON.parse(pm.collectionVariables.get('test_records') || '[]');",
+									"let res = pm.response.json();",
+									"let lbl = res.predictions ? res.predictions[0].predicted_label : 'N/A';",
+									"let conf = res.predictions ? (res.predictions[0].confidence_score * 100).toFixed(1) + '%' : 'N/A';",
+									"recs.push({",
+									"    test: 'TC-03: Single Prediction - Low Risk',",
+									"    endpoint: 'POST /predict',",
+									"    status: pm.response.code === 200 && lbl === 'Low Risk' ? 'PASS' : 'FAIL',",
+									"    status_code: pm.response.code,",
+									"    rtt: pm.response.responseTime + ' ms',",
+									"    details: 'Predicted: ' + lbl + ' (Conf: ' + conf + ')'",
+									"});",
+									"pm.collectionVariables.set('test_records', JSON.stringify(recs));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"features\": [28.0, 175.0, 68.0, 22.2, 11500.0, 2100.0, 8.0, 62.0, 115.0, 75.0, 5.5, 0.0, 0.0, 0.0]\n}"
+						},
+						"url": {
+							"raw": "{{backendUrl}}/predict",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"predict"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC-04: Single Prediction - Critical Risk Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 OK\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Classification label is 'Critical Risk'\", function () {",
+									"    var pred = pm.response.json().predictions[0];",
+									"    pm.expect(pred.predicted_label).to.eql(\"Critical Risk\");",
+									"});",
+									"",
+									"let recs = JSON.parse(pm.collectionVariables.get('test_records') || '[]');",
+									"let res = pm.response.json();",
+									"let lbl = res.predictions ? res.predictions[0].predicted_label : 'N/A';",
+									"let conf = res.predictions ? (res.predictions[0].confidence_score * 100).toFixed(1) + '%' : 'N/A';",
+									"recs.push({",
+									"    test: 'TC-04: Single Prediction - Critical Risk',",
+									"    endpoint: 'POST /predict',",
+									"    status: pm.response.code === 200 && lbl === 'Critical Risk' ? 'PASS' : 'FAIL',",
+									"    status_code: pm.response.code,",
+									"    rtt: pm.response.responseTime + ' ms',",
+									"    details: 'Predicted: ' + lbl + ' (Conf: ' + conf + ')'",
+									"});",
+									"pm.collectionVariables.set('test_records', JSON.stringify(recs));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"features\": [68.0, 165.0, 98.0, 36.0, 2100.0, 3400.0, 4.5, 102.0, 178.0, 112.0, 0.0, 14.0, 1.0, 1.0]\n}"
+						},
+						"url": {
+							"raw": "{{backendUrl}}/predict",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"predict"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC-05: Batch Cohort Prediction (5 Patients)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 OK\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Processes all 5 patient records\", function () {",
+									"    var res = pm.response.json();",
+									"    pm.expect(res.predictions_count).to.eql(5);",
+									"});",
+									"",
+									"let recs = JSON.parse(pm.collectionVariables.get('test_records') || '[]');",
+									"let res = pm.response.json();",
+									"let count = res.predictions_count || 0;",
+									"recs.push({",
+									"    test: 'TC-05: Batch Cohort Prediction',",
+									"    endpoint: 'POST /predict',",
+									"    status: pm.response.code === 200 && count === 5 ? 'PASS' : 'FAIL',",
+									"    status_code: pm.response.code,",
+									"    rtt: pm.response.responseTime + ' ms',",
+									"    details: 'Successfully processed ' + count + ' cohort records'",
+									"});",
+									"pm.collectionVariables.set('test_records', JSON.stringify(recs));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"instances\": [\n        [28.0, 175.0, 68.0, 22.2, 11500.0, 2100.0, 8.0, 62.0, 115.0, 75.0, 5.5, 0.0, 0.0, 0.0],\n        [68.0, 165.0, 98.0, 36.0, 2100.0, 3400.0, 4.5, 102.0, 178.0, 112.0, 0.0, 14.0, 1.0, 1.0],\n        [45.0, 170.0, 78.0, 27.0, 7500.0, 2400.0, 7.0, 75.0, 130.0, 85.0, 3.0, 3.0, 0.0, 0.0],\n        [55.0, 168.0, 88.0, 31.2, 4200.0, 2800.0, 6.0, 88.0, 145.0, 92.0, 1.5, 6.0, 1.0, 0.0],\n        [32.0, 180.0, 74.0, 22.8, 10200.0, 2200.0, 7.5, 68.0, 118.0, 78.0, 4.0, 1.0, 0.0, 0.0]\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{backendUrl}}/predict",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"predict"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. Error Handling & Validation",
+			"item": [
+				{
+					"name": "TC-06: Validation Error - Missing Feature Keys",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 422 Unprocessable Entity\", function () {",
+									"    pm.response.to.have.status(422);",
+									"});",
+									"",
+									"let recs = JSON.parse(pm.collectionVariables.get('test_records') || '[]');",
+									"recs.push({",
+									"    test: 'TC-06: Missing Feature Validation',",
+									"    endpoint: 'POST /predict',",
+									"    status: pm.response.code === 422 ? 'PASS' : 'FAIL',",
+									"    status_code: pm.response.code,",
+									"    rtt: pm.response.responseTime + ' ms',",
+									"    details: 'Correctly rejected incomplete payload (HTTP 422)'",
+									"});",
+									"pm.collectionVariables.set('test_records', JSON.stringify(recs));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"data\": {\n        \"age\": 40,\n        \"bmi\": 25.0\n    }\n}"
+						},
+						"url": {
+							"raw": "{{backendUrl}}/predict",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"predict"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC-07: Validation Error - Non-Numeric String Feature",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 422 Unprocessable Entity\", function () {",
+									"    pm.response.to.have.status(422);",
+									"});",
+									"",
+									"let recs = JSON.parse(pm.collectionVariables.get('test_records') || '[]');",
+									"recs.push({",
+									"    test: 'TC-07: Non-Numeric Type Validation',",
+									"    endpoint: 'POST /predict',",
+									"    status: pm.response.code === 422 ? 'PASS' : 'FAIL',",
+									"    status_code: pm.response.code,",
+									"    rtt: pm.response.responseTime + ' ms',",
+									"    details: 'Caught type casting error on string input (HTTP 422)'",
+									"});",
+									"pm.collectionVariables.set('test_records', JSON.stringify(recs));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"features\": [\"INVALID_STRING\", 175.0, 68.0, 22.2, 11500.0, 2100.0, 8.0, 62.0, 115.0, 75.0, 5.5, 0.0, 0.0, 0.0]\n}"
+						},
+						"url": {
+							"raw": "{{backendUrl}}/predict",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"predict"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4. Overall Executive Summary",
+			"item": [
+				{
+					"name": "TC-08: Executive Test Summary & Visualizer Dashboard",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 OK\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"let records = [];",
+									"try {",
+									"    records = JSON.parse(pm.collectionVariables.get('test_records') || '[]');",
+									"} catch(e) { records = []; }",
+									"",
+									"let total = records.length;",
+									"let passed = records.filter(r => r.status === 'PASS').length;",
+									"let failed = total - passed;",
+									"let passRate = total > 0 ? ((passed / total) * 100).toFixed(1) : '100.0';",
+									"",
+									"pm.test(\"All accumulated test cases passed\", function () {",
+									"    pm.expect(failed).to.eql(0);",
+									"});",
+									"",
+									"let template = `",
+									"<!DOCTYPE html>",
+									"<html>",
+									"<head>",
+									"  <style>",
+									"    body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #f8fafc; padding: 24px; color: #0f172a; margin: 0; }",
+									"    .container { max-width: 900px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; }",
+									"    .header { border-bottom: 2px solid #2563eb; padding-bottom: 12px; margin-bottom: 20px; }",
+									"    .title { font-size: 20px; font-weight: 700; color: #1e3a8a; margin: 0; }",
+									"    .subtitle { font-size: 13px; color: #64748b; margin-top: 4px; }",
+									"    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }",
+									"    .metric-card { background: #f1f5f9; padding: 14px; border-radius: 8px; text-align: center; border-left: 4px solid #3b82f6; }",
+									"    .metric-val { font-size: 26px; font-weight: 700; color: #1e3a8a; }",
+									"    .metric-lbl { font-size: 11px; font-weight: 600; text-transform: uppercase; color: #64748b; margin-top: 4px; }",
+									"    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }",
+									"    th { background: #1e3a8a; color: white; text-align: left; padding: 10px 12px; font-size: 12px; text-transform: uppercase; }",
+									"    td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; }",
+									"    tr:nth-child(even) { background: #f8fafc; }",
+									"    .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-weight: 700; font-size: 11px; }",
+									"    .badge-pass { background: #dcfce7; color: #15803d; }",
+									"    .badge-fail { background: #fee2e2; color: #b91c1c; }",
+									"    .code-tag { background: #e2e8f0; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 12px; }",
+									"    .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #94a3b8; }",
+									"  </style>",
+									"</head>",
+									"<body>",
+									"  <div class='container'>",
+									"    <div class='header'>",
+									"      <div class='title'>🩺 Task 11: Containerized Deep Learning API - Overall Test Summary</div>",
+									"      <div class='subtitle'>L&T Edutech Deep Learning Deployment & MLOps | Live Container Verification</div>",
+									"    </div>",
+									"    <div class='metrics'>",
+									"      <div class='metric-card' style='border-left-color: #3b82f6;'>",
+									"        <div class='metric-val'>${total}</div>",
+									"        <div class='metric-lbl'>Total Tests</div>",
+									"      </div>",
+									"      <div class='metric-card' style='border-left-color: #22c55e;'>",
+									"        <div class='metric-val' style='color: #15803d;'>${passed}</div>",
+									"        <div class='metric-lbl'>Passed</div>",
+									"      </div>",
+									"      <div class='metric-card' style='border-left-color: #ef4444;'>",
+									"        <div class='metric-val' style='color: #b91c1c;'>${failed}</div>",
+									"        <div class='metric-lbl'>Failed</div>",
+									"      </div>",
+									"      <div class='metric-card' style='border-left-color: #8b5cf6;'>",
+									"        <div class='metric-val' style='color: #6d28d9;'>${passRate}%</div>",
+									"        <div class='metric-lbl'>Success Rate</div>",
+									"      </div>",
+									"    </div>",
+									"    <table>",
+									"      <thead>",
+									"        <tr>",
+									"          <th>Test Case</th>",
+									"          <th>Target Endpoint</th>",
+									"          <th>Status</th>",
+									"          <th>HTTP Code</th>",
+									"          <th>Latency</th>",
+									"          <th>Validation Details</th>",
+									"        </tr>",
+									"      </thead>",
+									"      <tbody>",
+									"        {{#each records}}",
+									"        <tr>",
+									"          <td><b>{{test}}</b></td>",
+									"          <td><span class='code-tag'>{{endpoint}}</span></td>",
+									"          <td><span class='badge {{#if (eq status 'PASS')}}badge-pass{{else}}badge-fail{{/if}}'>{{status}}</span></td>",
+									"          <td>{{status_code}}</td>",
+									"          <td>{{rtt}}</td>",
+									"          <td><small>{{details}}</small></td>",
+									"        </tr>",
+									"        {{/each}}",
+									"      </tbody>",
+									"    </table>",
+									"    <div class='footer'>Docker Container Target: http://localhost:5000 & http://localhost:8501</div>",
+									"  </div>",
+									"</body>",
+									"</html>",
+									"`;",
+									"",
+									"pm.visualizer.set(template, { records: records });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendUrl}}/health",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
