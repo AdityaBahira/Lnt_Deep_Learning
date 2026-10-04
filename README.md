@@ -81,9 +81,11 @@ Lnt_Deep_Learning/
 | **Task 7** | **Advanced Multi-Page Streamlit Application** | `st.navigation`, Confusion Matrix, ROC-AUC, 91.40% Accuracy | `views/`, `sample_cohort_data.csv`, `Task_7_Report.docx` |
 | **Task 11** | **Full Application Containerization** | Multi-Container Docker Compose, PyTorch Flask API, Streamlit UI, Docker Hub | `Dockerfile`, `docker-compose.yml`, `Task_11_Report.pdf` |
 | **Task 12** | **Kubernetes Cluster Setup and Deployment** | Minikube, Kubernetes v1.37, Declarative YAML, CoreDNS Discovery, Self-Healing, Dynamic Scaling | `k8s/`, `Task_12_Kubernetes_Cluster_Setup_Report.pdf`, `test_k8s_deployment.py` |
+| **Task 13** | **Deploying Deep Learning Applications on Kubernetes** | Containerized DL Deployment, NodePort External Exposure, Resource Limits, Probes, Model REST Inference Verification | `k8s/`, `Task_13_Deep_Learning_Kubernetes_Deployment_Report.pdf`, `Task_13_Deploying_Deep_Learning_Applications_on_Kubernetes.ipynb` |
 
 ---
 
 ### 🌐 Cloud Deployment Configuration
 - **Streamlit Community Cloud Main File**: `Task_7-Advanced_MultiPage_Streamlit_Application/app.py`
 - **GitHub Repository**: [https://github.com/AdityaBahira/Lnt_Deep_Learning](https://github.com/AdityaBahira/Lnt_Deep_Learning)
+

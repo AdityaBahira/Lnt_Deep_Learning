@@ -1,0 +1,76 @@
+{
+  "task": "Task 13: Deploying Deep Learning Applications on Kubernetes",
+  "cluster_type": "Minikube (Docker Driver)",
+  "namespace": "dl-production-app",
+  "backend_external_url": "http://localhost:30500",
+  "frontend_external_url": "http://localhost:31501",
+  "timestamp": "2026-10-04T14:40:17Z",
+  "tests": [
+    {
+      "id": "T01_CLUSTER_NODES",
+      "name": "Cluster & Node Readiness",
+      "status": "PASSED",
+      "details": "Node 'minikube' is Ready in Minikube control plane."
+    },
+    {
+      "id": "T02_CONFIG_MAP",
+      "name": "Production ConfigMap & Decoupling",
+      "status": "PASSED",
+      "details": "ConfigMap contains 8 keys including BACKEND_URL and MODEL_NAME."
+    },
+    {
+      "id": "T03_BACKEND_ROLLOUT",
+      "name": "PyTorch Backend Rollout & Probes",
+      "status": "PASSED",
+      "details": "Backend deployment healthy: 3 replicas ready with liveness/readiness probes."
+    },
+    {
+      "id": "T04_FRONTEND_ROLLOUT",
+      "name": "Streamlit Frontend Deployment Rollout",
+      "status": "PASSED",
+      "details": "Frontend deployment healthy: 2 replicas active and serving UI."
+    },
+    {
+      "id": "T05_SERVICE_MAPPING",
+      "name": "Kubernetes Service Configurations",
+      "status": "PASSED",
+      "details": "Services configured with NodePort (Backend :30500, Frontend :31501) for external exposure."
+    },
+    {
+      "id": "T06_EXTERNAL_BACKEND_HEALTH",
+      "name": "External Backend Health Endpoint",
+      "status": "PASSED",
+      "details": "HTTP 200 OK: Model DeepHealthRiskNet loaded on cpu."
+    },
+    {
+      "id": "T07_EXTERNAL_FRONTEND_ACCESS",
+      "name": "External Streamlit UI Accessibility",
+      "status": "PASSED",
+      "details": "Frontend responded HTTP 200 OK on exposed NodePort port 31501."
+    },
+    {
+      "id": "T08_MODEL_INFERENCE",
+      "name": "External Deep Learning Model Inference (/predict)",
+      "status": "PASSED",
+      "details": "Successfully performed live neural inference: Predicted 'Critical Risk' in 0.67ms."
+    },
+    {
+      "id": "T09_HORIZONTAL_SCALING",
+      "name": "Horizontal Pod Scaling & Dynamic Rebalancing",
+      "status": "PASSED",
+      "details": "Successfully scaled backend deployment to 3 replicas dynamically."
+    },
+    {
+      "id": "T10_SELF_HEALING",
+      "name": "Kubernetes Self-Healing & Pod Recovery",
+      "status": "PASSED",
+      "details": "ReplicaSet detected pod termination and automatically provisioned a replacement pod to maintain desired state."
+    }
+  ],
+  "summary": {
+    "total_tests": 10,
+    "passed": 10,
+    "failed": 0,
+    "pass_rate": "100.0%"
+  }
+}

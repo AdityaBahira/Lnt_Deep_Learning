@@ -1,0 +1,249 @@
+---
+# ==========================================
+# Task 13: Kubernetes Production Deployment
+# 1. Namespace Definition
+# ==========================================
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dl-production-app
+  labels:
+    name: dl-production-app
+    app.kubernetes.io/part-of: dl-clinical-suite
+    environment: production
+    task: "13"
+
+---
+# ==========================================
+# 2. ConfigMap: Application Configuration
+# ==========================================
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dl-production-config
+  namespace: dl-production-app
+  labels:
+    app.kubernetes.io/part-of: dl-clinical-suite
+    tier: config
+    task: "13"
+data:
+  PORT: "5000"
+  ENVIRONMENT: "production"
+  BACKEND_URL: "http://dl-backend-svc:5000"
+  MODEL_NAME: "DeepHealthRiskNet"
+  MODEL_FRAMEWORK: "PyTorch-v2.x"
+  BATCH_SIZE: "1"
+  NUM_WORKERS: "2"
+  LOG_LEVEL: "INFO"
+
+---
+# ==========================================
+# 3. Deep Learning Backend Deployment
+# PyTorch DeepHealthRiskNet Inference Service
+# ==========================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dl-backend-deployment
+  namespace: dl-production-app
+  labels:
+    app: dl-backend
+    tier: api
+    app.kubernetes.io/name: dl-backend
+    app.kubernetes.io/part-of: dl-clinical-suite
+    task: "13"
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: dl-backend
+      tier: api
+  template:
+    metadata:
+      labels:
+        app: dl-backend
+        tier: api
+    spec:
+      containers:
+      - name: dl-backend-api
+        image: adityabahira/dl-clinical-backend:v1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+          name: http-api
+        env:
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: dl-production-config
+              key: PORT
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: dl-production-config
+              key: ENVIRONMENT
+        - name: MODEL_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: dl-production-config
+              key: MODEL_NAME
+        - name: MODEL_FRAMEWORK
+          valueFrom:
+            configMapKeyRef:
+              name: dl-production-config
+              key: MODEL_FRAMEWORK
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+          limits:
+            cpu: "1000m"
+            memory: "1536Mi"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 20
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 2
+
+---
+# ==========================================
+# 4. Backend Service (NodePort + ClusterIP)
+# Internal: dl-backend-svc:5000
+# External NodePort: :30500
+# ==========================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: dl-backend-svc
+  namespace: dl-production-app
+  labels:
+    app: dl-backend
+    tier: api
+    app.kubernetes.io/name: dl-backend
+    app.kubernetes.io/part-of: dl-clinical-suite
+    task: "13"
+spec:
+  type: NodePort
+  selector:
+    app: dl-backend
+    tier: api
+  ports:
+  - name: http-api
+    port: 5000
+    targetPort: 5000
+    nodePort: 30500
+    protocol: TCP
+
+---
+# ==========================================
+# 5. Frontend UI Deployment
+# Streamlit Clinical Dashboard
+# ==========================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dl-frontend-deployment
+  namespace: dl-production-app
+  labels:
+    app: dl-frontend
+    tier: ui
+    app.kubernetes.io/name: dl-frontend
+    app.kubernetes.io/part-of: dl-clinical-suite
+    task: "13"
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: dl-frontend
+      tier: ui
+  template:
+    metadata:
+      labels:
+        app: dl-frontend
+        tier: ui
+    spec:
+      containers:
+      - name: dl-frontend-ui
+        image: adityabahira/dl-clinical-frontend:v1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8501
+          name: http-ui
+        env:
+        - name: BACKEND_URL
+          valueFrom:
+            configMapKeyRef:
+              name: dl-production-config
+              key: BACKEND_URL
+        resources:
+          requests:
+            cpu: "150m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "768Mi"
+        livenessProbe:
+          httpGet:
+            path: /_stcore/health
+            port: 8501
+          initialDelaySeconds: 20
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /_stcore/health
+            port: 8501
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 2
+
+---
+# ==========================================
+# 6. Frontend Service (NodePort)
+# External Access Port: 31501
+# ==========================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: dl-frontend-svc
+  namespace: dl-production-app
+  labels:
+    app: dl-frontend
+    tier: ui
+    app.kubernetes.io/name: dl-frontend
+    app.kubernetes.io/part-of: dl-clinical-suite
+    task: "13"
+spec:
+  type: NodePort
+  selector:
+    app: dl-frontend
+    tier: ui
+  ports:
+  - name: http-ui
+    port: 8501
+    targetPort: 8501
+    nodePort: 31501
+    protocol: TCP
