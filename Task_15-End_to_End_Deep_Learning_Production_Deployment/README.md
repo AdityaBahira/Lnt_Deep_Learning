@@ -117,12 +117,8 @@ Task_15_End_to_End_Production_Deployment/
 ├── docker-compose.yml                                  # Multi-Container Compose Stack
 ├── test_task15_end_to_end.py                           # Automated Verification Test Suite (10/10)
 ├── task15_test_results.json                            # Test Telemetry & Execution Log
-├── build_presentation.py                               # PowerPoint Slides Generator
 ├── Task_15_Production_Project_Presentation.pptx         # Executive 10-Slide Deck
-├── build_task15_notebook.py                            # Jupyter Notebook Generator
 ├── Task_15_End_to_End_Deep_Learning_Production_Deployment.ipynb # LMS Deliverable Notebook
-├── build_task15_doc.py                                 # Word & PDF Documentation Generator
-├── Task_15_End_to_End_Deep_Learning_Production_Deployment_Report.docx # Word Report
 ├── Task_15_End_to_End_Deep_Learning_Production_Deployment_Report.pdf  # PDF Submission Report
 └── README.md                                           # Master Documentation Runbook
 ```
