@@ -62,7 +62,7 @@ if batch_items:
         df = pd.DataFrame(results)
         
         st.success(f"✅ Processed {len(results)} cases in {total_time:.1f} ms ({total_time/len(results):.1f} ms/case avg).")
-        st.dataframe(df, use_container_width=True)
+        st.table(df)
         
         # CSV Export
         csv_data = df.to_csv(index=False).encode('utf-8')
