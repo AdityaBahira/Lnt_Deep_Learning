@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dl-backend-svc
+  namespace: dl-production-app
+  labels:
+    app: dl-backend
+    task: "14"
+spec:
+  type: NodePort
+  selector:
+    app: dl-backend
+    tier: api
+  ports:
+  - name: http-api
+    port: 5000
+    targetPort: 5000
+    nodePort: 30500
+    protocol: TCP

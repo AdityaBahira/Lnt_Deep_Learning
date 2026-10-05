@@ -82,6 +82,7 @@ Lnt_Deep_Learning/
 | **Task 11** | **Full Application Containerization** | Multi-Container Docker Compose, PyTorch Flask API, Streamlit UI, Docker Hub | `Dockerfile`, `docker-compose.yml`, `Task_11_Report.pdf` |
 | **Task 12** | **Kubernetes Cluster Setup and Deployment** | Minikube, Kubernetes v1.37, Declarative YAML, CoreDNS Discovery, Self-Healing, Dynamic Scaling | `k8s/`, `Task_12_Kubernetes_Cluster_Setup_Report.pdf`, `test_k8s_deployment.py` |
 | **Task 13** | **Deploying Deep Learning Applications on Kubernetes** | Containerized DL Deployment, NodePort External Exposure, Resource Limits, Probes, Model REST Inference Verification | `k8s/`, `Task_13_Deep_Learning_Kubernetes_Deployment_Report.pdf`, `Task_13_Deploying_Deep_Learning_Applications_on_Kubernetes.ipynb` |
+| **Task 14** | **Kubernetes Scaling and Rolling Updates** | Manual & HPA Autoscaling, Zero-Downtime Rolling Updates, Continuous High-Availability Testing (100% Uptime), Automated Rollback, Metrics-Server Profiling | `k8s/`, `Task_14_Kubernetes_Scaling_and_Rolling_Updates_Report.pdf`, `Task_14_Kubernetes_Scaling_and_Rolling_Updates.ipynb` |
 
 ---
 

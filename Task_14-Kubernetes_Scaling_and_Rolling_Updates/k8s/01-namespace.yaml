@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dl-production-app
+  labels:
+    name: dl-production-app
+    environment: production
+    task: "14"
+    managed-by: kubernetes

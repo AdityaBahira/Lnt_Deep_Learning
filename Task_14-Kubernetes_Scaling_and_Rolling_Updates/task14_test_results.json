@@ -1,0 +1,82 @@
+{
+  "task": "Task 14: Kubernetes Scaling and Rolling Updates",
+  "cluster_type": "Minikube (Docker Driver)",
+  "namespace": "dl-production-app",
+  "backend_svc": "http://dl-backend-svc:5000",
+  "timestamp": "2026-10-05T13:16:18Z",
+  "tests": [
+    {
+      "id": "T01_METRICS_SERVER",
+      "name": "Cluster Readiness & Metrics Server Scraping",
+      "status": "PASSED",
+      "details": "Node 'minikube' is Ready. Metrics Server successfully reporting CPU/Memory consumption."
+    },
+    {
+      "id": "T02_NAMESPACE_CONFIG",
+      "name": "Namespace & Decoupled Configuration",
+      "status": "PASSED",
+      "details": "Namespace 'dl-production-app' and ConfigMap contain 9 keys including DEPLOYMENT_STRATEGY=RollingUpdate."
+    },
+    {
+      "id": "T03_SCALE_UP_5_REPLICAS",
+      "name": "Manual Application Scale-Up (2 -> 5 Replicas)",
+      "status": "PASSED",
+      "details": "Backend deployment successfully scaled to 5 replicas. All 5 active pods passed readiness checks."
+    },
+    {
+      "id": "T04_LOAD_BALANCED_INFERENCE",
+      "name": "Multi-Replica Deep Learning Inference Serving",
+      "status": "PASSED",
+      "details": "15/15 inference requests succeeded across 5 replicas (Avg Roundtrip: 104.84ms)."
+    },
+    {
+      "id": "T05_SCALE_DOWN_3_REPLICAS",
+      "name": "Manual Application Scale-Down (5 -> 3 Replicas)",
+      "status": "PASSED",
+      "details": "Backend deployment scaled down to 3 replicas with graceful termination of excess pods."
+    },
+    {
+      "id": "T06_ROLLING_UPDATE_V2",
+      "name": "Zero-Downtime Rolling Update (v1.0 -> v2.0)",
+      "status": "PASSED",
+      "details": "Rolling update successfully completed. All 3 active backend pods upgraded to image v2.0."
+    },
+    {
+      "id": "T07_ZERO_DOWNTIME_AVAILABILITY",
+      "name": "Continuous High Availability During Rollout",
+      "status": "PASSED",
+      "details": "165/165 requests succeeded (100.0% availability, 0 dropped requests) during active rollout."
+    },
+    {
+      "id": "T08_ROLLOUT_ROLLBACK",
+      "name": "Automated Deployment Rollback (Undo to Stable Revision)",
+      "status": "PASSED",
+      "details": "Deployment successfully reverted to revision with image v1.0 using 'kubectl rollout undo'."
+    },
+    {
+      "id": "T09_HPA_AUTOSCALING",
+      "name": "Horizontal Pod Autoscaler (HPA) Policy Validation",
+      "status": "PASSED",
+      "details": "HPA active with target CPU 50% (Min: 2, Max: 6)."
+    },
+    {
+      "id": "T10_RESOURCE_UTILIZATION",
+      "name": "Resource Utilization Telemetry Analysis",
+      "status": "PASSED",
+      "details": "Successfully scraped resource utilization metrics across pods and nodes via metrics-server."
+    }
+  ],
+  "telemetry": {
+    "top_pods": "NAME                                      CPU(cores)   MEMORY(bytes)   \ndl-backend-deployment-5988bcc9b5-2q2bt    52m          153Mi           \ndl-backend-deployment-5988bcc9b5-h562h    56m          153Mi           \ndl-backend-deployment-5988bcc9b5-w4w89    44m          153Mi           \ndl-backend-deployment-8f84589bb-s9q26     83m          153Mi           \ndl-frontend-deployment-6b4c5cfc88-ftzm7   4m           61Mi            \ndl-frontend-deployment-6b4c5cfc88-qzvnn   47m          66Mi",
+    "top_nodes": "NAME       CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   \nminikube   569m         4%       2400Mi          30%",
+    "traffic_stats": {
+      "sent": 165,
+      "success": 165,
+      "failed": 0,
+      "availability_pct": 100.0,
+      "avg_latency_ms": 102.09
+    }
+  },
+  "score": "10/10",
+  "percentage": 100.0
+}
