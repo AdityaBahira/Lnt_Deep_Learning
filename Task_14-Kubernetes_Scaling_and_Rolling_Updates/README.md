@@ -89,9 +89,7 @@ e:\DL_deploy\Task_14_Kubernetes_Scaling_and_Rolling_Updates\
 │   └── fig7_resource_utilization_top.png
 ├── test_task14_scaling_rollout.py
 ├── task14_test_results.json
-├── build_task14_doc.py
 ├── Task_14_Kubernetes_Scaling_and_Rolling_Updates.ipynb
-├── Task_14_Kubernetes_Scaling_and_Rolling_Updates_Report.docx
 ├── Task_14_Kubernetes_Scaling_and_Rolling_Updates_Report.pdf
 └── README.md
 ```
