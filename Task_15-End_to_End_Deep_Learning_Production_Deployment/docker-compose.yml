@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # PyTorch Deep Learning Flask REST API
   backend:
