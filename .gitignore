@@ -1,0 +1,19 @@
+# Python cache & virtual environments
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.venv/
+env/
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+*.log
+
+# Large Datasets
+**/dataset/
+**/COVID-19_Radiography_Dataset/
+*.xlsx

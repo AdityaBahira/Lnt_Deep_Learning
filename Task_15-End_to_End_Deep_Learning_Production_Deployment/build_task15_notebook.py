@@ -46,7 +46,7 @@ def build_notebook():
 The objective of Task 15 is to design, develop, containerize, orchestrate, and deploy a complete end-to-end deep learning application following industry-standard MLOps practices.
 
 This capstone project delivers:
-1. **PyTorch Deep Learning Engine (`DeepMedVisionNet` & `DeepHealthRiskNet`)**: Multi-class radiological diagnostics (95.42% realistic clinical accuracy) and clinical biomarker risk analytics.
+1. **PyTorch Deep Learning Engine (`DeepMedVisionNet` & `DeepHealthRiskNet`)**: Multi-class radiological diagnostics (77.88% test accuracy on real Kaggle COVID-19 Radiography Database) and clinical biomarker risk analytics.
 2. **Production Flask REST API Microservice**: High-throughput `/predict/image`, `/predict/tabular`, `/health`, and `/metrics` endpoints.
 3. **Multi-Page Streamlit Web Dashboard**: Icon-rich clinical interface with live drag-and-drop preview, Plotly probability charts, and batch export.
 4. **Docker Containerization**: Multi-stage lightweight images with healthchecks and isolated compose bridge networking.
@@ -144,11 +144,14 @@ with open(config_path, "r") as f:
 model.load_state_dict(torch.load(weights_path, map_location="cpu", weights_only=True))
 model.eval()
 
-# Test with generated sample radiograph
-sample_path = os.path.join("sample_data", "bacterial_case.png")
+# Test with real Kaggle sample radiograph
+sample_path = os.path.join("sample_data", "covid_case.png")
 img = Image.open(sample_path).convert("RGB").resize((64, 64))
 arr = np.array(img, dtype=np.float32) / 255.0
-tensor = torch.tensor(arr.transpose(2, 0, 1)).unsqueeze(0)
+mean = np.array([0.485, 0.456, 0.406], dtype=np.float32)
+std = np.array([0.229, 0.224, 0.225], dtype=np.float32)
+arr = (arr - mean) / std
+tensor = torch.tensor(arr.transpose(2, 0, 1), dtype=torch.float32).unsqueeze(0)
 
 with torch.no_grad():
     logits = model(tensor)
@@ -238,7 +241,7 @@ for t in results_data["tests"]:
     add_md("""## 🎓 9. Conclusion & Industry Engineering Learnings
 
 This capstone project validates the successful production deployment of an end-to-end Deep Learning system:
-1. **Model Accuracy & Integrity:** PyTorch `DeepMedVisionNet` achieved 95.42% realistic clinical accuracy with sub-20ms latency.
+1. **Model Accuracy & Integrity:** PyTorch `DeepMedVisionNet` achieved 77.88% test accuracy on the real Kaggle COVID-19 Radiography Database with sub-21ms latency.
 2. **Microservice Decoupling:** Decoupled Flask REST API and Streamlit UI ensure independent scalability and resilience.
 3. **Production Orchestration:** Multi-pod Kubernetes deployment with active readiness probes, NodePort external exposure, and metrics-based HPA scaling.
 4. **Cloud Compatibility:** Dual-mode architecture enables local containerized execution and Streamlit Community Cloud hosting.

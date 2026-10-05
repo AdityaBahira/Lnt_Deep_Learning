@@ -127,7 +127,7 @@ class ProductionModelManager:
         else:
             self.vision_config = {
                 "model_name": "DeepMedVisionNet",
-                "classes": ["Normal / Healthy", "Bacterial Pneumonia", "Viral Pneumonia", "COVID-19 Infiltration"],
+                "classes": ["COVID", "Lung_Opacity", "Normal", "Viral Pneumonia"],
                 "version": "1.0.0"
             }
             
@@ -195,6 +195,9 @@ class ProductionModelManager:
             
         image = image.resize((64, 64))
         arr = np.array(image, dtype=np.float32) / 255.0
+        mean = np.array([0.485, 0.456, 0.406], dtype=np.float32)
+        std = np.array([0.229, 0.224, 0.225], dtype=np.float32)
+        arr = (arr - mean) / std
         arr = np.transpose(arr, (2, 0, 1))  # (3, 64, 64)
         tensor = torch.tensor(arr, dtype=torch.float32).unsqueeze(0).to(self.device)
         return tensor

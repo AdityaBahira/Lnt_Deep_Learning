@@ -96,10 +96,13 @@ def _local_image_inference(image_bytes):
     import torch
     import torch.nn as nn
     
-    classes = ["Normal / Healthy", "Bacterial Pneumonia", "Viral Pneumonia", "COVID-19 Infiltration"]
+    classes = ["COVID", "Lung_Opacity", "Normal", "Viral Pneumonia"]
     try:
         img = Image.open(io.BytesIO(image_bytes)).convert("RGB").resize((64, 64))
         arr = np.array(img, dtype=np.float32) / 255.0
+        mean = np.array([0.485, 0.456, 0.406], dtype=np.float32)
+        std = np.array([0.229, 0.224, 0.225], dtype=np.float32)
+        arr = (arr - mean) / std
         arr = np.transpose(arr, (2, 0, 1))
         t = torch.tensor(arr, dtype=torch.float32).unsqueeze(0)
         
@@ -165,12 +168,14 @@ def create_probability_bar_chart(probabilities):
     for c in categories:
         if "Normal" in c:
             colors.append("#10B981")  # Emerald
-        elif "Bacterial" in c:
+        elif "Lung_Opacity" in c or "Opacity" in c:
             colors.append("#F59E0B")  # Amber
         elif "Viral" in c:
             colors.append("#8B5CF6")  # Purple
-        else:
+        elif "COVID" in c:
             colors.append("#EF4444")  # Rose / Red
+        else:
+            colors.append("#38BDF8")
             
     fig = go.Figure(go.Bar(
         x=values,

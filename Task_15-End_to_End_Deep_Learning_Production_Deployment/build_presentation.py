@@ -48,7 +48,7 @@ def create_deck():
             "subtitle": "Bridging Deep Neural Network Research to Enterprise Production",
             "tag": "PROJECT OBJECTIVE",
             "bullets": [
-                "Full-Lifecycle MLOps Pipeline: Engineered from raw dataset synthesis to Kubernetes cluster deployment.",
+                "Full-Lifecycle MLOps Pipeline: Ingested real-world Kaggle COVID-19 Radiography Database and orchestrated on Kubernetes.",
                 "Multi-Modal Clinical Inference: High-accuracy radiological vision classification (DeepMedVisionNet) paired with clinical biomarker risk assessment (DeepHealthRiskNet).",
                 "Zero-Downtime Microservices: Decoupled REST API backend and reactive Streamlit web interface.",
                 "High Availability & Elasticity: Automated horizontal pod autoscaling (HPA) and rolling updates with 100% continuous uptime.",
@@ -64,8 +64,8 @@ def create_deck():
                 "Convolutional Feature Extractor: 4 hierarchical Conv blocks (32 -> 64 -> 128 -> 256 channels) with 3x3 kernels.",
                 "Stability & Regularization: 2D Batch Normalization after every convolution, Max-Pooling, and Dropout (0.35 & 0.25).",
                 "Global Receptive Field: Adaptive Average Pooling (4x4 spatial grid) leading to dual fully-connected dense layers.",
-                "Diagnostic Classes: Normal / Healthy, Bacterial Pneumonia, Viral Pneumonia, COVID-19 Infiltration.",
-                "Empirical Performance: 95.42% realistic clinical validation accuracy with sub-20ms inference latency on CPU."
+                "Real Kaggle Dataset & Classes: COVID-19 Radiography Database (COVID, Lung_Opacity, Normal, Viral Pneumonia).",
+                "Empirical Performance: 77.88% real-world test accuracy with sub-21ms inference latency on CPU."
             ]
         },
         # Slide 4: REST API Design

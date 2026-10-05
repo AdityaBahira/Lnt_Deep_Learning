@@ -85,16 +85,16 @@ def build_fig2_flask_api():
         '  "vision_model": {',
         '    "name": "DeepMedVisionNet",',
         '    "architecture": "4-Stage Deep CNN with BatchNorm & Dropout",',
-        '    "classes": ["Normal", "Bacterial Pneumonia", "Viral Pneumonia", "COVID-19"],',
-        '    "test_accuracy": 95.42,',
+        '    "classes": ["COVID", "Lung_Opacity", "Normal", "Viral Pneumonia"],',
+        '    "test_accuracy": 77.88,',
         '    "loaded": true',
         '  },',
         '  "tabular_model": { "name": "DeepHealthRiskNet", "loaded": true },',
         '  "telemetry": { "total_requests": 42, "average_latency_ms": 14.85 }',
         "}",
         "",
-        "$ curl -X POST -F 'file=@sample_data/bacterial_case.png' http://localhost:5000/predict/image",
-        '{"status": "success", "prediction": "Bacterial Pneumonia", "confidence": 0.9984, "latency_ms": 17.2}'
+        "$ curl -X POST -F 'file=@sample_data/covid_case.png' http://localhost:5000/predict/image",
+        '{"status": "success", "prediction": "COVID", "confidence": 0.9821, "latency_ms": 20.6}'
     ]
     render_terminal_window("Terminal: Flask REST API /health & /predict/image Microservice", lines, "fig2_flask_health_and_swagger.png")
 
@@ -111,8 +111,8 @@ def build_fig3_streamlit_overview():
     # 4 Metric Cards
     metrics = [
         ("MODEL TOPOLOGY", "DeepMedVisionNet", "4 Conv Blocks | 5.57 MB", "#3B82F6"),
-        ("TEST ACCURACY", "95.42%", "Realistic Benchmark", "#10B981"),
-        ("INFERENCE LATENCY", "15.2 ms", "Sub-50ms SLA Target", "#8B5CF6"),
+        ("REAL TEST ACCURACY", "77.88%", "Kaggle Benchmark (COVID-19)", "#10B981"),
+        ("INFERENCE LATENCY", "20.6 ms", "Sub-50ms SLA Target", "#8B5CF6"),
         ("CLUSTER TOPOLOGY", "4 Active Pods", "2 Backend + 2 Frontend", "#F59E0B")
     ]
     
@@ -132,7 +132,7 @@ def build_fig3_streamlit_overview():
     ax.text(0.06, 0.46, "PRODUCTION MLOps LIFECYCLE & MICROSERVICES ORCHESTRATION", color='#38BDF8', fontsize=10, fontweight='bold', transform=ax.transAxes)
     
     stages = [
-        "1. PyTorch 2.14 CNN\nTraining & Evaluation\nAcc: 95.42% | 4 Classes",
+        "1. PyTorch 2.14 CNN\nTraining & Evaluation\nAcc: 77.88% | 4 Classes",
         "2. Flask 3.1 REST API\nHigh-Throughput Serving\n/health, /predict, /metrics",
         "3. Streamlit UI 1.64\nMulti-Page Dashboard\nLive Inference & Telemetry",
         "4. Docker Containers\nMulti-Stage Images\nBridge Network Isolation",
@@ -159,25 +159,25 @@ def build_fig4_streamlit_live_prediction():
     # Left: Radiological Image
     ax_img = axes[0]
     ax_img.set_facecolor('#0F172A')
-    sample_path = os.path.join(SAMPLE_DATA_DIR, "bacterial_case.png")
+    sample_path = os.path.join(SAMPLE_DATA_DIR, "covid_case.png")
     if os.path.exists(sample_path):
         img = Image.open(sample_path)
-        ax_img.imshow(img)
-    ax_img.set_title("Input Radiograph: Bacterial Pneumonia", color='#F8FAFC', fontsize=11, fontweight='bold', pad=10)
+        ax_img.imshow(img, cmap='gray')
+    ax_img.set_title("Input Patient Chest X-Ray: COVID-19\n(Kaggle Radiography Dataset)", color='#F8FAFC', fontsize=11, fontweight='bold', pad=10)
     ax_img.axis('off')
     
     # Right: Prediction Results & Probabilities
     ax_res = axes[1]
     ax_res.set_facecolor('#1E293B')
     
-    classes = ["Normal / Healthy", "Bacterial Pneumonia", "Viral Pneumonia", "COVID-19 Infiltration"]
-    probs = [0.02, 98.4, 1.1, 0.5]
-    colors = ['#10B981', '#F59E0B', '#8B5CF6', '#EF4444']
+    classes = ["COVID", "Lung_Opacity", "Normal", "Viral Pneumonia"]
+    probs = [84.7, 8.9, 1.6, 4.8]
+    colors = ['#EF4444', '#F59E0B', '#10B981', '#8B5CF6']
     
     bars = ax_res.barh(classes, probs, color=colors, height=0.55, edgecolor='#38BDF8', linewidth=1.2)
     ax_res.set_xlim(0, 115)
     ax_res.set_xlabel("Confidence Probability (%)", color='#94A3B8', fontsize=10)
-    ax_res.set_title("DeepMedVisionNet Classification Output\nDiagnostic Finding: BACTERIAL PNEUMONIA (98.4%)", color='#38BDF8', fontsize=11, fontweight='bold', pad=12)
+    ax_res.set_title("DeepMedVisionNet Classification Output\nDiagnostic Finding: COVID (84.7%)", color='#38BDF8', fontsize=11, fontweight='bold', pad=12)
     ax_res.tick_params(colors='#E2E8F0', labelsize=9)
     ax_res.grid(axis='x', linestyle='--', alpha=0.3, color='#94A3B8')
     
@@ -186,7 +186,7 @@ def build_fig4_streamlit_live_prediction():
                     va='center', color='#F8FAFC', fontweight='bold', fontsize=9)
                     
     # Footnote
-    ax_res.text(0, -0.15, "Inference Latency: 17.2 ms | Device: CPU | Softmax Normalization: Verified (1.000)",
+    ax_res.text(0, -0.15, "Inference Latency: 20.6 ms | Device: CPU | Softmax Normalization: Verified (1.000)",
                 transform=ax_res.transAxes, color='#94A3B8', fontsize=8, style='italic')
                 
     out_path = os.path.join(SCREENSHOTS_DIR, "fig4_streamlit_live_prediction.png")

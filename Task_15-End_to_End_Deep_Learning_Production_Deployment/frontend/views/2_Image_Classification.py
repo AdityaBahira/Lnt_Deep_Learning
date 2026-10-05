@@ -14,12 +14,13 @@ st.title("🩻 Radiological Vision Diagnostics")
 st.markdown("Analyze chest radiographs in real-time using the trained **DeepMedVisionNet** model.")
 
 # Sample Gallery Selection
+# Sample Gallery Selection (Real Kaggle Radiographs)
 sample_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "sample_data")
 sample_cases = {
+    "COVID-19 Infiltration": "covid_case.png",
+    "Lung Opacity / Bacterial": "lung_opacity_case.png",
     "Normal / Healthy": "normal_case.png",
-    "Bacterial Pneumonia": "bacterial_case.png",
-    "Viral Pneumonia": "viral_case.png",
-    "COVID-19 Infiltration": "covid-19_case.png"
+    "Viral Pneumonia": "viral_case.png"
 }
 
 st.subheader("1. Select Diagnostic Sample or Upload Radiograph")
@@ -94,9 +95,9 @@ if selected_image_data is not None:
                 if "Normal" in pred:
                     badge_color = "#10B981"
                     status_text = "NEGATIVE FOR PATHOLOGY"
-                elif "Bacterial" in pred:
+                elif "Lung_Opacity" in pred or "Opacity" in pred:
                     badge_color = "#F59E0B"
-                    status_text = "BACTERIAL CONSOLIDATION DETECTED"
+                    status_text = "LUNG OPACITY / INFILTRATE DETECTED"
                 elif "Viral" in pred:
                     badge_color = "#8B5CF6"
                     status_text = "INTERSTITIAL VIRAL PATTERN"

@@ -1,0 +1,13 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Datasets
+backend/dataset/
+**/COVID-19_Radiography_Dataset/
+*.xlsx
+
+# Logs
+*.log

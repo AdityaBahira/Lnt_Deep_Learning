@@ -117,7 +117,7 @@ def run_test_suite():
     # Test 4: Single Radiological Image Diagnostic Inference (/predict/image)
     # --------------------------------------------------------------------------
     print("\n--- Test 4: Single Radiological Image Diagnostic Inference ---")
-    sample_img = os.path.join(SAMPLE_DATA, "bacterial_case.png")
+    sample_img = os.path.join(SAMPLE_DATA, "covid_case.png")
     with open(sample_img, "rb") as f:
         res_img = client.post("/predict/image", data={"file": f})
     
@@ -156,7 +156,7 @@ def run_test_suite():
     # Test 6: High-Throughput Batch Ingestion (/batch_predict)
     # --------------------------------------------------------------------------
     print("\n--- Test 6: High-Throughput Batch Ingestion ---")
-    b_cases = ["normal_case.png", "bacterial_case.png", "viral_case.png", "covid-19_case.png"]
+    b_cases = ["covid_case.png", "lung_opacity_case.png", "normal_case.png", "viral_case.png"]
     files_dict = {}
     for bc in b_cases:
         p = os.path.join(SAMPLE_DATA, bc)

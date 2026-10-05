@@ -1,5 +1,7 @@
 {
   "model_name": "DeepMedVisionNet",
+  "dataset_name": "COVID-19 Radiography Database (Kaggle)",
+  "dataset_url": "https://www.kaggle.com/datasets/tawsifurrahman/covid19-radiography-database",
   "architecture": "4-Stage Deep CNN with BatchNorm and Dropout",
   "input_shape": [
     3,
@@ -8,14 +10,20 @@
   ],
   "num_classes": 4,
   "classes": [
-    "Normal / Healthy",
-    "Bacterial Pneumonia",
-    "Viral Pneumonia",
-    "COVID-19 Infiltration"
+    "COVID",
+    "Lung_Opacity",
+    "Normal",
+    "Viral Pneumonia"
   ],
-  "test_accuracy": 95.42,
-  "validation_accuracy": 98.75,
-  "training_epochs": 15,
+  "class_labels": [
+    "COVID-19 Infiltration",
+    "Lung Opacity / Bacterial",
+    "Normal / Healthy",
+    "Viral Pneumonia"
+  ],
+  "test_accuracy": 77.88,
+  "validation_accuracy": 76.36,
+  "training_epochs": 12,
   "mean_norm": [
     0.485,
     0.456,
