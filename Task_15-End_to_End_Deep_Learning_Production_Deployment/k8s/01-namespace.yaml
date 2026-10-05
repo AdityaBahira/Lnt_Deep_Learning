@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dl-production-app
+  labels:
+    app.kubernetes.io/name: deepmed-vision
+    app.kubernetes.io/part-of: dl-production-platform
+    environment: production

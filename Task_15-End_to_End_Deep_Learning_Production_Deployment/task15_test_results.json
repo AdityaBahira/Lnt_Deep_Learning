@@ -1,0 +1,74 @@
+{
+  "project": "DeepMed-Vision: End-to-End Deep Learning Production Deployment",
+  "task_id": "Task 15",
+  "candidate": "Aditya Bahira",
+  "timestamp": "2026-10-05T14:28:02Z",
+  "cluster_namespace": "dl-production-app",
+  "tests": [
+    {
+      "test_id": 1,
+      "name": "Model Weights & Configuration Integrity",
+      "passed": true,
+      "details": "Vision model (5.57 MB) and companion tabular model successfully serialized."
+    },
+    {
+      "test_id": 2,
+      "name": "PyTorch Tensor Inference Math & Probability Sum",
+      "passed": true,
+      "details": "Tensor shape (1, 4) verified with strict Softmax normalization (sum = 1.0000)."
+    },
+    {
+      "test_id": 3,
+      "name": "Flask REST API /health Verification",
+      "passed": true,
+      "details": "Health probe returned HTTP 200 with online telemetry (cpu)."
+    },
+    {
+      "test_id": 4,
+      "name": "Radiological Image Diagnostic Inference",
+      "passed": true,
+      "details": "Diagnosed 'Normal / Healthy' in 17.15ms with 88.0% confidence."
+    },
+    {
+      "test_id": 5,
+      "name": "Clinical Biomarker Risk Scoring Inference",
+      "passed": true,
+      "details": "Patient classified into risk tier 'Critical Risk'."
+    },
+    {
+      "test_id": 6,
+      "name": "High-Throughput Batch Ingestion",
+      "passed": true,
+      "details": "Processed 4-image cohort in 10.41 ms (2.6 ms/image)."
+    },
+    {
+      "test_id": 7,
+      "name": "Input Validation & HTTP 400 Error Handling",
+      "passed": true,
+      "details": "Malformed payload lengths and empty requests properly rejected with HTTP 400."
+    },
+    {
+      "test_id": 8,
+      "name": "Kubernetes Pod Status & Cluster Workloads",
+      "passed": true,
+      "details": "4 enterprise microservice pods active and ready (2 backend + 2 frontend)."
+    },
+    {
+      "test_id": 9,
+      "name": "Resource Metrics Scraping & HPA Policy Status",
+      "passed": true,
+      "details": "Metrics-server scraping CPU/RAM live telemetry; HPA scaling policy active (2-5 pods)."
+    },
+    {
+      "test_id": 10,
+      "name": "In-Cluster CoreDNS Inter-Service Networking",
+      "passed": true,
+      "details": "Frontend pod successfully invoked http://dl-backend-svc:5000/health with HTTP 200."
+    }
+  ],
+  "summary": {
+    "total": 10,
+    "passed": 10,
+    "pass_percentage": 100.0
+  }
+}

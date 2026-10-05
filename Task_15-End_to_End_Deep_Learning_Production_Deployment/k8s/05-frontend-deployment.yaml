@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dl-frontend-deployment
+  namespace: dl-production-app
+  labels:
+    app: dl-frontend
+    tier: ui
+    app.kubernetes.io/name: dl-frontend
+    app.kubernetes.io/part-of: dl-production-platform
+    task: "15"
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: dl-frontend
+      tier: ui
+  template:
+    metadata:
+      labels:
+        app: dl-frontend
+        tier: ui
+        version: "v1.0"
+    spec:
+      containers:
+        - name: dl-frontend-ui
+          image: docker.io/adityabahira/dl-clinical-frontend:v1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8501
+              name: http
+          env:
+            - name: BACKEND_URL
+              value: "http://dl-backend-svc:5000"
+            - name: STREAMLIT_SERVER_PORT
+              value: "8501"
+            - name: STREAMLIT_SERVER_HEADLESS
+              value: "true"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "400m"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /_stcore/health
+              port: 8501
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /_stcore/health
+              port: 8501
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 2
