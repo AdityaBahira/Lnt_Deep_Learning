@@ -13,7 +13,8 @@
     "Viral Pneumonia",
     "COVID-19 Infiltration"
   ],
-  "test_accuracy": 100.0,
+  "test_accuracy": 95.42,
+  "validation_accuracy": 98.75,
   "training_epochs": 15,
   "mean_norm": [
     0.485,
