@@ -19,39 +19,58 @@ import plotly.express as px
 from PIL import Image
 
 # Backend API Configuration
-DEFAULT_BACKEND_URL = os.environ.get("BACKEND_URL", "http://localhost:5000")
-BACKEND_SVC_URL = os.environ.get("K8S_BACKEND_URL", "http://dl-backend-svc:5000")
+_CACHED_BACKEND_URL = None
 
 def get_active_backend_url():
-    """Tries cluster DNS first, then local host, then fallback."""
-    for url in [os.environ.get("BACKEND_URL"), BACKEND_SVC_URL, "http://localhost:5000", "http://127.0.0.1:5000"]:
-        if not url:
-            continue
+    """
+    Fast backend detection with local caching to avoid DNS lookup penalties.
+    Probes 127.0.0.1:5000 and NodePort 30500 first with sub-second timeout.
+    """
+    global _CACHED_BACKEND_URL
+    if _CACHED_BACKEND_URL is not None:
+        return _CACHED_BACKEND_URL
+
+    candidates = []
+    if os.environ.get("BACKEND_URL"):
+        candidates.append(os.environ["BACKEND_URL"])
+    candidates.extend(["http://127.0.0.1:5000", "http://localhost:5000", "http://localhost:30500"])
+    
+    # Only test cluster internal DNS if explicitly running inside Kubernetes pod
+    if os.environ.get("KUBERNETES_SERVICE_HOST"):
+        candidates.append("http://dl-backend-svc:5000")
+
+    for url in candidates:
         try:
-            r = requests.get(f"{url}/health", timeout=1.2)
+            r = requests.get(f"{url}/health", timeout=0.2)
             if r.status_code == 200:
+                _CACHED_BACKEND_URL = url
                 return url
         except Exception:
             continue
-    return DEFAULT_BACKEND_URL
+
+    _CACHED_BACKEND_URL = None
+    return None
 
 def check_backend_health(base_url=None):
     """Checks remote Flask microservice health."""
-    url = (base_url or get_active_backend_url()).rstrip("/") + "/health"
+    active_url = base_url or get_active_backend_url()
+    if not active_url:
+        return False, {"error": "API server not reachable on localhost:5000 or cluster."}, 0.0
+        
+    url = active_url.rstrip("/") + "/health"
     try:
         t0 = time.time()
-        res = requests.get(url, timeout=2.0)
+        res = requests.get(url, timeout=1.0)
         latency = (time.time() - t0) * 1000.0
         if res.status_code == 200:
-            data = res.json()
-            return True, data, latency
+            return True, res.json(), latency
         return False, {"error": f"HTTP {res.status_code}"}, latency
     except Exception as e:
         return False, {"error": str(e)}, 0.0
 
 def predict_image(image_input, base_url=None):
     """
-    Submits image to REST API. Falls back to local in-memory inference if API unreachable.
+    Submits image to REST API. Falls back instantly to in-memory PyTorch if API unreachable.
     """
     # 1. Prepare image bytes
     if isinstance(image_input, str) and os.path.exists(image_input):
@@ -64,29 +83,31 @@ def predict_image(image_input, base_url=None):
     else:
         raise ValueError("Invalid image input type.")
         
-    url = (base_url or get_active_backend_url()).rstrip("/") + "/predict/image"
-    try:
-        files = {"file": ("query.png", image_bytes, "image/png")}
-        r = requests.post(url, files=files, timeout=5.0)
-        if r.status_code == 200:
-            return r.json()
-    except Exception:
-        pass
+    target_url = base_url or get_active_backend_url()
+    if target_url:
+        try:
+            files = {"file": ("query.png", image_bytes, "image/png")}
+            r = requests.post(f"{target_url.rstrip('/')}/predict/image", files=files, timeout=1.5)
+            if r.status_code == 200:
+                return r.json()
+        except Exception:
+            pass
         
-    # Fallback to local in-memory PyTorch
+    # Instant in-memory PyTorch fallback
     return _local_image_inference(image_bytes)
 
 def predict_tabular(features, base_url=None):
-    """Submits 14 biomarker features to REST API."""
-    url = (base_url or get_active_backend_url()).rstrip("/") + "/predict/tabular"
-    try:
-        r = requests.post(url, json={"features": features}, timeout=4.0)
-        if r.status_code == 200:
-            return r.json()
-    except Exception:
-        pass
+    """Submits 14 biomarker features to REST API with instant in-memory fallback."""
+    target_url = base_url or get_active_backend_url()
+    if target_url:
+        try:
+            r = requests.post(f"{target_url.rstrip('/')}/predict/tabular", json={"features": features}, timeout=1.5)
+            if r.status_code == 200:
+                return r.json()
+        except Exception:
+            pass
         
-    # Local fallback
+    # Instant in-memory PyTorch fallback
     return _local_tabular_inference(features)
 
 # ==============================================================================
