@@ -96,10 +96,16 @@ with col1:
         bmi_status = "Obese"
         bmi_color = "#EF4444"
         
+    is_light = st.session_state.get("theme_mode", "light") == "light"
+    bmi_bg = "#F8FAFC" if is_light else "#1E293B"
+    bmi_border = "#E2E8F0" if is_light else "#334155"
+    bmi_label_color = "#64748B" if is_light else "#94A3B8"
+    bmi_val_color = "#0F172A" if is_light else "#F8FAFC"
+
     st.markdown(f"""
-    <div style="background-color: #1E293B; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; border: 1px solid #334155;">
-        <span style="color: #94A3B8; font-size: 13px;">Auto-Calculated BMI:</span>
-        <b style="color: #F8FAFC; font-size: 16px; margin-left: 8px;">{bmi:.2f} kg/m²</b>
+    <div style="background-color: {bmi_bg}; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; border: 1px solid {bmi_border};">
+        <span style="color: {bmi_label_color}; font-size: 13px;">Auto-Calculated BMI:</span>
+        <b style="color: {bmi_val_color}; font-size: 16px; margin-left: 8px;">{bmi:.2f} kg/m²</b>
         <span style="color: {bmi_color}; font-weight: bold; margin-left: 10px;">({bmi_status})</span>
     </div>
     """, unsafe_allow_html=True)
@@ -175,13 +181,19 @@ if st.button("🔮 Calculate Deep Learning Clinical Risk", type="primary"):
             rec_text = "CRITICAL RISK: Significant multi-condition warning signs (elevated BP, metabolic risk, smoking/diabetic indicators). Immediate clinical evaluation recommended."
             
         c_res, c_chart = st.columns([1, 1.2])
-        
+        is_light = st.session_state.get("theme_mode", "light") == "light"
+        text_sub_color = "#334155" if is_light else "#F1F5F9"
+        label_sub_color = "#64748B" if is_light else "#94A3B8"
+        bg_opacity = "18" if is_light else "28"
+        theme = st.session_state.get("theme_mode", "light")
+        border_accent = "#2563EB" if theme == "light" else "#38BDF8"
+
         with c_res:
             st.markdown(f"""
-            <div style="background-color: {badge_color}22; border-left: 6px solid {badge_color}; padding: 18px; border-radius: 8px; margin-bottom: 16px;">
-                <span style="color: #94A3B8; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">DIAGNOSTIC FINDING</span>
+            <div style="background-color: {badge_color}{bg_opacity}; border-left: 6px solid {badge_color}; padding: 18px; border-radius: 8px; margin-bottom: 16px;">
+                <span style="color: {label_sub_color}; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">DIAGNOSTIC FINDING</span>
                 <h2 style="margin: 4px 0 0 0; color: {badge_color};">{pred.upper()}</h2>
-                <p style="margin: 6px 0 0 0; font-size: 15px; color: #F1F5F9;">
+                <p style="margin: 6px 0 0 0; font-size: 15px; color: {text_sub_color}; font-weight: 500;">
                     Model Confidence: <b>{conf:.1f}%</b> | Latency: <b>{lat:.1f} ms</b>
                 </p>
             </div>
@@ -200,7 +212,7 @@ if st.button("🔮 Calculate Deep Learning Clinical Risk", type="primary"):
                 x=vals,
                 y=labels,
                 orientation='h',
-                marker=dict(color=colors, line=dict(color='#38BDF8', width=1.2)),
+                marker=dict(color=colors, line=dict(color=border_accent, width=1.2)),
                 text=[f"{v:.1f}%" for v in vals],
                 textposition='outside'
             ))
@@ -209,7 +221,9 @@ if st.button("🔮 Calculate Deep Learning Clinical Risk", type="primary"):
                 xaxis_title="Confidence Probability (%)",
                 xaxis=dict(range=[0, 115]),
                 yaxis_title="",
-                template="plotly_dark",
+                template="plotly_dark" if theme == "dark" else "plotly_white",
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)',
                 height=260,
                 margin=dict(l=20, r=20, t=35, b=20)
             )
@@ -223,7 +237,7 @@ if st.button("🔮 Calculate Deep Learning Clinical Risk", type="primary"):
                 "Caloric Intake": min(calories_intake / 35.0, 100.0),
                 "Alcohol Load": min(alcohol_units * 6.5, 100.0)
             }
-            fig_radar = create_radar_chart(radar_data)
+            fig_radar = create_radar_chart(radar_data, theme=theme)
             st.plotly_chart(fig_radar, use_container_width=True)
             
     else:

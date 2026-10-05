@@ -105,10 +105,14 @@ if selected_image_data is not None:
                     badge_color = "#EF4444"
                     status_text = "COVID-19 INFILTRATION DETECTED"
                     
+                is_light = st.session_state.get("theme_mode", "light") == "light"
+                sub_text_color = "#334155" if is_light else "#E2E8F0"
+                bg_opacity = "18" if is_light else "28"
+
                 st.markdown(f"""
-                <div style="background-color: {badge_color}22; border-left: 6px solid {badge_color}; padding: 14px; border-radius: 6px; margin-bottom: 12px;">
+                <div style="background-color: {badge_color}{bg_opacity}; border-left: 6px solid {badge_color}; padding: 14px; border-radius: 6px; margin-bottom: 12px;">
                     <h3 style="margin: 0; color: {badge_color};">Predicted: {pred}</h3>
-                    <p style="margin: 4px 0 0 0; font-weight: bold; color: #E2E8F0;">{status_text} | Confidence: {conf:.1f}%</p>
+                    <p style="margin: 4px 0 0 0; font-weight: bold; color: {sub_text_color};">{status_text} | Confidence: {conf:.1f}%</p>
                 </div>
                 """, unsafe_allow_html=True)
                 

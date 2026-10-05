@@ -67,13 +67,18 @@ if st.button("📊 Run 10-Request Latency Profiler"):
     c2.metric("Min Latency", f"{min_l:.1f} ms")
     c3.metric("Max Latency", f"{max_l:.1f} ms")
     
+    theme = st.session_state.get("theme_mode", "light")
     fig = px.line(
         df_lat,
         x="Request Iteration",
         y="Round-Trip Time (ms)",
         markers=True,
         title="Microservice Response Latency Profile (10 Trials)",
-        template="plotly_dark"
+        template="plotly_dark" if theme == "dark" else "plotly_white"
+    )
+    fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
     )
     st.plotly_chart(fig, use_container_width=True)
 

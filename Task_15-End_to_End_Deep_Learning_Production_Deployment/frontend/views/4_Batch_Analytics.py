@@ -23,7 +23,7 @@ batch_items = []
 
 if mode.startswith("Standard"):
     st.info("Loaded 4 standard clinical cases from system verification dataset.")
-    cases = ["normal_case.png", "bacterial_case.png", "viral_case.png", "covid-19_case.png"]
+    cases = ["normal_case.png", "lung_opacity_case.png", "viral_case.png", "covid_case.png"]
     for c in cases:
         p = os.path.join(sample_dir, c)
         if os.path.exists(p):

@@ -209,8 +209,21 @@ def _local_tabular_inference(features):
 # ==============================================================================
 # Plotly Data Visualizations
 # ==============================================================================
-def create_probability_bar_chart(probabilities):
-    """Horizontal styled probability bar chart."""
+def get_current_theme():
+    """Retrieves active theme from Streamlit session state if available."""
+    try:
+        import streamlit as st
+        return st.session_state.get("theme_mode", "light")
+    except Exception:
+        return "light"
+
+def create_probability_bar_chart(probabilities, theme=None):
+    """Horizontal styled probability bar chart adapting to light/dark mode."""
+    if theme is None:
+        theme = get_current_theme()
+    template = "plotly_dark" if theme == "dark" else "plotly_white"
+    border_accent = "#38BDF8" if theme == "dark" else "#2563EB"
+    
     categories = list(probabilities.keys())
     values = [probabilities[k] * 100 for k in categories]
     
@@ -225,13 +238,13 @@ def create_probability_bar_chart(probabilities):
         elif "COVID" in c:
             colors.append("#EF4444")  # Rose / Red
         else:
-            colors.append("#38BDF8")
+            colors.append("#3B82F6")
             
     fig = go.Figure(go.Bar(
         x=values,
         y=categories,
         orientation='h',
-        marker=dict(color=colors, line=dict(color='#38BDF8', width=1.5)),
+        marker=dict(color=colors, line=dict(color=border_accent, width=1.5)),
         text=[f"{v:.1f}%" for v in values],
         textposition='outside'
     ))
@@ -242,13 +255,21 @@ def create_probability_bar_chart(probabilities):
         yaxis_title="",
         xaxis=dict(range=[0, 115]),
         margin=dict(l=20, r=30, t=40, b=20),
-        template="plotly_dark",
+        template=template,
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
         height=280
     )
     return fig
 
-def create_radar_chart(biomarkers_dict):
-    """Radar chart for clinical biomarkers."""
+def create_radar_chart(biomarkers_dict, theme=None):
+    """Radar chart for clinical biomarkers adapting to light/dark mode."""
+    if theme is None:
+        theme = get_current_theme()
+    template = "plotly_dark" if theme == "dark" else "plotly_white"
+    line_color = "#60A5FA" if theme == "dark" else "#2563EB"
+    fill_color = "rgba(37, 99, 235, 0.35)" if theme == "dark" else "rgba(37, 99, 235, 0.2)"
+    
     categories = list(biomarkers_dict.keys())
     values = list(biomarkers_dict.values())
     
@@ -257,8 +278,8 @@ def create_radar_chart(biomarkers_dict):
         r=values + [values[0]],
         theta=categories + [categories[0]],
         fill='toself',
-        fillcolor='rgba(37, 99, 235, 0.4)',
-        line=dict(color='#60A5FA', width=2),
+        fillcolor=fill_color,
+        line=dict(color=line_color, width=2),
         name='Biomarker Profile'
     ))
     
@@ -267,7 +288,9 @@ def create_radar_chart(biomarkers_dict):
             radialaxis=dict(visible=True, range=[0, 100])
         ),
         showlegend=False,
-        template="plotly_dark",
+        template=template,
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
         margin=dict(l=30, r=30, t=30, b=30),
         height=300
     )
