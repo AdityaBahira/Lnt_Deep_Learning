@@ -250,8 +250,8 @@ class ProductionModelManager:
             self.metrics["errors"] += 1
             raise ValueError(f"Expected 14 clinical features, got {len(features)}")
             
-        means = np.array(self.tabular_config.get("scaler_means", [0.0]*14))
-        stds = np.array(self.tabular_config.get("scaler_stds", [1.0]*14))
+        means = np.array(self.tabular_config.get("mean", self.tabular_config.get("scaler_means", [0.0]*14)), dtype=np.float32)
+        stds = np.array(self.tabular_config.get("std", self.tabular_config.get("scaler_stds", [1.0]*14)), dtype=np.float32)
         stds = np.where(stds == 0, 1.0, stds)
         
         arr = (np.array(features, dtype=np.float32) - means) / stds

@@ -139,7 +139,7 @@ def run_test_suite():
     # Test 5: Clinical Biomarker Risk Scoring (/predict/tabular)
     # --------------------------------------------------------------------------
     print("\n--- Test 5: Clinical Biomarker Risk Scoring Inference ---")
-    sample_feats = [55.0, 140.0, 90.0, 78.0, 220.0, 28.5, 115.0, 6.2, 5500.0, 6.5, 96.0, 2.0, 6.0, 30.0]
+    sample_feats = [45.0, 170.0, 75.0, 25.95, 8000.0, 2200.0, 7.0, 72.0, 120.0, 80.0, 4.0, 2.0, 0.0, 0.0]
     res_tab = client.post("/predict/tabular", json={"features": sample_feats})
     t5_pass = res_tab.status_code == 200 and res_tab.json.get("status") == "success"
     tab_pred = res_tab.json.get("prediction")
