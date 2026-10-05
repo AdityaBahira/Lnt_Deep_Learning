@@ -9,3 +9,7 @@ venv/
 *.log
 .git
 .gitignore
+dataset/
+train_model.py
+*.csv
+*.xlsx
